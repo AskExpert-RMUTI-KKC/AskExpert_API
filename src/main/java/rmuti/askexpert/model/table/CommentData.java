@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @Entity
-@Table(name = "Comment_data")
+@Table(name = "comment_data")
 public class CommentData {
     @Id
     @Column(name = "comment_id")

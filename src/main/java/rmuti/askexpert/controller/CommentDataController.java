@@ -1,19 +1,21 @@
 package rmuti.askexpert.controller;
 
-
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 import rmuti.askexpert.model.services.CommentDataRepository;
 import rmuti.askexpert.model.services.TopicDataRepository;
 import rmuti.askexpert.model.services.UserNameRepository;
-import rmuti.askexpert.model.table.UserName;
+import rmuti.askexpert.model.table.CommentData;
+import rmuti.askexpert.model.table.TopicData;
 
 import java.util.List;
 
-
 @RestController
-@RequestMapping("/user")
-public class UserNameController {
+@RequestMapping("/Comment")
+public class CommentDataController {
     @Autowired
     private UserNameRepository userNameRepository;
 
@@ -23,24 +25,23 @@ public class UserNameController {
     @Autowired
     private CommentDataRepository commentDataRepository;
 
-    @PostMapping("/register")
-    public  Object register(@RequestBody UserName userName){
+    @PostMapping("/addComment")
+    public Object addComment(@RequestBody CommentData commentData){
         APIResponse res = new APIResponse();
-        userNameRepository.save(userName);
+        commentDataRepository.save(commentData);
         return res;
     }
 
-    @PostMapping("/login")
-    public  Object login(@RequestBody UserName userName){
+    @PostMapping("/removeComment")
+    public Object removeComment(){
         APIResponse res = new APIResponse();
-        //userNameRepository.save(userName);
         return res;
     }
 
-    @GetMapping("/findAllUser")
-    public Object findAll(){
+    @PostMapping("/findAllComment")
+    public Object findAllComment(){
         APIResponse res = new APIResponse();
-        List<UserName> data = userNameRepository.findAll();
+        List<CommentData> data = commentDataRepository.findAll();
         System.out.println(data);
         res.setData(data);
         return res;
