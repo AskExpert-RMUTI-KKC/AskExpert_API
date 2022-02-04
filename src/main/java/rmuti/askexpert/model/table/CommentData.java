@@ -14,6 +14,9 @@ public class CommentData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentId;
 
+    @Column(name = "comment_topic_id")
+    private String commentTopicId;
+
     @Column(name = "comment_owner")
     private String commentOwner; //userId
 
