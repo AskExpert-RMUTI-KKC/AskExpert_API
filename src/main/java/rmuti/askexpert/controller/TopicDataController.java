@@ -42,7 +42,6 @@ public class TopicDataController {
         APIResponse res = new APIResponse();
         List<TopicData> data = topicDataRepository.findAll();
         System.out.println(data);
-        res.setData(data);
         return res;
     }
 }

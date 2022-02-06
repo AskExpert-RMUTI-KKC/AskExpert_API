@@ -43,7 +43,7 @@ public class CommentDataController {
         APIResponse res = new APIResponse();
         List<CommentData> data = commentDataRepository.findAll();
         System.out.println(data);
-        res.setData(data);
+
         return res;
     }
 }
