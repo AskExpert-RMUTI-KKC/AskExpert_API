@@ -8,6 +8,13 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.cors.CorsConfiguration;
+import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.filter.CorsFilter;
+import rmuti.askexpert.config.token.TokenFilterConfiguerer;
+import rmuti.askexpert.model.TokenService;
+
+import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
@@ -16,6 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/login",
             "/**"
     };
+    private final TokenService tokenService;
+
+    public SecurityConfig(TokenService tokenService) {
+        this.tokenService = tokenService;
+    }
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -32,6 +44,24 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     http.cors().disable().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             .and().authorizeRequests().antMatchers(PUBLIC).anonymous()
-            .anyRequest().authenticated();
+            .anyRequest().authenticated()
+            .and().apply(new TokenFilterConfiguerer(tokenService));
+    }
+
+    @Bean
+    public CorsFilter corsFilter() {
+        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+        CorsConfiguration config = new CorsConfiguration();
+        config.setAllowCredentials(true);
+//        config.addAllowedOrigin("http://localhost:4200");
+        config.setAllowedOriginPatterns(Arrays.asList("http://localhost*"));
+        config.addAllowedHeader("*");
+        config.addAllowedMethod("OPTIONS");
+        config.addAllowedMethod("POST");
+        config.addAllowedMethod("GET");
+        config.addAllowedMethod("PUT");
+        config.addAllowedMethod("DELETE");
+        source.registerCorsConfiguration("/**", config);
+        return new CorsFilter(source);
     }
 }

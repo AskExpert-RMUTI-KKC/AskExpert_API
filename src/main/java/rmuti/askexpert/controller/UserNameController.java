@@ -7,6 +7,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.exception.BaseException;
 import rmuti.askexpert.exception.UserException;
+import rmuti.askexpert.model.TokenService;
 import rmuti.askexpert.model.req.ReqLogin;
 import rmuti.askexpert.model.services.CommentDataRepository;
 import rmuti.askexpert.model.services.TopicDataRepository;
@@ -32,6 +33,9 @@ public class UserNameController {
     @Autowired
     private PasswordEncoder passwordEncoder;
 
+    @Autowired
+    private TokenService tokenService;
+
     public UserNameController() {
     }
 
@@ -44,12 +48,13 @@ public class UserNameController {
     }
 
     @PostMapping("/login")
-    public Object login(@RequestBody ReqLogin reqLogin) throws BaseException {
+    public Object login(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
-        Optional<UserName> opt = userNameRepository.findByEmail(reqLogin.getEmail());
+        Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
-            if (passwordEncoder.matches(reqLogin.getPassword(), opt.get().getPassWord())) {
+            if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWord())) {
                 res.setData("Pass");
+                res.setData( tokenService.tokenize(user));
             } else {
                 throw UserException.accessDenied();
             }
