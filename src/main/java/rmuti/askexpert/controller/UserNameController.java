@@ -36,7 +36,7 @@ public class UserNameController {
     }
 
     @PostMapping("/register")
-    public Object register(@RequestBody UserName userName) {
+    public Object register(@RequestBody UserName userName) throws BaseException {
         APIResponse res = new APIResponse();
         userName.setPassWord(passwordEncoder.encode(userName.getPassWord()));
         userNameRepository.save(userName);
@@ -60,10 +60,9 @@ public class UserNameController {
     }
 
     @GetMapping("/findAllUser")
-    public Object findAll() {
+    public Object findAll() throws BaseException {
         APIResponse res = new APIResponse();
         List<UserName> data = userNameRepository.findAll();
-        System.out.println(data);
         res.setData(data);
         return ResponseEntity.ok(res);
 

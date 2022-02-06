@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import rmuti.askexpert.exception.BaseException;
 import rmuti.askexpert.model.services.CommentDataRepository;
 import rmuti.askexpert.model.services.TopicDataRepository;
 import rmuti.askexpert.model.services.UserNameRepository;
@@ -26,20 +27,20 @@ public class CommentDataController {
     private CommentDataRepository commentDataRepository;
 
     @PostMapping("/addComment")
-    public Object addComment(@RequestBody CommentData commentData){
+    public Object addComment(@RequestBody CommentData commentData) throws BaseException {
         APIResponse res = new APIResponse();
         commentDataRepository.save(commentData);
         return res;
     }
 
     @PostMapping("/removeComment")
-    public Object removeComment(){
+    public Object removeComment() throws BaseException {
         APIResponse res = new APIResponse();
         return res;
     }
 
     @PostMapping("/findAllComment")
-    public Object findAllComment(){
+    public Object findAllComment() throws BaseException {
         APIResponse res = new APIResponse();
         List<CommentData> data = commentDataRepository.findAll();
         System.out.println(data);

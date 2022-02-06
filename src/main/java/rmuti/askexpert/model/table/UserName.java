@@ -15,6 +15,8 @@ public class UserName {
     @GeneratedValue(strategy = GenerationType. AUTO)
     private int userId;
 
+    @Column (name = "e_mail", unique = true)
+    private String email;
 
     @Column(name = "user_name"/*,nullable = false*/)
     private String userName;
@@ -28,15 +30,12 @@ public class UserName {
     @Column(name = "last_name"/*,nullable = false*/)
     private String lastName;
 
-    @Column (name = "e_mail", unique = true)
-    private String email;
-
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column (name = "join_date"/*,nullable = false*/)
     private Date joinDate;
 
     //@Column(length = 100)
-
+    /*,nullable = false*/
 
     @Column (name = "profile_pic")
     private String profilePic;

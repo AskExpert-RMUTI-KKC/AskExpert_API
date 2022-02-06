@@ -1,9 +1,13 @@
 package rmuti.askexpert.model.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import org.apache.tomcat.jni.Address;
 
 import javax.persistence.*;
+import javax.xml.stream.events.Comment;
 import java.util.Date;
+import java.util.List;
 
 @Data
 @Entity
@@ -23,18 +27,23 @@ public class TopicData {
     @Column(name = "topic_owner")
     private String topicOwner; //userId
 
+    @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "topic_start_date")
     private Date topicStartDate;
 
     @Column(name = "topic_comment_count")
-    private Date topicCommentCount;
+    private String topicCommentCount;
 
     @Column(name = "topic_like")
-    private Date topicLike;
+    private long topicLike;
 
     @Column(name = "topic_unlike")
-    private Date topicUnlike;
+    private long topicUnlike;
 
     @Column(name = "topic_group")
-    private Date topicGroup;
+    private String topicGroup;
+
+    //:TODO
+//   @OneToMany(mappedBy = "topic",cascade = CascadeType.ALL,orphanRemoval = true)
+//    private List<CommentData> comments;
 }

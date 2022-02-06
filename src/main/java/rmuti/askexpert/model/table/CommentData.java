@@ -14,21 +14,20 @@ public class CommentData {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int commentId;
 
-    @Column(name = "comment_topic_id")
-    private String commentTopicId;
-
     @Column(name = "comment_owner")
     private String commentOwner; //userId
 
     @Column(name = "comment_like")
-    private Date commentLike;
+    private long commentLike;
 
     @Column(name = "comment_unlike")
-    private Date commentUnlike;
-
-    @Column(name = "comment_reply")
-    private Date commentReply;
+    private long commentUnlike;
 
     @Column(name = "comment_reply_id")
-    private Date commentReplyID;
+    private String commentReplyID;
+
+    //:TODO
+//    @ManyToOne
+//    @JoinColumn(name = "topic_id")
+//    private TopicData topic;
 }
