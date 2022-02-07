@@ -5,13 +5,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
-import rmuti.askexpert.exception.BaseException;
-import rmuti.askexpert.exception.UserException;
-import rmuti.askexpert.model.TokenService;
+import rmuti.askexpert.model.exception.BaseException;
+import rmuti.askexpert.model.exception.UserException;
+import rmuti.askexpert.model.config.token.TokenService;
 import rmuti.askexpert.model.req.ReqLogin;
-import rmuti.askexpert.model.services.CommentDataRepository;
-import rmuti.askexpert.model.services.TopicDataRepository;
-import rmuti.askexpert.model.services.UserNameRepository;
+import rmuti.askexpert.model.repo.CommentDataRepository;
+import rmuti.askexpert.model.repo.TopicDataRepository;
+import rmuti.askexpert.model.repo.UserNameRepository;
 import rmuti.askexpert.model.table.UserName;
 
 import java.util.List;
@@ -54,7 +54,7 @@ public class UserNameController {
         if (opt.isPresent()) {
             if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWord())) {
                 res.setData("Pass");
-                res.setData( tokenService.tokenize(user));
+                res.setData( tokenService.tokenize(opt));
             } else {
                 throw UserException.accessDenied();
             }

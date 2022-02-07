@@ -1,4 +1,4 @@
-package rmuti.askexpert.exception;
+package rmuti.askexpert.model.exception;
 
 public class UserException extends BaseException {
     public UserException(String code) {

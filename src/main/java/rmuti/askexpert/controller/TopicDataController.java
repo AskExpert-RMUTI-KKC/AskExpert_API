@@ -5,9 +5,9 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-import rmuti.askexpert.model.services.CommentDataRepository;
-import rmuti.askexpert.model.services.TopicDataRepository;
-import rmuti.askexpert.model.services.UserNameRepository;
+import rmuti.askexpert.model.repo.CommentDataRepository;
+import rmuti.askexpert.model.repo.TopicDataRepository;
+import rmuti.askexpert.model.repo.UserNameRepository;
 import rmuti.askexpert.model.table.TopicData;
 
 import java.util.List;

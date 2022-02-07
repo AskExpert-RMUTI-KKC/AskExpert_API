@@ -5,7 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
-import rmuti.askexpert.exception.BaseException;
+import rmuti.askexpert.model.exception.BaseException;
 
 import java.time.LocalDateTime;
 

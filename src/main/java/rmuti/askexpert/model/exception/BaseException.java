@@ -1,4 +1,4 @@
-package rmuti.askexpert.exception;
+package rmuti.askexpert.model.exception;
 
 import javax.persistence.MappedSuperclass;
 import java.io.IOException;

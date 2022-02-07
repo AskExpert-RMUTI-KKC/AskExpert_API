@@ -1,4 +1,4 @@
-package rmuti.askexpert.exception;
+package rmuti.askexpert.model.exception;
 
 public class FileException extends BaseException{
     public FileException(String code) {

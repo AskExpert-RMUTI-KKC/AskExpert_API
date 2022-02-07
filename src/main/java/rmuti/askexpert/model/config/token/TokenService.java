@@ -1,4 +1,4 @@
-package rmuti.askexpert.model;
+package rmuti.askexpert.model.config.token;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -6,10 +6,11 @@ import com.auth0.jwt.algorithms.Algorithm;
 import com.auth0.jwt.interfaces.DecodedJWT;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
-import rmuti.askexpert.model.req.ReqLogin;
+import rmuti.askexpert.model.table.UserName;
 
 import java.util.Calendar;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 public class TokenService {
@@ -20,15 +21,16 @@ public class TokenService {
     @Value("${app.token.issuer}")
     private String issuer;
 
-    public String tokenize(ReqLogin user) {
+    public String tokenize(Optional<UserName> user) {
         Calendar calendar = Calendar.getInstance();
-        calendar.add(Calendar.MINUTE, 60);
+        calendar.add(Calendar.HOUR, 24);
         Date expiresAt = calendar.getTime();
 
         return JWT.create()
                 .withIssuer(issuer)
-                .withClaim("principal", user.getEmail())
-                .withClaim("role", "USER")
+                .withClaim("email", user.get().getEmail())
+                .withClaim("user", user.get().getUserName())
+                //.withClaim("role", "USER")
                 .withExpiresAt(expiresAt)
                 .sign(algorithm());
     }

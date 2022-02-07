@@ -1,4 +1,4 @@
-package rmuti.askexpert.config;
+package rmuti.askexpert.model.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -11,8 +11,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
-import rmuti.askexpert.config.token.TokenFilterConfiguerer;
-import rmuti.askexpert.model.TokenService;
+import rmuti.askexpert.model.config.token.TokenFilterConfiguerer;
+import rmuti.askexpert.model.config.token.TokenService;
 
 import java.util.Arrays;
 

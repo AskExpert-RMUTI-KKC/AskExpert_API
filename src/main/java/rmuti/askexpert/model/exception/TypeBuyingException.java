@@ -1,4 +1,4 @@
-package rmuti.askexpert.exception;
+package rmuti.askexpert.model.exception;
 
 public class TypeBuyingException extends BaseException {
     public TypeBuyingException(String code) {
