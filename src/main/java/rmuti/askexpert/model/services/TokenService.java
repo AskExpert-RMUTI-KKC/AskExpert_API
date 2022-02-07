@@ -28,9 +28,8 @@ public class TokenService {
 
         return JWT.create()
                 .withIssuer(issuer)
+                .withClaim("principal", user.get().getUserName())
                 .withClaim("email", user.get().getEmail())
-                .withClaim("principal", user.get().getEmail())
-                .withClaim("user", user.get().getUserName())
                 .withClaim("role", "USER")
                 .withExpiresAt(expiresAt)
                 .sign(algorithm());

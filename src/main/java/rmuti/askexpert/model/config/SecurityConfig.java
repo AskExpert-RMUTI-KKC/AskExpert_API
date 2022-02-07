@@ -19,9 +19,7 @@ import java.util.Arrays;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC = {
-            "/user/register",
-            "/user/login"/*,
-            "/**"*/
+            "/user/checkJWT",
     };
     private final TokenService tokenService;
 
@@ -43,8 +41,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
     http.cors().disable().csrf().disable()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-            .and().authorizeRequests().antMatchers(PUBLIC).anonymous()
-            .anyRequest().authenticated()
+            //and().authorizeRequests().antMatchers(PUBLIC).anonymous()
+            //.anyRequest().authenticated()
+            .and().authorizeRequests().antMatchers(PUBLIC).authenticated()
+            .anyRequest().anonymous()
             .and().apply(new TokenFilterConfiguerer(tokenService));
     }
 
