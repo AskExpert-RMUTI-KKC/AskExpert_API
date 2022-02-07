@@ -1,4 +1,4 @@
-package rmuti.askexpert.model.config.token;
+package rmuti.askexpert.model.services;
 
 import com.auth0.jwt.JWT;
 import com.auth0.jwt.JWTVerifier;
@@ -29,8 +29,9 @@ public class TokenService {
         return JWT.create()
                 .withIssuer(issuer)
                 .withClaim("email", user.get().getEmail())
+                .withClaim("principal", user.get().getEmail())
                 .withClaim("user", user.get().getUserName())
-                //.withClaim("role", "USER")
+                .withClaim("role", "USER")
                 .withExpiresAt(expiresAt)
                 .sign(algorithm());
     }

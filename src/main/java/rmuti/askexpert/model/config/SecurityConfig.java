@@ -12,7 +12,7 @@ import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 import org.springframework.web.filter.CorsFilter;
 import rmuti.askexpert.model.config.token.TokenFilterConfiguerer;
-import rmuti.askexpert.model.config.token.TokenService;
+import rmuti.askexpert.model.services.TokenService;
 
 import java.util.Arrays;
 
@@ -20,8 +20,8 @@ import java.util.Arrays;
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC = {
             "/user/register",
-            "/user/login",
-            "/**"
+            "/user/login"/*,
+            "/**"*/
     };
     private final TokenService tokenService;
 

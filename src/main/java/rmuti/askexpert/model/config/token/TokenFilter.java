@@ -8,6 +8,7 @@ import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.filter.GenericFilterBean;
+import rmuti.askexpert.model.services.TokenService;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -50,10 +51,11 @@ public class TokenFilter extends GenericFilterBean {
 
         // user_id_email
         String principal = decoded.getClaim("principal").asString();
+        String email = decoded.getClaim("email").asString();
         String role = decoded.getClaim("role").asString();
-
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
+        authorities.add(new SimpleGrantedAuthority(email));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, "(protected)", authorities);
 

@@ -3,11 +3,14 @@ package rmuti.askexpert.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContext;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.UserException;
-import rmuti.askexpert.model.config.token.TokenService;
+import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.req.ReqLogin;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
@@ -71,5 +74,15 @@ public class UserNameController {
         res.setData(data);
         return ResponseEntity.ok(res);
 
+    }
+    @PostMapping("/checkJWT")
+    public Object checkJWT() throws BaseException {
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        String userId = (String) authentication.getPrincipal();
+        String author = authentication.getAuthorities().toString();
+        System.out.println("userId :"+userId);
+        System.out.println("author :"+author);
+        return ResponseEntity.ok(userId);
     }
 }
