@@ -40,7 +40,7 @@ public class TokenService {
 
         return JWT.create()
                 .withIssuer(issuer)
-                .withClaim("principal", user.get().getUserName())
+                .withClaim("principal", user.get().getUserId())
                 //.withClaim("email", user.get().getEmail())
                 .withClaim("role", "USER")
                 .withExpiresAt(expiresAt)
@@ -68,7 +68,7 @@ public class TokenService {
     public UserName GetuserformJWT() throws BaseException {
         String userId = this.userId();
         String author = this.author();
-        Optional<UserName> opt = userNameRepository.findByUserName(userId);
+        Optional<UserName> opt = userNameRepository.findByUserId(userId);
         if (opt.isEmpty()) {
             throw UserException.notFound();
         }
