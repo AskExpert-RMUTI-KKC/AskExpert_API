@@ -1,10 +1,7 @@
 package rmuti.askexpert.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.repo.UserNameRepository;
@@ -25,7 +22,7 @@ public class TopicDataController {
     private CommentDataRepository commentDataRepository;
 
     @PostMapping("/addTopic")
-    public Object addTopic(@RequestBody TopicData topicData){
+    public Object addTopic(@RequestBody TopicData topicData, @RequestHeader String jwt){
         APIResponse res = new APIResponse();
         topicDataRepository.save(topicData);
         return res;

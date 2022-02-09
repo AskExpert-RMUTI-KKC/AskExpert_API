@@ -51,11 +51,11 @@ public class TokenFilter extends GenericFilterBean {
 
         // user_id_email
         String principal = decoded.getClaim("principal").asString();
-        String email = decoded.getClaim("email").asString();
+        //String email = decoded.getClaim("email").asString();
         String role = decoded.getClaim("role").asString();
         List<GrantedAuthority> authorities = new ArrayList<>();
         authorities.add(new SimpleGrantedAuthority(role));
-        authorities.add(new SimpleGrantedAuthority(email));
+        //authorities.add(new SimpleGrantedAuthority(email));
 
         UsernamePasswordAuthenticationToken authentication = new UsernamePasswordAuthenticationToken(principal, "(protected)", authorities);
 

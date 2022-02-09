@@ -76,13 +76,11 @@ public class UserNameController {
 
     }
     @PostMapping("/checkJWT")
-    public Object checkJWT() throws BaseException {
-        SecurityContext context = SecurityContextHolder.getContext();
-        Authentication authentication = context.getAuthentication();
-        String userId = (String) authentication.getPrincipal();
-        String author = authentication.getAuthorities().toString();
-        System.out.println("userId :"+userId);
-        System.out.println("author :"+author);
-        return ResponseEntity.ok(userId);
+    public Object checkJWT(@RequestHeader String Authorization) throws BaseException {
+        System.out.println("userId : "+ tokenService.userId());
+        System.out.println("author : "+ tokenService.author());
+        APIResponse res  = new APIResponse();
+        res.setData(tokenService.GetuserformJWT());
+        return ResponseEntity.ok(res);
     }
 }
