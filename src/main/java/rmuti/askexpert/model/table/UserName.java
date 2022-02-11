@@ -26,19 +26,6 @@ public class UserName {
     @Column (name = "pass_word",nullable = false)
     private String passWord;
 
-    @Column(name = "first_name"/*,nullable = false*/)
-    private String firstName;
-
-    @Column(name = "last_name"/*,nullable = false*/)
-    private String lastName;
-
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column (name = "join_date"/*,nullable = false*/)
-    private Date joinDate;
-
     //@Column(length = 100)
     /*,nullable = false*/
-
-    @Column (name = "profile_pic")
-    private String profilePic;
 }

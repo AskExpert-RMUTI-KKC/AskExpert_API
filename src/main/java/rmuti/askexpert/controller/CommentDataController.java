@@ -14,7 +14,7 @@ import rmuti.askexpert.model.table.CommentData;
 import java.util.List;
 
 @RestController
-@RequestMapping("/Comment")
+@RequestMapping("/comment")
 public class CommentDataController {
     @Autowired
     private UserNameRepository userNameRepository;
@@ -25,20 +25,20 @@ public class CommentDataController {
     @Autowired
     private CommentDataRepository commentDataRepository;
 
-    @PostMapping("/addComment")
+    @PostMapping("/add")
     public Object addComment(@RequestBody CommentData commentData) throws BaseException {
         APIResponse res = new APIResponse();
         commentDataRepository.save(commentData);
         return res;
     }
 
-    @PostMapping("/removeComment")
+    @PostMapping("/remove")
     public Object removeComment() throws BaseException {
         APIResponse res = new APIResponse();
         return res;
     }
 
-    @PostMapping("/findAllComment")
+    @PostMapping("/findall")
     public Object findAllComment() throws BaseException {
         APIResponse res = new APIResponse();
         List<CommentData> data = commentDataRepository.findAll();

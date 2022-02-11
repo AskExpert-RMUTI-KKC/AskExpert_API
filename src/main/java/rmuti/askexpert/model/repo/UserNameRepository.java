@@ -5,7 +5,7 @@ import rmuti.askexpert.model.table.UserName;
 
 import java.util.Optional;
 
-public interface UserNameRepository extends JpaRepository<UserName, Integer> {
+public interface UserNameRepository extends JpaRepository<UserName, String> {
     //List<UserName> findAll();
     Optional<UserName> findByEmail(String email);
     Optional<UserName> findByUserName(String username);

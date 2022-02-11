@@ -11,10 +11,11 @@ public class AskexpertApplication {
 
 	public static void main(String[] args) {
 		//create Folder
-		new File(new BaseUrlFile().getBaseDir()).mkdir();
-		new File(new BaseUrlFile().getImageTopicUrl()).mkdir();
-		new File(new BaseUrlFile().getImageCommetUrl()).mkdir();
-		new File(new BaseUrlFile().getImageProfileUrl()).mkdir();
+		BaseUrlFile pathUrl = new BaseUrlFile();
+		new File(pathUrl.getBaseDir()).mkdir();
+		new File(pathUrl.getImageTopicUrl()).mkdir();
+		new File(pathUrl.getImageCommetUrl()).mkdir();
+		new File(pathUrl.getImageProfileUrl()).mkdir();
 		SpringApplication.run(AskexpertApplication.class, args);
 	}
 }

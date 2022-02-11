@@ -15,11 +15,14 @@ import rmuti.askexpert.model.config.token.TokenFilterConfiguerer;
 import rmuti.askexpert.model.services.TokenService;
 
 import java.util.Arrays;
+import java.util.Collections;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC = {
             "/user/checkJWT",
+            "/topic/add",
+            "/topic/remove",
     };
     private final TokenService tokenService;
 
@@ -47,6 +50,34 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .anyRequest().anonymous()
             .and().apply(new TokenFilterConfiguerer(tokenService));
     }
+
+    // TODO : Carefull config
+//    @Override
+//    protected void configure(HttpSecurity http) throws Exception {
+//        http.cors(config -> {
+//                    CorsConfiguration corsConfiguration = new CorsConfiguration();
+//                    corsConfiguration.setAllowCredentials(true);
+////                    Configuration.setAllowedOriginPatterns(Collections.singletonList("http://*"));
+//                    corsConfiguration.setAllowedOriginPatterns(Collections.singletonList("http://*"));
+//                    corsConfiguration.addAllowedHeader("*");
+//                    corsConfiguration.addAllowedMethod("GET");
+//                    corsConfiguration.addAllowedMethod("POST");
+////                    Configuration.addAllowedMethod("PUT");
+////                   Configuration.addAllowedMethod("DELETE");
+////                    Configuration.addAllowedMethod("OPTIONS");
+//
+//                    UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//                    source.registerCorsConfiguration("/**", corsConfiguration);
+//
+//                    config.configurationSource(source);
+//                }).csrf().disable()
+//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+//                //and().authorizeRequests().antMatchers(PUBLIC).anonymous()
+//                //.anyRequest().authenticated()
+//                .and().authorizeRequests().antMatchers(PUBLIC).authenticated()
+//                .anyRequest().anonymous()
+//                .and().apply(new TokenFilterConfiguerer(tokenService));
+//    }
 
     @Bean
     public CorsFilter corsFilter() {

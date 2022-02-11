@@ -75,7 +75,7 @@ public class UserNameController {
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/findAllUser")
+    @GetMapping("/findall")
     public Object findAll() throws BaseException {
         APIResponse res = new APIResponse();
         List<UserName> data = userNameRepository.findAll();
@@ -96,7 +96,7 @@ public class UserNameController {
     public static String uploadDirectory = System.getProperty("user.dir");
 
     @PostMapping("/uploadProfile")
-    public Object uploadpic(@RequestBody MultipartFile file) throws IOException  {
+    public Object uploadpic(@RequestPart MultipartFile file) throws IOException  {
         String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
         String tempname = UUID.randomUUID().toString().replaceAll("-", "");

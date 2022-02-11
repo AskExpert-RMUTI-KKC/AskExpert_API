@@ -26,8 +26,8 @@ public class TopicData {
     @Column(name = "topic_caption")
     private String topicCaption;
 
-    @Column(name = "topic_owner")
-    private String topicOwner; //userId
+    @Column(name = "topic_owner",length = 36,nullable = false,updatable = false)
+    private String topicOwnerId; //userId
 
     @JsonFormat(pattern = "dd-MM-yyyy")
     @Column(name = "topic_start_date")
