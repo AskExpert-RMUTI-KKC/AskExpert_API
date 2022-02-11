@@ -3,6 +3,7 @@ package rmuti.askexpert.model.table;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.apache.tomcat.jni.Address;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.stream.events.Comment;
@@ -14,9 +15,10 @@ import java.util.List;
 @Table(name = "topic_data")
 public class TopicData {
     @Id
-    @Column(name = "topic_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int topicId;
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "uuid2")
+    @Column(name = "topic_id",length = 36,nullable = false,updatable = false)
+    private String topicId;
 
     @Column(name = "topic_headline")
     private String topicHeadline;

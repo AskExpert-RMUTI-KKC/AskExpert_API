@@ -1,6 +1,7 @@
 package rmuti.askexpert.model.table;
 
 import lombok.Data;
+import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
@@ -9,10 +10,12 @@ import java.util.Date;
 @Entity
 @Table(name = "comment_data")
 public class CommentData {
+
     @Id
-    @Column(name = "comment_id")
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    private int commentId;
+    @GenericGenerator(name = "uuid2",strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "uuid2")
+    @Column(name = "comment_id",length = 36,nullable = false,updatable = false)
+    private String commentId;
 
     @Column(name = "comment_owner")
     private String commentOwner; //userId
