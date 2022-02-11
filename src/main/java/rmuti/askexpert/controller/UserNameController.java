@@ -97,9 +97,10 @@ public class UserNameController {
 
     @PostMapping("/uploadProfile")
     public Object uploadpic(@RequestBody MultipartFile file) throws IOException  {
-        String dir = new BaseUrlFile().getBaseDir();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss").format(new Date());
-        String imgName = timeStamp + new RandomString(5) + ".png";
+        String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
+        String tempname = UUID.randomUUID().toString().replaceAll("-", "");
+        String imgName = timeStamp + tempname + ".png";
 
         //validate file
         if (file == null) {

@@ -11,11 +11,22 @@ public class BaseUrlFile {
 
     private String domain = "http://localhost:8080";
 
-    private String baseDir = "/uploads";
+    //!user before baseDir**
 
-    private String imageTopicUrl = this.domain+this.baseDir+"/image/topic/";
 
-    private String imageProfileUrl = this.baseDir+"/image/profile/";
+    //** must use first
+    private String PathSet = "/";
+
+    private String baseDir = "uploads";
+
+    //private String imageTopicUrl = this.domain+this.baseDir+"/image/topic/";
+
+    //if change update in main too
+    private String imageTopicUrl = this.baseDir+"/topicImg";
+
+    private String imageProfileUrl = this.baseDir+"/profileImg";
+
+    private String imageCommetUrl = this.baseDir+"/commentImg";
 
 
     public String ipAddress() throws UnknownHostException {
