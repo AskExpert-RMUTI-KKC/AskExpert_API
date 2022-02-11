@@ -29,7 +29,7 @@ public class UserInfoData {
     @Column(name = "profile_pic")
     private String profilePic;
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "join_date"/*,nullable = false*/)
     private Date joinDate;
 }

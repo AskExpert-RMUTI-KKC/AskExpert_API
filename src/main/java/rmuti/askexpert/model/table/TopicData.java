@@ -7,6 +7,7 @@ import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import javax.xml.stream.events.Comment;
+import java.sql.Timestamp;
 import java.util.Date;
 import java.util.List;
 
@@ -16,7 +17,7 @@ import java.util.List;
 public class TopicData {
     @Id
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO,generator = "uuid2")
     @Column(name = "topic_id",length = 36,nullable = false,updatable = false)
     private String topicId;
 
@@ -29,9 +30,10 @@ public class TopicData {
     @Column(name = "topic_owner",length = 36,nullable = false,updatable = false)
     private String topicOwnerId; //userId
 
-    @JsonFormat(pattern = "dd-MM-yyyy")
-    @Column(name = "topic_start_date")
-    private Date topicStartDate;
+    @JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
+    @Column(name = "topic_create_date")
+    private String topicCreateDate;
+    //private Timestamp topicCreateDate;
 
     @Column(name = "topic_comment_count")
     private String topicCommentCount;

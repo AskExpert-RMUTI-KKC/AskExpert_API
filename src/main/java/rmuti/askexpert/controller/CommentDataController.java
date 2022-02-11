@@ -1,14 +1,12 @@
 package rmuti.askexpert.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.repo.UserNameRepository;
+import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 
 import java.util.List;
@@ -25,20 +23,26 @@ public class CommentDataController {
     @Autowired
     private CommentDataRepository commentDataRepository;
 
+    @Autowired
+    private TokenService tokenService;
+
     @PostMapping("/add")
-    public Object addComment(@RequestBody CommentData commentData) throws BaseException {
+    public Object addComment(@RequestBody CommentData commentData,@RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
+        commentData.setCommentId(tokenService.userId());
+        System.out.printf("userid : "+ tokenService.userId());
         commentDataRepository.save(commentData);
+        res.setData(commentData);
         return res;
     }
 
     @PostMapping("/remove")
-    public Object removeComment() throws BaseException {
+    public Object removeComment(@RequestParam String commentIdRemove,@RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
         return res;
     }
 
-    @PostMapping("/findall")
+    @PostMapping("/findAll")
     public Object findAllComment() throws BaseException {
         APIResponse res = new APIResponse();
         List<CommentData> data = commentDataRepository.findAll();

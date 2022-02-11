@@ -10,6 +10,8 @@ import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.TopicData;
 import rmuti.askexpert.model.table.UserName;
 
+import java.text.SimpleDateFormat;
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -32,6 +34,8 @@ public class TopicDataController {
     public Object addTopic(@RequestBody TopicData topicData){
         APIResponse res = new APIResponse();
         System.out.printf("userid : "+ tokenService.userId());
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicOwnerId(tokenService.userId());
         topicDataRepository.save(topicData);
         res.setData(topicData);
@@ -58,10 +62,19 @@ public class TopicDataController {
         return res;
     }
 
-    @PostMapping("/findall")
+    @PostMapping("/findAll")
     public Object findAllTopic(){
         APIResponse res = new APIResponse();
         List<TopicData> data = topicDataRepository.findAll();
+        res.setData(data);
+        return res;
+    }
+
+    @PostMapping("/findMyTopic")
+    public  Object findMyTopic(@RequestHeader String Authorization){
+        APIResponse res = new APIResponse();
+        System.out.println("userID : "+tokenService.userId());
+        List<TopicData> data = topicDataRepository.findAllByTopicOwnerIdOrderByTopicCreateDateDesc(tokenService.userId());
         res.setData(data);
         return res;
     }
