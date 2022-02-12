@@ -23,9 +23,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/checkJWT",
             "/topic/add",
             "/topic/remove",
-            "/comment/remove",
             "/topic/add",
             "/topic/findMyTopic",
+            "/comment/remove",
+            "/comment/add",
+            "/comment/findMyComment",
     };
     private final TokenService tokenService;
 

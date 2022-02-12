@@ -17,7 +17,10 @@ public class CommentData {
     @Column(name = "comment_id",length = 36,nullable = false,updatable = false)
     private String commentId;
 
-    @Column(name = "comment_owner")
+    @Column(name = "comment_topic_owner")
+    private String commentTopicOwnerId; //userId
+
+    @Column(name = "comment_ownerId")
     private String commentOwnerId; //userId
 
     @Column(name = "comment_like")
@@ -26,11 +29,14 @@ public class CommentData {
     @Column(name = "comment_unlike")
     private long commentUnlike;
 
+    @Column(name = "comment_caption")
+    private String commentCaption;
+
 //    @Column(name = "comment_reply_id")
 //    private String commentReplyID;
 
     @Column(name = "comment_create_date")
-    private Date commentCreateDate;
+    private String commentCreateDate;
 
     //:TODO
 //    @ManyToOne

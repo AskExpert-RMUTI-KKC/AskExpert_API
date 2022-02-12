@@ -31,9 +31,9 @@ public class TopicDataController {
     private TokenService tokenService;
 
     @PostMapping("/add")
-    public Object addTopic(@RequestBody TopicData topicData){
+    public Object addTopic(@RequestBody TopicData topicData) {
         APIResponse res = new APIResponse();
-        System.out.printf("userid : "+ tokenService.userId());
+        System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicOwnerId(tokenService.userId());
@@ -43,19 +43,16 @@ public class TopicDataController {
     }
 
     @PostMapping("/remove")
-    public Object removeTopic(@RequestParam String topicIdRemove,@RequestHeader String Authorization) throws Exception{
+    public Object removeTopic(@RequestParam String topicIdRemove, @RequestHeader String Authorization) throws Exception {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         Optional<TopicData> opt = topicDataRepository.findByTopicId(topicIdRemove);
-        System.out.println("topicIdRemove : "+topicIdRemove);
+        System.out.println("topicIdRemove : " + topicIdRemove);
         System.out.println("userId : " + userId);
         System.out.println("OwnerId : " + opt.get().getTopicOwnerId());
-        if(userId.equals(opt.get().getTopicOwnerId())){
-
+        if (userId.equals(opt.get().getTopicOwnerId())) {
             topicDataRepository.deleteById(topicIdRemove);
-        }
-        else
-        {
+        } else {
             throw TopicException.notyourtopic();
         }
         res.setData(opt);
@@ -63,7 +60,7 @@ public class TopicDataController {
     }
 
     @PostMapping("/findAll")
-    public Object findAllTopic(){
+    public Object findAllTopic() {
         APIResponse res = new APIResponse();
         List<TopicData> data = topicDataRepository.findAll();
         res.setData(data);
@@ -71,9 +68,9 @@ public class TopicDataController {
     }
 
     @PostMapping("/findMyTopic")
-    public  Object findMyTopic(@RequestHeader String Authorization){
+    public Object findMyTopic(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
-        System.out.println("userID : "+tokenService.userId());
+        System.out.println("userID : " + tokenService.userId());
         List<TopicData> data = topicDataRepository.findAllByTopicOwnerIdOrderByTopicCreateDateDesc(tokenService.userId());
         res.setData(data);
         return res;
