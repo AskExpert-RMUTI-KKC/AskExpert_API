@@ -28,6 +28,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/comment/remove",
             "/comment/add",
             "/comment/findMyComment",
+            "/like/setStatus",
+            "/like/getStatus",
+            //"/like/",
     };
     private final TokenService tokenService;
 
