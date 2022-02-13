@@ -22,28 +22,31 @@ public class LikeDataController {
     public Object setStatus (@RequestBody LikeData likeData,@RequestHeader String Authorization) throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        likeData.setLikeOwner(userId);
+        likeData.setOwnerId(userId);
         likeDataRepository.save(likeData);
+        res.setData(likeData);
         return res;
     }
 
     @PostMapping("/getStatus")
-    public Object getStatus(@RequestParam String content,@RequestHeader String Authorization) throws BaseException{
+    public Object getStatus(@RequestParam String contentId,@RequestHeader String Authorization) throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        Optional<LikeData> opt = likeDataRepository.findByLikeIdAndLikeOwner(content,userId);
+        System.out.printf("userId : "+ userId);
+        Optional<LikeData> opt = likeDataRepository.findByOwnerIdAndContentId(userId,contentId);
+        res.setData(opt);
         return res;
     }
 
     @PostMapping("/count")
-    public Object count(@RequestPart boolean status) throws BaseException{
+    public Object count(@RequestParam boolean status) throws BaseException{
         APIResponse res = new APIResponse();
         long count = 0;
-        if(status){
-            count = likeDataRepository.countAllByContentIsTrue();
-        }else {
-            count = likeDataRepository.countAllByContentIsFalse();
-        }
+//        if(status){
+            //count = likeDataRepository.countAllByStatusIsTrue();
+//        }else {
+//            count = likeDataRepository.countAllByContentIsFalse();
+//        }
         res.setData(count);
         return res;
     }

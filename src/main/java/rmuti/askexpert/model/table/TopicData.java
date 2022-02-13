@@ -38,11 +38,11 @@ public class TopicData {
     @Column(name = "topic_comment_count")
     private String topicCommentCount;
 
-    @Column(name = "topic_like")
-    private long topicLike;
-
-    @Column(name = "topic_unlike")
-    private long topicUnlike;
+//    @Column(name = "topic_like")
+//    private long topicLike;
+//
+//    @Column(name = "topic_unlike")
+//    private long topicUnlike;
 
     @Column(name = "topic_group")
     private String topicGroup;

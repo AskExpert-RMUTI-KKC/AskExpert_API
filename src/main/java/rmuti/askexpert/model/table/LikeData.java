@@ -15,13 +15,16 @@ public class LikeData {
     @Column(name = "like_id",length = 36,nullable = false,updatable = false)
     private String likeId;
 
-    //content_id
-    @Column(name = "like_content")
-    private String content;
+    @Column(name = "like_contentId",updatable = false,nullable = false)
+    private String contentId;
 
-    @Column(name = "like_status",nullable = true)
-    private boolean status;
+    @Column(name = "like_ownerId",updatable = false,nullable = false)
+    private String ownerId;
 
-    @Column(name = "like_OwnerId")
-    private String likeOwner;
+    @Column(name = "like_status",nullable = false)
+    private byte status;
+
+    //TODO: if not like delete rowData? or if use OneToOne will awaly have rowData
+    //TODO: ลบเลยถ้าเกิดไม่มีการ like หรือจะ ให้มันมีการนับการ like ตลอดเลยดีนะ
+
 }
