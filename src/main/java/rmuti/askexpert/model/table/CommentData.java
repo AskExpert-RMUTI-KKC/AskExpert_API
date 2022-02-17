@@ -1,5 +1,6 @@
 package rmuti.askexpert.model.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
@@ -12,9 +13,9 @@ import java.util.Date;
 public class CommentData {
 
     @Id
-    @GenericGenerator(name = "uuid2",strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "uuid2")
-    @Column(name = "comment_id",length = 36,nullable = false,updatable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @Column(name = "comment_id", length = 36, nullable = false, updatable = false)
     private String commentId;
 
     @Column(name = "comment_topic_owner")
@@ -32,14 +33,10 @@ public class CommentData {
     @Column(name = "comment_caption")
     private String commentCaption;
 
-//    @Column(name = "comment_reply_id")
-//    private String commentReplyID;
-
     @Column(name = "comment_create_date")
     private String commentCreateDate;
 
-    //:TODO
-//    @ManyToOne
-//    @JoinColumn(name = "topic_id")
-//    private TopicData topic;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdDate = new Date();
+
 }

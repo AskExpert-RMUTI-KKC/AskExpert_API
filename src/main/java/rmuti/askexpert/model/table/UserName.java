@@ -26,6 +26,10 @@ public class UserName {
     @Column (name = "pass_word",nullable = false)
     private String passWord;
 
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdDate = new Date();
+
     //@Column(length = 100)
     /*,nullable = false*/
 }

@@ -1,9 +1,11 @@
 package rmuti.askexpert.model.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -24,7 +26,9 @@ public class LikeData {
     @Column(name = "like_status",nullable = false)
     private byte status;
 
-    //TODO: if not like delete rowData? or if use OneToOne will awaly have rowData
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdDate = new Date();
+
     //TODO: ลบเลยถ้าเกิดไม่มีการ like หรือจะ ให้มันมีการนับการ like ตลอดเลยดีนะ
 
 }

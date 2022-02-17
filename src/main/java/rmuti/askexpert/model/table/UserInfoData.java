@@ -32,4 +32,7 @@ public class UserInfoData {
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "join_date"/*,nullable = false*/)
     private Date joinDate;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdDate = new Date();
 }

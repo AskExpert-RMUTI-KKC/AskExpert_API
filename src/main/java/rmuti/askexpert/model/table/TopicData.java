@@ -47,7 +47,7 @@ public class TopicData {
     @Column(name = "topic_group")
     private String topicGroup;
 
-    //:TODO
-//   @OneToMany(mappedBy = "topic",cascade = CascadeType.ALL,orphanRemoval = true)
-//    private List<CommentData> comments;
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    private Date createdDate = new Date();
+
 }
