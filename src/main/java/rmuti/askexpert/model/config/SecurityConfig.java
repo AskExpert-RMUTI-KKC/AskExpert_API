@@ -31,6 +31,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/like/setStatus",
             "/like/getStatus",
             "/user/setuserinfo",
+            "/user/setpicprofile",
             //"/like/",
     };
     private final TokenService tokenService;

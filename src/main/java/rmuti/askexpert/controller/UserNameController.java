@@ -66,6 +66,63 @@ public class UserNameController {
         return res;
     }
 
+    @PostMapping("/setpicprofile")
+    public Object setpicprofile(@RequestPart MultipartFile file) throws IOException {
+        String userId = tokenService.userId();
+        Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
+        if(opt_userinfo.isEmpty()){
+            throw UserException.nouserinfo();
+        }
+
+
+        String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
+        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
+        String tempname = UUID.randomUUID().toString().replaceAll("-", "");
+        String imgName = timeStamp + tempname + ".png";
+
+        //validate file
+        if (file == null) {
+            //throw error
+            throw FileException.fileNull();
+        }
+
+        //validate size
+        if (file.getSize() > 1048576 * 5) {
+            //throw error
+            throw FileException.fileMaxSize();
+        }
+        String contentType = file.getContentType();
+        if (contentType == null) {
+            //throw  error
+            throw FileException.unsupported();
+        }
+
+        StringBuilder fileNames = new StringBuilder();
+
+        Path fileNameAndPath = Paths.get(uploadDirectory + dir, imgName);
+        fileNames.append(file.getOriginalFilename() + " ");
+        try {
+            Files.write(fileNameAndPath, file.getBytes());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        try {
+            byte[] bytes = file.getBytes();
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        Map<Object, Object> img = new HashMap<>();
+        img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
+        img.put("name", imgName);
+
+        Object res = new Response().ok("upload success", "img", img);
+
+        opt_userinfo.get().setProfilePic(imgName);
+        userInfoRepository.save(opt_userinfo.get());
+        return res;
+    }
+
     @PostMapping("/register")
     public Object register(@RequestBody UserName userName) throws BaseException {
         //System.out.printf("dataGetRegistre: "+userName.toString());

@@ -46,5 +46,9 @@ public class UserException extends BaseException {
         return new UserException("token.expires");
     }
 
+    public static UserException nouserinfo () {
+        return new UserException("no.user.info");
+    }
+
 
 }
