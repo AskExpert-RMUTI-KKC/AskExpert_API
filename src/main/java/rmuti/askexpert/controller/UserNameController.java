@@ -53,9 +53,16 @@ public class UserNameController {
     @PostMapping("/register")
     public Object register(@RequestBody UserName userName) throws BaseException {
         APIResponse res = new APIResponse();
+        long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
+        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
+        userName.setUserName(String.valueOf(number)+timeStamp);
+        userName.setPassWordFb("0");
+        userName.setPassWordGoogle("0");
+        userName.setPassWord("0");
         userName.setPassWord(passwordEncoder.encode(userName.getPassWord()));
         userNameRepository.save(userName);
-        return userName;
+        res.setData(tokenService.tokenize(Optional.of(userName)));
+        return res;
     }
 
     @PostMapping("/login")
@@ -65,12 +72,71 @@ public class UserNameController {
         if (opt.isPresent()) {
             if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWord())) {
                 res.setData("Pass");
-                res.setData( tokenService.tokenize(opt));
+                res.setData(tokenService.tokenize(opt));
             } else {
                 throw UserException.accessDenied();
             }
         } else {
             throw UserException.accessDenied();
+        }
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/loginfb")
+    public Object loginfb(@RequestBody ReqLogin user) throws BaseException {
+        APIResponse res = new APIResponse();
+        Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
+        if (opt.isPresent()) {
+            if(passwordEncoder.matches(user.getPassword(), opt.get().getPassWordFb())){
+                res.setData(tokenService.tokenize(opt));
+            } else if(opt.get().getPassWordFb().equals("0")){
+                UserName fbregister = opt.get();
+                fbregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+                userNameRepository.save(fbregister);
+            }
+            else {
+                throw UserException.accessDenied();
+            }
+        } else {
+            UserName fbregister = new UserName();
+            fbregister.setEmail(user.getEmail());
+            fbregister.setPassWordFb("0");
+            fbregister.setPassWordGoogle("0");
+            fbregister.setPassWord("0");
+            fbregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+            userNameRepository.save(fbregister);
+            res.setMessage("register");
+            res.setData(tokenService.tokenize(Optional.of(fbregister)));
+        }
+        return ResponseEntity.ok(res);
+    }
+
+    @PostMapping("/logingoogle")
+    public Object logingoogle(@RequestBody ReqLogin user) throws BaseException {
+        APIResponse res = new APIResponse();
+        Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
+        if (opt.isPresent()) {
+            if(passwordEncoder.matches(user.getPassword(), opt.get().getPassWordGoogle())){
+                res.setData(tokenService.tokenize(opt));
+            } else if(opt.get().getPassWordGoogle().equals("0")){
+                UserName googleregister = opt.get();
+                googleregister.setPassWordGoogle(passwordEncoder.encode(user.getPassword()));
+                userNameRepository.save(googleregister);
+            }
+            else {
+                throw UserException.accessDenied();
+            }
+        } else {
+            UserName googleregister = new UserName();
+
+            googleregister.setEmail(user.getEmail());
+            googleregister.setPassWordFb("0");
+            googleregister.setPassWordGoogle("0");
+            googleregister.setPassWord("0");
+            googleregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+            userNameRepository.save(googleregister);
+            res.setMessage("register");
+            res.setData(tokenService.tokenize(Optional.of(googleregister)));
         }
         return ResponseEntity.ok(res);
     }
@@ -83,11 +149,12 @@ public class UserNameController {
         return ResponseEntity.ok(res);
 
     }
+
     @PostMapping("/checkJWT")
     public Object checkJWT(@RequestHeader String Authorization) throws BaseException {
-        System.out.println("userId : "+ tokenService.userId());
-        System.out.println("author : "+ tokenService.author());
-        APIResponse res  = new APIResponse();
+        System.out.println("userId : " + tokenService.userId());
+        System.out.println("author : " + tokenService.author());
+        APIResponse res = new APIResponse();
         res.setData(tokenService.GetuserformJWT());
         return ResponseEntity.ok(res);
     }
@@ -96,7 +163,7 @@ public class UserNameController {
     public static String uploadDirectory = System.getProperty("user.dir");
 
     @PostMapping("/uploadProfile")
-    public Object uploadpic(@RequestPart MultipartFile file) throws IOException  {
+    public Object uploadpic(@RequestPart MultipartFile file) throws IOException {
         String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
         String tempname = UUID.randomUUID().toString().replaceAll("-", "");
@@ -135,8 +202,8 @@ public class UserNameController {
         }
 
         Map<Object, Object> img = new HashMap<>();
-        img.put("url",new BaseUrlFile().ipAddress()+":8080"+dir+"/"+imgName);
-        img.put("name",imgName);
+        img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
+        img.put("name", imgName);
 
         Object res = new Response().ok("upload success", "img", img);
         return res;

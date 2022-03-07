@@ -20,11 +20,17 @@ public class UserName {
     @Column (name = "e_mail", unique = true,nullable = false)
     private String email;
 
-    @Column(name = "user_name", unique = true,nullable = false)
+    @Column(name = "user_name", unique = true)
     private String userName;
 
-    @Column (name = "pass_word",nullable = false)
+    @Column (name = "pass_word")
     private String passWord;
+
+    @Column (name = "pass_word_fb")
+    private String passWordFb;
+
+    @Column (name = "pass_word_google")
+    private String passWordGoogle;
 
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
