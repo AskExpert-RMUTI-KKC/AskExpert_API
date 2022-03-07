@@ -27,6 +27,9 @@ public class LikeData {
     private byte status;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "create_order"/*,nullable = false*/)
+    private Date createdDateForOrder= new Date();;
+
     private Date createdDate = new Date();
 
     //TODO: ลบเลยถ้าเกิดไม่มีการ like หรือจะ ให้มันมีการนับการ like ตลอดเลยดีนะ

@@ -36,7 +36,7 @@ public class CommentDataController {
         APIResponse res = new APIResponse();
         System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        commentData.setCommentCreateDate(timeStamp);
+
         commentData.setCommentOwnerId(tokenService.userId());
         commentDataRepository.save(commentData);
         res.setData(commentData);
@@ -72,7 +72,7 @@ public class CommentDataController {
     public Object findMyComment(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
         System.out.println("userID : " + tokenService.userId());
-        List<CommentData> data = commentDataRepository.findAllByCommentOwnerIdOrderByCommentCreateDate(tokenService.userId());
+        List<CommentData> data = commentDataRepository.findAllByCommentOwnerIdOrderByCreatedDateForOrder(tokenService.userId());
         res.setData(data);
         return res;
     }

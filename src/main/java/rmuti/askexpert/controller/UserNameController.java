@@ -55,13 +55,21 @@ public class UserNameController {
     public UserNameController() {
     }
 
+    @PostMapping("/setuserinfo")
+    public Object setuserinfo(@RequestBody UserInfoData info){
+        String userId = tokenService.userId();
+        APIResponse res = new APIResponse();
+        Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
+        info.setUserInfoId(userId);
+        userInfoRepository.save(info);
+        res.setData(info);
+        return res;
+    }
+
     @PostMapping("/register")
     public Object register(@RequestBody UserName userName) throws BaseException {
         //System.out.printf("dataGetRegistre: "+userName.toString());
         APIResponse res = new APIResponse();
-        long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
-        String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
-        userName.setUserName(String.valueOf(number)+timeStamp);
         userName.setPassWordFb("0");
         userName.setPassWordGoogle("0");
         userName.setPassWord(passwordEncoder.encode(userName.getPassWord()));

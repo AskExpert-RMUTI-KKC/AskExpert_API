@@ -17,8 +17,8 @@ public class UserInfoData {
     @Column(length = 36,nullable = false,updatable = false)
     private String userInfoId;
 
-    @Column(name = "caption")
-    private String caption;
+    @Column(name = "user_name", unique = true)
+    private String userName;
 
     @Column(name = "first_name"/*,nullable = false*/)
     private String firstName;
@@ -29,10 +29,13 @@ public class UserInfoData {
     @Column(name = "profile_pic")
     private String profilePic;
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column (name = "join_date"/*,nullable = false*/)
-    private Date joinDate;
 
+//    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+//    @Column (name = "join_date"/*,nullable = false*/)
+//    private Date joinDate;
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "create_order"/*,nullable = false*/)
+    private Date createdDateForOrder= new Date();;
+
     private Date createdDate = new Date();
 }

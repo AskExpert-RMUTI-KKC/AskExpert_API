@@ -20,9 +20,6 @@ public class UserName {
     @Column (name = "e_mail", unique = true,nullable = false)
     private String email;
 
-    @Column(name = "user_name", unique = true)
-    private String userName;
-
     @Column (name = "pass_word")
     private String passWord;
 
@@ -32,8 +29,10 @@ public class UserName {
     @Column (name = "pass_word_google")
     private String passWordGoogle;
 
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "create_order"/*,nullable = false*/)
+    private Date createdDateForOrder= new Date();;
+
     private Date createdDate = new Date();
 
     //@Column(length = 100)

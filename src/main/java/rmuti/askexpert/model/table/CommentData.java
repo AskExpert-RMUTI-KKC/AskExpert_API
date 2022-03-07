@@ -33,10 +33,10 @@ public class CommentData {
     @Column(name = "comment_caption")
     private String commentCaption;
 
-    @Column(name = "comment_create_date")
-    private String commentCreateDate;
-
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column (name = "create_order"/*,nullable = false*/)
+    private Date createdDateForOrder= new Date();;
+
     private Date createdDate = new Date();
 
 }
