@@ -14,11 +14,13 @@ import rmuti.askexpert.model.config.BaseUrlFile;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
 import rmuti.askexpert.model.exception.UserException;
+import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.req.ReqLogin;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.repo.UserNameRepository;
+import rmuti.askexpert.model.table.UserInfoData;
 import rmuti.askexpert.model.table.UserName;
 
 import java.io.IOException;
@@ -47,18 +49,21 @@ public class UserNameController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    UserInfoRepository userInfoRepository;
+
     public UserNameController() {
     }
 
     @PostMapping("/register")
     public Object register(@RequestBody UserName userName) throws BaseException {
+        //System.out.printf("dataGetRegistre: "+userName.toString());
         APIResponse res = new APIResponse();
         long number = (long) Math.floor(Math.random() * 9_000_000_000L) + 1_000_000_000L;
         String timeStamp = new SimpleDateFormat("yyyyMMddHHmmss").format(new Date());
         userName.setUserName(String.valueOf(number)+timeStamp);
         userName.setPassWordFb("0");
         userName.setPassWordGoogle("0");
-        userName.setPassWord("0");
         userName.setPassWord(passwordEncoder.encode(userName.getPassWord()));
         userNameRepository.save(userName);
         res.setData(tokenService.tokenize(Optional.of(userName)));
@@ -71,13 +76,16 @@ public class UserNameController {
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
             if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWord())) {
-                res.setData("Pass");
                 res.setData(tokenService.tokenize(opt));
             } else {
                 throw UserException.accessDenied();
             }
         } else {
             throw UserException.accessDenied();
+        }
+        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if(optionalUserInfoData.isEmpty()){
+            res.setMessage("register");
         }
         return ResponseEntity.ok(res);
     }
@@ -108,6 +116,11 @@ public class UserNameController {
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(fbregister)));
         }
+        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if(optionalUserInfoData.isEmpty()){
+            res.setMessage("register");
+        }
+
         return ResponseEntity.ok(res);
     }
 
@@ -137,6 +150,10 @@ public class UserNameController {
             userNameRepository.save(googleregister);
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(googleregister)));
+        }
+        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if(optionalUserInfoData.isEmpty()){
+            res.setMessage("register");
         }
         return ResponseEntity.ok(res);
     }
