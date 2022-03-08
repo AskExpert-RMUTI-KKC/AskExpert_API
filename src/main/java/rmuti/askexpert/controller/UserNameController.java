@@ -61,6 +61,7 @@ public class UserNameController {
         APIResponse res = new APIResponse();
         Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
         info.setUserInfoId(userId);
+        info.setProfilePic("no_profile_pic.png");
         userInfoRepository.save(info);
         res.setData(info);
         return res;
