@@ -55,8 +55,8 @@ public class UserNameController {
     public UserNameController() {
     }
 
-    @PostMapping("/setuserinfo")
-    public Object setuserinfo(@RequestBody UserInfoData info){
+    @PostMapping("/userinfoWrite")
+    public Object userinfoWrite(@RequestBody UserInfoData info){
         String userId = tokenService.userId();
         APIResponse res = new APIResponse();
         Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
@@ -67,8 +67,8 @@ public class UserNameController {
         return res;
     }
 
-    @PostMapping("/setpicprofile")
-    public Object setpicprofile(@RequestPart MultipartFile file) throws IOException {
+    @PostMapping("/picprofileWrite")
+    public Object picprofileWrite(@RequestPart MultipartFile file) throws IOException {
         String userId = tokenService.userId();
         Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
         if(opt_userinfo.isEmpty()){
@@ -149,8 +149,8 @@ public class UserNameController {
         } else {
             throw UserException.accessDenied();
         }
-        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if(optionalUserInfoData.isEmpty()){
+        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if(userInfoRepository.existsByUserInfoId(opt.get().getUserId())){
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
@@ -160,11 +160,12 @@ public class UserNameController {
     public Object loginfb(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
+        UserName fbregister = new UserName();
         if (opt.isPresent()) {
             if(passwordEncoder.matches(user.getPassword(), opt.get().getPassWordFb())){
                 res.setData(tokenService.tokenize(opt));
             } else if(opt.get().getPassWordFb().equals("0")){
-                UserName fbregister = opt.get();
+                fbregister = opt.get();
                 fbregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
                 userNameRepository.save(fbregister);
             }
@@ -172,7 +173,7 @@ public class UserNameController {
                 throw UserException.accessDenied();
             }
         } else {
-            UserName fbregister = new UserName();
+            fbregister = new UserName();
             fbregister.setEmail(user.getEmail());
             fbregister.setPassWordFb("0");
             fbregister.setPassWordGoogle("0");
@@ -182,8 +183,8 @@ public class UserNameController {
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(fbregister)));
         }
-        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if(optionalUserInfoData.isEmpty()){
+        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if(!userInfoRepository.existsByUserInfoId(fbregister.getUserId())){
             res.setMessage("register");
         }
 
@@ -194,11 +195,12 @@ public class UserNameController {
     public Object logingoogle(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
+        UserName googleregister = new UserName();
         if (opt.isPresent()) {
             if(passwordEncoder.matches(user.getPassword(), opt.get().getPassWordGoogle())){
                 res.setData(tokenService.tokenize(opt));
             } else if(opt.get().getPassWordGoogle().equals("0")){
-                UserName googleregister = opt.get();
+                googleregister = opt.get();
                 googleregister.setPassWordGoogle(passwordEncoder.encode(user.getPassword()));
                 userNameRepository.save(googleregister);
             }
@@ -206,7 +208,7 @@ public class UserNameController {
                 throw UserException.accessDenied();
             }
         } else {
-            UserName googleregister = new UserName();
+            googleregister = new UserName();
 
             googleregister.setEmail(user.getEmail());
             googleregister.setPassWordFb("0");
@@ -217,8 +219,8 @@ public class UserNameController {
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(googleregister)));
         }
-        Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if(optionalUserInfoData.isEmpty()){
+        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(googleregister.getUserId());
+        if(!userInfoRepository.existsByUserInfoId(googleregister.getUserId())){
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
