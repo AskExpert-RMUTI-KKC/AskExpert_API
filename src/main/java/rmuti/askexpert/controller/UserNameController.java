@@ -150,7 +150,7 @@ public class UserNameController {
             throw UserException.accessDenied();
         }
         //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if(userInfoRepository.existsByUserInfoId(opt.get().getUserId())){
+        if(!userInfoRepository.existsByUserInfoId(opt.get().getUserId())){
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
