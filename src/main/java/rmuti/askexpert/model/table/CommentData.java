@@ -24,14 +24,11 @@ public class CommentData {
     @Column(name = "comment_ownerId")
     private String commentOwnerId; //userId
 
-    @Column(name = "comment_like")
-    private long commentLike;
-
-    @Column(name = "comment_unlike")
-    private long commentUnlike;
-
     @Column(name = "comment_caption")
     private String commentCaption;
+
+    @Column(name = "comment_pic")
+    private String commentPic;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)

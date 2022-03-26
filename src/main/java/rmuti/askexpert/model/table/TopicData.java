@@ -35,17 +35,20 @@ public class TopicData {
     private String topicCreateDate;
     //private Timestamp topicCreateDate;
 
-    @Column(name = "topic_comment_count")
-    private String topicCommentCount;
+    @Column(name = "topic_like")
+    private long topicLike;
 
-//    @Column(name = "topic_like")
-//    private long topicLike;
-//
-//    @Column(name = "topic_unlike")
-//    private long topicUnlike;
+    @Column(name = "topic_unlike")
+    private long topicUnlike;
+
+    @Column(name = "topic_comment_count")
+    private long topicCommentCount;
 
     @Column(name = "topic_group")
     private String topicGroup;
+
+    @Column(name = "topic_pic")
+    private String topicPic;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
