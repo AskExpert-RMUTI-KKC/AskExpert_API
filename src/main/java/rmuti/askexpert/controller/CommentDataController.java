@@ -68,6 +68,16 @@ public class CommentDataController {
         res.setData(data);
         return res;
     }
+
+    @PostMapping("/findByTopicID")
+    public Object findByTopicID(@RequestBody String topicId) throws BaseException {
+        APIResponse res = new APIResponse();
+        List<CommentData> data = commentDataRepository.findByCommentTopicOwnerId(topicId);
+        System.out.println(data);
+        res.setData(data);
+        return res;
+    }
+
     @PostMapping("/findMyComment")
     public Object findMyComment(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();

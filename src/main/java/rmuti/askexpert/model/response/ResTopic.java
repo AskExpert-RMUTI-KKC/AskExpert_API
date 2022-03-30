@@ -4,6 +4,8 @@ import lombok.Data;
 import rmuti.askexpert.model.table.TopicData;
 
 @Data
-public class resTopic extends TopicData {
+public class ResTopic extends TopicData {
+    String userName;
+    String profileImg;
 
 }

@@ -44,8 +44,7 @@ public class TopicData {
     @Column(name = "topic_comment_count")
     private long topicCommentCount;
 
-    @Column(name = "topic_group")
-    private String topicGroup;
+
 
     @Column(name = "topic_pic")
     private String topicPic;
