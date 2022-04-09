@@ -41,4 +41,6 @@ public class UserInfoData {
     private Date createdDateForOrder= new Date();;
 
     private Date createdDate = new Date();
+
+
 }

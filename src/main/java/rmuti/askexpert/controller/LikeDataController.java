@@ -22,7 +22,7 @@ public class LikeDataController {
     public Object setStatus (@RequestBody LikeData likeData,@RequestHeader String Authorization) throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        likeData.setOwnerId(userId);
+        likeData.setLikeOwnerId(userId);
         likeDataRepository.save(likeData);
         res.setData(likeData);
         return res;
@@ -33,7 +33,7 @@ public class LikeDataController {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         System.out.printf("userId : "+ userId);
-        Optional<LikeData> opt = likeDataRepository.findByOwnerIdAndContentId(userId,contentId);
+        Optional<LikeData> opt = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId,contentId);
         res.setData(opt);
         return res;
     }
@@ -50,4 +50,6 @@ public class LikeDataController {
         res.setData(count);
         return res;
     }
+
+
 }

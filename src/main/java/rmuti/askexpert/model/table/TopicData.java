@@ -60,4 +60,108 @@ public class TopicData {
 
     private Date createdDate = new Date();
 
+
+    public String getTopicId() {
+        return topicId;
+    }
+
+    public void setTopicId(String topicId) {
+        this.topicId = topicId;
+    }
+
+    public String getTopicHeadline() {
+        return topicHeadline;
+    }
+
+    public void setTopicHeadline(String topicHeadline) {
+        this.topicHeadline = topicHeadline;
+    }
+
+    public String getTopicCaption() {
+        return topicCaption;
+    }
+
+    public void setTopicCaption(String topicCaption) {
+        this.topicCaption = topicCaption;
+    }
+
+    public String getTopicOwnerId() {
+        return topicOwnerId;
+    }
+
+    public void setTopicOwnerId(String topicOwnerId) {
+        this.topicOwnerId = topicOwnerId;
+    }
+
+    public long getTopicLikeCount() {
+        return topicLikeCount;
+    }
+
+    public void setTopicLikeCount(long topicLikeCount) {
+        this.topicLikeCount = topicLikeCount;
+    }
+
+    public long getTopicCommentCount() {
+        return topicCommentCount;
+    }
+
+    public void setTopicCommentCount(long topicCommentCount) {
+        this.topicCommentCount = topicCommentCount;
+    }
+
+    public long getTopicReadCount() {
+        return topicReadCount;
+    }
+
+    public void setTopicReadCount(long topicReadCount) {
+        this.topicReadCount = topicReadCount;
+    }
+
+    public long getTopicDonateCount() {
+        return topicDonateCount;
+    }
+
+    public void setTopicDonateCount(long topicDonateCount) {
+        this.topicDonateCount = topicDonateCount;
+    }
+
+    public String getTopicGroup() {
+        return topicGroup;
+    }
+
+    public void setTopicGroup(String topicGroup) {
+        this.topicGroup = topicGroup;
+    }
+
+    public String getTopicReportStatus() {
+        return topicReportStatus;
+    }
+
+    public void setTopicReportStatus(String topicReportStatus) {
+        this.topicReportStatus = topicReportStatus;
+    }
+
+    public Date getCreatedDateForOrder() {
+        return createdDateForOrder;
+    }
+
+    public void setCreatedDateForOrder(Date createdDateForOrder) {
+        this.createdDateForOrder = createdDateForOrder;
+    }
+
+    public String getTopicCreateDate() {
+        return topicCreateDate;
+    }
+
+    public void setTopicCreateDate(String topicCreateDate) {
+        this.topicCreateDate = topicCreateDate;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }

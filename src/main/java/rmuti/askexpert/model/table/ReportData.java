@@ -45,4 +45,84 @@ public class ReportData {
     private Date createdDateForOrder= new Date();;
 
     private Date createdDate = new Date();
+
+    public String getReportId() {
+        return reportId;
+    }
+
+    public void setReportId(String reportId) {
+        this.reportId = reportId;
+    }
+
+    public String getReportContentId() {
+        return reportContentId;
+    }
+
+    public void setReportContentId(String reportContentId) {
+        this.reportContentId = reportContentId;
+    }
+
+    public String getReportFrom() {
+        return reportFrom;
+    }
+
+    public void setReportFrom(String reportFrom) {
+        this.reportFrom = reportFrom;
+    }
+
+    public String getReportType() {
+        return reportType;
+    }
+
+    public void setReportType(String reportType) {
+        this.reportType = reportType;
+    }
+
+    public String getReportReason() {
+        return reportReason;
+    }
+
+    public void setReportReason(String reportReason) {
+        this.reportReason = reportReason;
+    }
+
+    public String getReportDecide() {
+        return reportDecide;
+    }
+
+    public void setReportDecide(String reportDecide) {
+        this.reportDecide = reportDecide;
+    }
+
+    public String getReportContentStatus() {
+        return reportContentStatus;
+    }
+
+    public void setReportContentStatus(String reportContentStatus) {
+        this.reportContentStatus = reportContentStatus;
+    }
+
+    public String getReport_status() {
+        return report_status;
+    }
+
+    public void setReport_status(String report_status) {
+        this.report_status = report_status;
+    }
+
+    public Date getCreatedDateForOrder() {
+        return createdDateForOrder;
+    }
+
+    public void setCreatedDateForOrder(Date createdDateForOrder) {
+        this.createdDateForOrder = createdDateForOrder;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }
