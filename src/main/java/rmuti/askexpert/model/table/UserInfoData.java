@@ -26,6 +26,9 @@ public class UserInfoData {
     @Column(name = "last_name"/*,nullable = false*/)
     private String lastName;
 
+    @Column(name = "token"/*,nullable = false*/)
+    private Double token;
+
     @Column(name = "profile_pic")
     private String profilePic;
 

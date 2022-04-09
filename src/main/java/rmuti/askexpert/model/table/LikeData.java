@@ -18,13 +18,13 @@ public class LikeData {
     private String likeId;
 
     @Column(name = "like_contentId",updatable = false,nullable = false)
-    private String contentId;
+    private String likeContentId;
 
     @Column(name = "like_ownerId",updatable = false,nullable = false)
-    private String ownerId;
+    private String likeOwnerId;
 
     @Column(name = "like_status",nullable = false)
-    private byte status;
+    private byte likeStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
@@ -33,5 +33,4 @@ public class LikeData {
     private Date createdDate = new Date();
 
     //TODO: ลบเลยถ้าเกิดไม่มีการ like หรือจะ ให้มันมีการนับการ like ตลอดเลยดีนะ
-
 }

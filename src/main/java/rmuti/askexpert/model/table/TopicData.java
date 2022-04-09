@@ -30,28 +30,33 @@ public class TopicData {
     @Column(name = "topic_owner",length = 36,nullable = false,updatable = false)
     private String topicOwnerId; //userId
 
-    @JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
-    @Column(name = "topic_create_date")
-    private String topicCreateDate;
-    //private Timestamp topicCreateDate;
 
-    @Column(name = "topic_like")
-    private long topicLike;
-
-    @Column(name = "topic_unlike")
-    private long topicUnlike;
+    @Column(name = "topic_like_count")
+    private long topicLikeCount;
 
     @Column(name = "topic_comment_count")
     private long topicCommentCount;
 
+    @Column(name = "topic_read_count")
+    private long topicReadCount;
 
+    @Column(name = "topic_donate_count")
+    private long topicDonateCount;
 
-    @Column(name = "topic_pic")
-    private String topicPic;
+    @Column(name = "topic_group")
+    private String topicGroup;
+
+    @Column(name = "topic_report_status")
+    private String topicReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
     private Date createdDateForOrder= new Date();;
+
+    @JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
+    @Column(name = "topic_create_date")
+    private String topicCreateDate;
+    //private Timestamp topicCreateDate;
 
     private Date createdDate = new Date();
 

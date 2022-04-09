@@ -11,7 +11,6 @@ import java.util.Date;
 @Entity
 @Table(name = "comment_data")
 public class CommentData {
-
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
@@ -27,8 +26,17 @@ public class CommentData {
     @Column(name = "comment_caption")
     private String commentCaption;
 
-    @Column(name = "comment_pic")
-    private String commentPic;
+    @Column(name = "comment_is_sub_comment")
+    private String commentIsSubComment;
+
+    @Column(name = "comment_like_count")
+    private String commentLikeCount;
+
+    @Column(name = "comment_donate_count")
+    private String commentDonateCount;
+
+    @Column(name = "comment_report_status")
+    private String commentReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
