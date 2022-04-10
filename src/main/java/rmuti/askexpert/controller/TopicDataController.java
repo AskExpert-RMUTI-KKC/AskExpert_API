@@ -6,9 +6,10 @@ import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.repo.UserNameRepository;
+import rmuti.askexpert.model.response.ResTopic;
+import rmuti.askexpert.model.response.mapperdiy.ResTopicMap;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.TopicData;
-import rmuti.askexpert.model.table.UserName;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -29,6 +30,14 @@ public class TopicDataController {
 
     @Autowired
     private TokenService tokenService;
+
+
+//    @Autowired
+//    private final ResTopicMapper mapper;
+//
+//    public TopicDataController(ResTopicMapper mapper) {
+//        this.mapper = mapper;
+//    }
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
@@ -62,7 +71,10 @@ public class TopicDataController {
     @PostMapping("/findAll")
     public Object findAllTopic() {
         APIResponse res = new APIResponse();
-        List<TopicData> data = topicDataRepository.findAll();
+        //List<ResTopic> data = mapper.toListTopicResponse(topicDataRepository.findAll());
+        //List<ResTopic> data =  topicDataRepository.findAll().stream().map(List);
+        //List<ResTopic> data = mapper.map(topicDataRepository.findAll());
+        List<ResTopic> data = new ResTopicMap().toResTopicListMapper(topicDataRepository.findAll());
         res.setData(data);
         return res;
     }

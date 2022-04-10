@@ -44,5 +44,67 @@ public class UserInfoData {
 
     private Date createdDate = new Date();
 
+    public String getUserInfoId() {
+        return userInfoId;
+    }
 
+    public void setUserInfoId(String userInfoId) {
+        this.userInfoId = userInfoId;
+    }
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
+    }
+
+    public Double getToken() {
+        return token;
+    }
+
+    public void setToken(Double token) {
+        this.token = token;
+    }
+
+    public String getProfilePic() {
+        return profilePic;
+    }
+
+    public void setProfilePic(String profilePic) {
+        this.profilePic = profilePic;
+    }
+
+    public Date getCreatedDateForOrder() {
+        return createdDateForOrder;
+    }
+
+    public void setCreatedDateForOrder(Date createdDateForOrder) {
+        this.createdDateForOrder = createdDateForOrder;
+    }
+
+    public Date getCreatedDate() {
+        return createdDate;
+    }
+
+    public void setCreatedDate(Date createdDate) {
+        this.createdDate = createdDate;
+    }
 }

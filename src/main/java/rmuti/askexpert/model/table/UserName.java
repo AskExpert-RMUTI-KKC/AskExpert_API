@@ -10,8 +10,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@Getter
-@Setter
 @Entity
 @Table(name = "user_name")
 public class UserName {
@@ -98,4 +96,6 @@ public class UserName {
 
     //@Column(length = 100)
     /*,nullable = false*/
+
+
 }
