@@ -1,14 +1,17 @@
 package rmuti.askexpert.model.table;
 
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Data
+@Getter
+@Setter
+@Entity
+@Table(name = "image_data")
 public class ImageData {
     @Id
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
@@ -21,28 +24,4 @@ public class ImageData {
 
     @Column(name = "img_name"/*,nullable = false*/)
     private String imgName;
-
-    public String getImgId() {
-        return imgId;
-    }
-
-    public void setImgId(String imgId) {
-        this.imgId = imgId;
-    }
-
-    public String getImgPath() {
-        return imgPath;
-    }
-
-    public void setImgPath(String imgPath) {
-        this.imgPath = imgPath;
-    }
-
-    public String getImgName() {
-        return imgName;
-    }
-
-    public void setImgName(String imgName) {
-        this.imgName = imgName;
-    }
 }

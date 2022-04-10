@@ -2,12 +2,16 @@ package rmuti.askexpert.model.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "comment_data")
 public class CommentData {
@@ -44,83 +48,4 @@ public class CommentData {
 
     private Date createdDate = new Date();
 
-    public String getCommentId() {
-        return commentId;
-    }
-
-    public void setCommentId(String commentId) {
-        this.commentId = commentId;
-    }
-
-    public String getCommentTopicOwnerId() {
-        return commentTopicOwnerId;
-    }
-
-    public void setCommentTopicOwnerId(String commentTopicOwnerId) {
-        this.commentTopicOwnerId = commentTopicOwnerId;
-    }
-
-    public String getCommentOwnerId() {
-        return commentOwnerId;
-    }
-
-    public void setCommentOwnerId(String commentOwnerId) {
-        this.commentOwnerId = commentOwnerId;
-    }
-
-    public String getCommentCaption() {
-        return commentCaption;
-    }
-
-    public void setCommentCaption(String commentCaption) {
-        this.commentCaption = commentCaption;
-    }
-
-    public String getCommentIsSubComment() {
-        return commentIsSubComment;
-    }
-
-    public void setCommentIsSubComment(String commentIsSubComment) {
-        this.commentIsSubComment = commentIsSubComment;
-    }
-
-    public String getCommentLikeCount() {
-        return commentLikeCount;
-    }
-
-    public void setCommentLikeCount(String commentLikeCount) {
-        this.commentLikeCount = commentLikeCount;
-    }
-
-    public String getCommentDonateCount() {
-        return commentDonateCount;
-    }
-
-    public void setCommentDonateCount(String commentDonateCount) {
-        this.commentDonateCount = commentDonateCount;
-    }
-
-    public String getCommentReportStatus() {
-        return commentReportStatus;
-    }
-
-    public void setCommentReportStatus(String commentReportStatus) {
-        this.commentReportStatus = commentReportStatus;
-    }
-
-    public Date getCreatedDateForOrder() {
-        return createdDateForOrder;
-    }
-
-    public void setCreatedDateForOrder(Date createdDateForOrder) {
-        this.createdDateForOrder = createdDateForOrder;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 }

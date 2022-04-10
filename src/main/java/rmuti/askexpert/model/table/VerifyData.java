@@ -2,15 +2,18 @@ package rmuti.askexpert.model.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 import org.hibernate.annotations.GenericGenerator;
 
-import javax.persistence.Column;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.util.Date;
 
 @Data
+@Getter
+@Setter
+@Entity
+@Table(name = "verify_data")
 public class VerifyData {
     @Id
     @GenericGenerator(name = "uuid2",strategy = "uuid2")

@@ -2,14 +2,17 @@ package rmuti.askexpert.model.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
-
 @Data
+@Getter
+@Setter
 @Entity
 @Table(name = "user_info")
 public class UserInfoData {
@@ -31,7 +34,6 @@ public class UserInfoData {
 
     @Column(name = "profile_pic")
     private String profilePic;
-
 
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Column (name = "join_date"/*,nullable = false*/)
