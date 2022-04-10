@@ -11,6 +11,8 @@ import java.util.Date;
 
 @Data
 public class ResTopic  {
+
+    //user
     private String userInfoId;
 
     private String userName;
@@ -23,6 +25,7 @@ public class ResTopic  {
 
     private String profilePic;
 
+    //topic
     private String topicId;
 
     private String topicHeadline;
@@ -42,6 +45,11 @@ public class ResTopic  {
     private String topicGroup;
 
     private String topicReportStatus;
+
+    // TODO:Userlike
+    // TODO:Usercomment
+    // TODO:Userdonate
+
 
 //    private Date createdDateForOrder;
 //

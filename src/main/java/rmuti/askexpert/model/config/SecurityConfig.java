@@ -32,6 +32,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             //"/like/getStatus",
             "/user/edituserinfo",
             "/user/editimgprofile",
+            "/user/checkJWT",
+            "/user/refreshJWT",
             //"/like/",
     };
     private final TokenService tokenService;

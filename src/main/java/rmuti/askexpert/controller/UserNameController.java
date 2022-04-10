@@ -48,16 +48,12 @@ public class UserNameController {
     @Autowired
     UserInfoRepository userInfoRepository;
 
-    public UserNameController() {
-    }
-
     @PostMapping("/edituserinfo")
     public Object edituserinfo(@RequestBody UserInfoData info) {
         String userId = tokenService.userId();
         APIResponse res = new APIResponse();
         Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
         info.setUserInfoId(userId);
-        info.setProfilePic("no_profile_pic.png");
         userInfoRepository.save(info);
         res.setData(info);
         return res;
@@ -138,6 +134,8 @@ public class UserNameController {
         info.setLastName("LN : "+userName.getEmail());
         info.setToken(0.0);
         info.setProfilePic("no_profile_pic.png");
+        info.setVerifyStatus(false);
+        info.setExpert("none");
         userInfoRepository.save(info);
 
         res.setData(tokenService.tokenize(Optional.of(userName)));
@@ -255,7 +253,8 @@ public class UserNameController {
         System.out.println("userId : " + tokenService.userId());
         System.out.println("author : " + tokenService.author());
         APIResponse res = new APIResponse();
-        res.setData(tokenService.GetuserformJWT());
+        Optional<UserName> opt = userNameRepository.findByUserId(tokenService.userId());
+        res.setData(tokenService.tokenize(opt));
         return ResponseEntity.ok(res);
     }
 

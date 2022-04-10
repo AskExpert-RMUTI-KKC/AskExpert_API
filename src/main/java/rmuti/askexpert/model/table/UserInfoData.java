@@ -35,6 +35,12 @@ public class UserInfoData {
     @Column(name = "profile_pic")
     private String profilePic;
 
+    @Column(name = "verify_Status")
+    private boolean verifyStatus;
+
+    @Column(name = "expert")
+    private String expert;
+
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Column (name = "join_date"/*,nullable = false*/)
 //    private Date joinDate;
@@ -43,6 +49,22 @@ public class UserInfoData {
     private Date createdDateForOrder= new Date();;
 
     private Date createdDate = new Date();
+
+    public boolean isVerifyStatus() {
+        return verifyStatus;
+    }
+
+    public String getExpert() {
+        return expert;
+    }
+
+    public void setExpert(String expert) {
+        this.expert = expert;
+    }
+
+    public void setVerifyStatus(boolean verifyStatus) {
+        this.verifyStatus = verifyStatus;
+    }
 
     public String getUserInfoId() {
         return userInfoId;
