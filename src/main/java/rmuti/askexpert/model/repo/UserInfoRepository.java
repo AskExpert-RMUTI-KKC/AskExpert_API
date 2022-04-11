@@ -5,4 +5,5 @@ import rmuti.askexpert.model.table.UserInfoData;
 
 public interface UserInfoRepository extends JpaRepository<UserInfoData,String> {
     boolean existsByUserInfoId(String id);
+
 }

@@ -2,16 +2,10 @@ package rmuti.askexpert.model.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
-import org.apache.tomcat.jni.Address;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
-import javax.xml.stream.events.Comment;
-import java.sql.Timestamp;
 import java.util.Date;
-import java.util.List;
 
 @Data
 @Entity
@@ -61,4 +55,9 @@ public class TopicData {
     //private Timestamp topicCreateDate;
 
     private Date createdDate = new Date();
+
+
+    @ManyToOne
+    @JoinColumn(name = "user_info", nullable = false)
+    private UserInfoData userInfoData;
 }

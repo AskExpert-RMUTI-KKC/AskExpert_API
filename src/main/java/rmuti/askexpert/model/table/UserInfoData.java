@@ -2,14 +2,11 @@ package rmuti.askexpert.model.table;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
-import lombok.Getter;
-import lombok.Setter;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.util.Date;
+import java.util.List;
+
 @Data
 @Entity
 @Table(name = "user_info")
@@ -47,4 +44,8 @@ public class UserInfoData {
     private Date createdDateForOrder= new Date();;
 
     private Date createdDate = new Date();
+
+
+    @OneToMany(mappedBy = "userInfoData", orphanRemoval = true)
+    private List<TopicData> topicDataList;
 }

@@ -1,15 +1,18 @@
 package rmuti.askexpert.controller;
 
+import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
+import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.repo.UserNameRepository;
 import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.TopicData;
+import rmuti.askexpert.model.table.UserInfoData;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -34,6 +37,9 @@ public class TopicDataController {
     @Autowired
     private ResTopicMapper resTopicMapper;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
@@ -42,6 +48,7 @@ public class TopicDataController {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicOwnerId(tokenService.userId());
+        topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);
         res.setData(topicData);
         return res;
@@ -72,6 +79,11 @@ public class TopicDataController {
         //List<ResTopic> data = mapper.map(topicDataRepository.findAll());
         //List<ResTopic> data = new ResTopicMap().toResTopicListMapper(topicDataRepository.findAll());
         List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAll());
+//        for(ResTopic dataindex : data){
+//
+//
+//
+//        }
         res.setData(data);
         return res;
     }
