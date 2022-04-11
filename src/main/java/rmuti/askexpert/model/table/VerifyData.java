@@ -10,8 +10,6 @@ import javax.persistence.*;
 import java.util.Date;
 
 @Data
-@Getter
-@Setter
 @Entity
 @Table(name = "verify_data")
 public class VerifyData {
@@ -39,59 +37,4 @@ public class VerifyData {
 
     private Date createdDate = new Date();
 
-    public String getVerifyId() {
-        return verifyId;
-    }
-
-    public void setVerifyId(String verifyId) {
-        this.verifyId = verifyId;
-    }
-
-    public String getVerifyFrom() {
-        return verifyFrom;
-    }
-
-    public void setVerifyFrom(String verifyFrom) {
-        this.verifyFrom = verifyFrom;
-    }
-
-    public String getVerifyReceive() {
-        return verifyReceive;
-    }
-
-    public void setVerifyReceive(String verifyReceive) {
-        this.verifyReceive = verifyReceive;
-    }
-
-    public String getVerifyPass() {
-        return verifyPass;
-    }
-
-    public void setVerifyPass(String verifyPass) {
-        this.verifyPass = verifyPass;
-    }
-
-    public String getVerifyStatus() {
-        return verifyStatus;
-    }
-
-    public void setVerifyStatus(String verifyStatus) {
-        this.verifyStatus = verifyStatus;
-    }
-
-    public Date getCreatedDateForOrder() {
-        return createdDateForOrder;
-    }
-
-    public void setCreatedDateForOrder(Date createdDateForOrder) {
-        this.createdDateForOrder = createdDateForOrder;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 }

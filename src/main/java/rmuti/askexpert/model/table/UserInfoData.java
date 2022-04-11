@@ -11,8 +11,6 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
 @Data
-@Getter
-@Setter
 @Entity
 @Table(name = "user_info")
 public class UserInfoData {
@@ -49,84 +47,4 @@ public class UserInfoData {
     private Date createdDateForOrder= new Date();;
 
     private Date createdDate = new Date();
-
-    public boolean isVerifyStatus() {
-        return verifyStatus;
-    }
-
-    public String getExpert() {
-        return expert;
-    }
-
-    public void setExpert(String expert) {
-        this.expert = expert;
-    }
-
-    public void setVerifyStatus(boolean verifyStatus) {
-        this.verifyStatus = verifyStatus;
-    }
-
-    public String getUserInfoId() {
-        return userInfoId;
-    }
-
-    public void setUserInfoId(String userInfoId) {
-        this.userInfoId = userInfoId;
-    }
-
-    public String getUserName() {
-        return userName;
-    }
-
-    public void setUserName(String userName) {
-        this.userName = userName;
-    }
-
-    public String getFirstName() {
-        return firstName;
-    }
-
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
-    public Double getToken() {
-        return token;
-    }
-
-    public void setToken(Double token) {
-        this.token = token;
-    }
-
-    public String getProfilePic() {
-        return profilePic;
-    }
-
-    public void setProfilePic(String profilePic) {
-        this.profilePic = profilePic;
-    }
-
-    public Date getCreatedDateForOrder() {
-        return createdDateForOrder;
-    }
-
-    public void setCreatedDateForOrder(Date createdDateForOrder) {
-        this.createdDateForOrder = createdDateForOrder;
-    }
-
-    public Date getCreatedDate() {
-        return createdDate;
-    }
-
-    public void setCreatedDate(Date createdDate) {
-        this.createdDate = createdDate;
-    }
 }
