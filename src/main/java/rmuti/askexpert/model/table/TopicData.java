@@ -20,7 +20,7 @@ public class TopicData {
     @Column(name = "topic_headline")
     private String topicHeadline;
 
-    @Column(name = "topic_caption")
+    @Column(name = "topic_caption",length = 10240)
     private String topicCaption;
 
     @Column(name = "topic_owner",length = 36,nullable = false,updatable = false)

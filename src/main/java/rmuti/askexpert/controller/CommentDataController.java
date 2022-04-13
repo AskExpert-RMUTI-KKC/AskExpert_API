@@ -37,6 +37,7 @@ public class CommentDataController {
         System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
+        commentData.setCommentReportStatus(0);
         commentData.setCommentOwnerId(tokenService.userId());
         commentDataRepository.save(commentData);
         res.setData(commentData);

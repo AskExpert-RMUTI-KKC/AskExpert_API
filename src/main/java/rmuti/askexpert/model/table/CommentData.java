@@ -23,20 +23,20 @@ public class CommentData {
     @Column(name = "comment_ownerId")
     private String commentOwnerId; //userId
 
-    @Column(name = "comment_caption")
+    @Column(name = "comment_caption",length = 10240)
     private String commentCaption;
 
     @Column(name = "comment_is_sub_comment")
-    private String commentIsSubComment;
+    private int commentIsSubComment;
 
     @Column(name = "comment_like_count")
-    private String commentLikeCount;
+    private int commentLikeCount;
 
     @Column(name = "comment_donate_count")
-    private String commentDonateCount;
+    private int commentDonateCount;
 
     @Column(name = "comment_report_status")
-    private String commentReportStatus;
+    private int commentReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
