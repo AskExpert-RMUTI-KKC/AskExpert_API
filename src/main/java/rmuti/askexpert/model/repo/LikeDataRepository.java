@@ -6,11 +6,11 @@ import rmuti.askexpert.model.table.LikeData;
 
 import java.util.Optional;
 
-public interface LikeDataRepository extends JpaRepository<LikeData,String> {
-//      long countAllByStatusIsTrue();
-//      long countAllByContentIsFalse();
-//      Optional<LikeData> findByContentIdAndOwnerId(String content,String id);
-//      Optional<LikeData> findByContentIdAndOwnerId(String content,String id);
-    Optional<LikeData> findByLikeOwnerIdAndLikeContentId(String id,String content);
+public interface LikeDataRepository extends JpaRepository<LikeData, String> {
+    // long countAllByStatusIsTrue();
+    // long countAllByContentIsFalse();
+    // Optional<LikeData> findByContentIdAndUserId(String content,String id);
+    // Optional<LikeData> findByContentIdAndUserId(String content,String id);
+    Optional<LikeData> findByLikeUserIdAndLikeContentId(String id, String content);
 
 }

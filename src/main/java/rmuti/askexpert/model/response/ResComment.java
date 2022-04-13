@@ -5,9 +5,9 @@ import javax.persistence.Column;
 public class ResComment {
     private String commentId;
 
-    private String commentTopicOwnerId; //userId
+    private String commentTopicId; // userId
 
-    private String commentOwnerId; //userId
+    private String commentUserId; // userId
 
     private String commentCaption;
 

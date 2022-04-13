@@ -3,19 +3,19 @@ package rmuti.askexpert.model.response;
 import lombok.Data;
 
 @Data
-public class ResTopic  {
+public class ResTopic {
 
     private ResTopicUserInfo userInfoData;
 
     private byte likeStatus;
-    //topic
+    // topic
     private String topicId;
 
     private String topicHeadline;
 
     private String topicCaption;
 
-    private String topicOwnerId;
+    private String topicUserId;
 
     private long topicLikeCount;
 

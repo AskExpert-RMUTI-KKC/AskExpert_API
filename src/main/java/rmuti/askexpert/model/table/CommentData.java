@@ -17,13 +17,13 @@ public class CommentData {
     @Column(name = "comment_id", length = 36, nullable = false, updatable = false)
     private String commentId;
 
-    @Column(name = "comment_topic_owner")
-    private String commentTopicOwnerId; //userId
+    @Column(name = "comment_topicId")
+    private String commentTopicId; // userId
 
-    @Column(name = "comment_ownerId")
-    private String commentOwnerId; //userId
+    @Column(name = "comment_UserId")
+    private String commentUserId; // userId
 
-    @Column(name = "comment_caption",length = 10240)
+    @Column(name = "comment_caption", length = 10240)
     private String commentCaption;
 
     @Column(name = "comment_is_sub_comment")
@@ -39,8 +39,8 @@ public class CommentData {
     private int commentReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column (name = "create_order"/*,nullable = false*/)
-    private Date createdDateForOrder= new Date();;
+    @Column(name = "create_order"/* ,nullable = false */)
+    private Date createdDateForOrder = new Date();;
 
     private Date createdDate = new Date();
 }

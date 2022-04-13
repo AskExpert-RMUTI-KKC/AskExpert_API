@@ -12,20 +12,19 @@ import java.util.Date;
 @Table(name = "topic_data")
 public class TopicData {
     @Id
-    @GenericGenerator(name = "uuid2",strategy = "uuid2")
-    @GeneratedValue(strategy = GenerationType.AUTO,generator = "uuid2")
-    @Column(name = "topic_id",length = 36,nullable = false,updatable = false)
+    @GenericGenerator(name = "uuid2", strategy = "uuid2")
+    @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
+    @Column(name = "topic_id", length = 36, nullable = false, updatable = false)
     private String topicId;
 
     @Column(name = "topic_headline")
     private String topicHeadline;
 
-    @Column(name = "topic_caption",length = 10240)
+    @Column(name = "topic_caption", length = 10240)
     private String topicCaption;
 
-    @Column(name = "topic_owner",length = 36,nullable = false,updatable = false)
-    private String topicOwnerId; //userId
-
+    @Column(name = "topic_userId", length = 36, nullable = false, updatable = false)
+    private String topicUserId; // userId
 
     @Column(name = "topic_like_count")
     private long topicLikeCount;
@@ -46,20 +45,21 @@ public class TopicData {
     private int topicReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    @Column (name = "create_order"/*,nullable = false*/)
-    private Date createdDateForOrder= new Date();;
+    @Column(name = "create_order"/* ,nullable = false */)
+    private Date createdDateForOrder = new Date();;
 
     @JsonFormat(pattern = "yyyy-MM-dd-HH-mm-ss")
     @Column(name = "topic_create_date")
     private String topicCreateDate;
-    //private Timestamp topicCreateDate;
+    // private Timestamp topicCreateDate;
 
     private Date createdDate = new Date();
 
-    //TODO: AFK
+    // TODO: AFK
     /*
-    @ManyToOne
-    @JoinColumn(name = "user_info", nullable = false)
-    private UserInfoData userInfoData;
-    */
+     * @ManyToOne
+     * 
+     * @JoinColumn(name = "user_info", nullable = false)
+     * private UserInfoData userInfoData;
+     */
 }

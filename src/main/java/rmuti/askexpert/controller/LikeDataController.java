@@ -24,30 +24,28 @@ public class LikeDataController {
     TopicDataRepository topicDataRepository;
 
     @PostMapping("/setStatus")
-    public Object setStatus (@RequestBody LikeData likeData,@RequestHeader String Authorization) throws BaseException{
+    public Object setStatus(@RequestBody LikeData likeData, @RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        Optional<LikeData> opt = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId,likeData.getLikeContentId());
-        //update
-        if(opt.isPresent())
-        {
+        Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(userId,
+                likeData.getLikeContentId());
+        // update
+        if (opt.isPresent()) {
             opt.get().setLikeStatus(likeData.getLikeStatus());
             likeDataRepository.save(opt.get());
         }
-        //create
-        else
-        {
-            likeData.setLikeOwnerId(userId);
+        // create
+        else {
+            likeData.setLikeUserId(userId);
             likeDataRepository.save(likeData);
         }
 
-        //updateLike()
+        // updateLike()
         Optional<TopicData> topicData = topicDataRepository.findById(likeData.getLikeContentId());
-        if(likeData.getLikeStatus() == 1){
-            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount()+1);
-        }
-        else {
-            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount()-1);
+        if (likeData.getLikeStatus() == 1) {
+            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() + 1);
+        } else {
+            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() - 1);
         }
         topicDataRepository.save(topicData.get());
         res.setData(likeData);
@@ -55,27 +53,26 @@ public class LikeDataController {
     }
 
     @PostMapping("/getStatus")
-    public Object getStatus(@RequestParam String contentId,@RequestHeader String Authorization) throws BaseException{
+    public Object getStatus(@RequestParam String contentId, @RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        System.out.printf("userId : "+ userId);
-        Optional<LikeData> opt = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId,contentId);
+        System.out.printf("userId : " + userId);
+        Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, contentId);
         res.setData(opt);
         return res;
     }
 
     @PostMapping("/count")
-    public Object count(@RequestParam boolean status) throws BaseException{
+    public Object count(@RequestParam boolean status) throws BaseException {
         APIResponse res = new APIResponse();
         long count = 0;
-//        if(status){
-            //count = likeDataRepository.countAllByStatusIsTrue();
-//        }else {
-//            count = likeDataRepository.countAllByContentIsFalse();
-//        }
+        // if(status){
+        // count = likeDataRepository.countAllByStatusIsTrue();
+        // }else {
+        // count = likeDataRepository.countAllByContentIsFalse();
+        // }
         res.setData(count);
         return res;
     }
-
 
 }

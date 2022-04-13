@@ -32,27 +32,29 @@ public class CommentDataController {
     private TokenService tokenService;
 
     @PostMapping("/add")
-    public Object addComment(@RequestBody CommentData commentData, @RequestHeader String Authorization) throws BaseException {
+    public Object addComment(@RequestBody CommentData commentData, @RequestHeader String Authorization)
+            throws BaseException {
         APIResponse res = new APIResponse();
         System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
 
         commentData.setCommentReportStatus(0);
-        commentData.setCommentOwnerId(tokenService.userId());
+        commentData.setCommentUserId(tokenService.userId());
         commentDataRepository.save(commentData);
         res.setData(commentData);
         return res;
     }
 
     @PostMapping("/remove")
-    public Object removeComment(@RequestParam String commentIdRemove, @RequestHeader String Authorization) throws BaseException {
+    public Object removeComment(@RequestParam String commentIdRemove, @RequestHeader String Authorization)
+            throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        Optional<CommentData> opt = commentDataRepository.findByCommentIdAndCommentOwnerId(commentIdRemove, userId);
+        Optional<CommentData> opt = commentDataRepository.findByCommentIdAndCommentUserId(commentIdRemove, userId);
         System.out.println("topicIdRemove : " + commentIdRemove);
         System.out.println("UserId : " + userId);
-        System.out.println("OwnerId : " + opt.get().getCommentOwnerId());
-        if (userId.equals(opt.get().getCommentOwnerId())) {
+        System.out.println("UserId : " + opt.get().getCommentUserId());
+        if (userId.equals(opt.get().getCommentUserId())) {
             commentDataRepository.deleteById(commentIdRemove);
         } else {
             throw TopicException.notyourtopic();
@@ -73,7 +75,7 @@ public class CommentDataController {
     @PostMapping("/findByTopicID")
     public Object findByTopicID(@RequestBody String topicId) throws BaseException {
         APIResponse res = new APIResponse();
-        List<CommentData> data = commentDataRepository.findByCommentTopicOwnerId(topicId);
+        List<CommentData> data = commentDataRepository.findByCommentTopicId(topicId);
         System.out.println(data);
         res.setData(data);
         return res;
@@ -83,7 +85,8 @@ public class CommentDataController {
     public Object findMyComment(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
         System.out.println("userID : " + tokenService.userId());
-        List<CommentData> data = commentDataRepository.findAllByCommentOwnerIdOrderByCreatedDateForOrder(tokenService.userId());
+        List<CommentData> data = commentDataRepository
+                .findAllByCommentUserIdOrderByCreatedDateForOrder(tokenService.userId());
         res.setData(data);
         return res;
     }

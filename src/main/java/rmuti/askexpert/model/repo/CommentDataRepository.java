@@ -7,8 +7,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface CommentDataRepository extends JpaRepository<CommentData, String> {
-    //List<CommentData> findAll();
-    Optional<CommentData> findByCommentIdAndCommentOwnerId(String commentId,String OwnerId);
-    List<CommentData> findAllByCommentOwnerIdOrderByCreatedDateForOrder(String Id);
-    List<CommentData> findByCommentTopicOwnerId(String Id);
+    // List<CommentData> findAll();
+    Optional<CommentData> findByCommentIdAndCommentUserId(String commentId, String UserId);
+
+    List<CommentData> findAllByCommentUserIdOrderByCreatedDateForOrder(String Id);
+
+    List<CommentData> findByCommentTopicId(String Id);
 }

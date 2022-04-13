@@ -40,30 +40,31 @@ public class TopicDataController {
     @Autowired
     private LikeDataRepository likeDataRepository;
 
-
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
         APIResponse res = new APIResponse();
         System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
-        topicData.setTopicOwnerId(tokenService.userId());
+        topicData.setTopicUserId(tokenService.userId());
         topicData.setTopicReportStatus((byte) 0);
-        //TODO: AFK topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
+        // TODO: AFK
+        // topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);
         res.setData(topicData);
         return res;
     }
 
     @PostMapping("/remove")
-    public Object removeTopic(@RequestParam String topicIdRemove, @RequestHeader String Authorization) throws Exception {
+    public Object removeTopic(@RequestParam String topicIdRemove, @RequestHeader String Authorization)
+            throws Exception {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         Optional<TopicData> opt = topicDataRepository.findByTopicId(topicIdRemove);
         System.out.println("topicIdRemove : " + topicIdRemove);
         System.out.println("userId : " + userId);
-        System.out.println("OwnerId : " + opt.get().getTopicOwnerId());
-        if (userId.equals(opt.get().getTopicOwnerId())) {
+        System.out.println("UserId : " + opt.get().getTopicUserId());
+        if (userId.equals(opt.get().getTopicUserId())) {
             topicDataRepository.deleteById(topicIdRemove);
         } else {
             throw TopicException.notyourtopic();
@@ -73,35 +74,33 @@ public class TopicDataController {
     }
 
     @PostMapping("read")
-    public Object readTopic(@RequestParam String contentId){
+    public Object readTopic(@RequestParam String contentId) {
         Optional<TopicData> topicData = topicDataRepository.findById(contentId);
-        topicData.get().setTopicReadCount(topicData.get().getTopicReadCount()+1);
+        topicData.get().setTopicReadCount(topicData.get().getTopicReadCount() + 1);
         topicDataRepository.save(topicData.get());
         return topicData;
     }
 
-    //@PostMapping("Read")
+    // @PostMapping("Read")
 
     @PostMapping("/findAll")
     public Object findAllTopic() {
         APIResponse res = new APIResponse();
         List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAllByTopicReportStatus(0));
         for (ResTopic dataindex : data) {
-            String userId = dataindex.getTopicOwnerId();
+            String userId = dataindex.getTopicUserId();
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
-            if(userInfoData.isPresent())
-            {
+            if (userInfoData.isPresent()) {
                 dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
             }
             String likeContentId = dataindex.getTopicId();
-            Optional<LikeData> likeData = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId, likeContentId);
-            if(likeData.isPresent())
-            {
+            Optional<LikeData> likeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);
+            if (likeData.isPresent()) {
                 dataindex.setLikeStatus(likeData.get().getLikeStatus());
             }
         }
         res.setData(data);
-        //checkNull
+        // checkNull
         if (data.isEmpty()) {
             data.add(new ResTopic());
         }
@@ -112,7 +111,8 @@ public class TopicDataController {
     public Object findMyTopic(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
         System.out.println("userID : " + tokenService.userId());
-        List<TopicData> data = topicDataRepository.findAllByTopicOwnerIdOrderByTopicCreateDateDesc(tokenService.userId());
+        List<TopicData> data = topicDataRepository
+                .findAllByTopicUserIdOrderByTopicCreateDateDesc(tokenService.userId());
         res.setData(data);
         return res;
     }

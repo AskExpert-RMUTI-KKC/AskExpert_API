@@ -10,9 +10,10 @@ import java.util.List;
 import java.util.Optional;
 
 public interface TopicDataRepository extends JpaRepository<TopicData, String> {
-    //List<TopicData> findAll();
+    // List<TopicData> findAll();
     Optional<TopicData> findByTopicId(String id);
-    List<TopicData> findAllByTopicOwnerIdOrderByTopicCreateDateDesc(String id);
+
+    List<TopicData> findAllByTopicUserIdOrderByTopicCreateDateDesc(String id);
 
     @Query("SELECT t from TopicData t WHERE t.topicReportStatus = :report")
     List<TopicData> findNotReportTopic(@Param("report") int report);
