@@ -18,7 +18,7 @@ public class CommentData {
     private String commentId;
 
     @Column(name = "comment_topicId")
-    private String commentTopicId; // userId
+    private String commentContentId; // TopicId // CommentId
 
     @Column(name = "comment_UserId")
     private String commentUserId; // userId

@@ -7,6 +7,8 @@ import javax.persistence.Id;
 
 @Data
 public class ResTopicUserInfo {
+    private String userInfoId;
+
     private String userName;
 
     private String firstName;

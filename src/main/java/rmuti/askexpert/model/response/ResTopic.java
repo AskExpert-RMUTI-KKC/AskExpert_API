@@ -5,8 +5,6 @@ import lombok.Data;
 @Data
 public class ResTopic {
 
-    private ResTopicUserInfo userInfoData;
-
     private byte likeStatus;
     // topic
     private String topicId;
@@ -28,4 +26,8 @@ public class ResTopic {
     private String topicGroup;
 
     private int topicReportStatus;
+
+
+
+    private ResTopicUserInfo userInfoData;
 }
