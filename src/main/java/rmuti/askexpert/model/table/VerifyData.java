@@ -27,7 +27,7 @@ public class VerifyData {
     private String verifyPass;
 
     @Column(name = "verify_status"/*,nullable = false*/)
-    private String verifyStatus;
+    private int verifyStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/*,nullable = false*/)

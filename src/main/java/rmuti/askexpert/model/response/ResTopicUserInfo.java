@@ -7,16 +7,11 @@ import javax.persistence.Id;
 
 @Data
 public class ResTopicUserInfo {
-
-    private String userInfoId;
-
     private String userName;
 
     private String firstName;
 
     private String lastName;
-
-    private Double token;
 
     private String profilePic;
 

@@ -4,8 +4,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.repo.LikeDataRepository;
+import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.LikeData;
+import rmuti.askexpert.model.table.TopicData;
 
 import java.util.Optional;
 
@@ -18,12 +20,36 @@ public class LikeDataController {
     @Autowired
     TokenService tokenService;
 
+    @Autowired
+    TopicDataRepository topicDataRepository;
+
     @PostMapping("/setStatus")
     public Object setStatus (@RequestBody LikeData likeData,@RequestHeader String Authorization) throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        likeData.setLikeOwnerId(userId);
-        likeDataRepository.save(likeData);
+        Optional<LikeData> opt = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId,likeData.getLikeContentId());
+        //update
+        if(opt.isPresent())
+        {
+            opt.get().setLikeStatus(likeData.getLikeStatus());
+            likeDataRepository.save(opt.get());
+        }
+        //create
+        else
+        {
+            likeData.setLikeOwnerId(userId);
+            likeDataRepository.save(likeData);
+        }
+
+        //updateLike()
+        Optional<TopicData> topicData = topicDataRepository.findById(likeData.getLikeContentId());
+        if(likeData.getLikeStatus() == 1){
+            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount()+1);
+        }
+        else {
+            topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount()-1);
+        }
+        topicDataRepository.save(topicData.get());
         res.setData(likeData);
         return res;
     }

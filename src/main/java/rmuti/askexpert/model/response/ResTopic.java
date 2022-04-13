@@ -7,19 +7,7 @@ public class ResTopic  {
 
     private ResTopicUserInfo userInfoData;
 
-    //user
-    private String userInfoId;
-
-    private String userName;
-
-    private String firstName;
-
-    private String lastName;
-
-    private Double token;
-
-    private String profilePic;
-
+    private byte likeStatus;
     //topic
     private String topicId;
 
@@ -39,16 +27,5 @@ public class ResTopic  {
 
     private String topicGroup;
 
-    private String topicReportStatus;
-
-    // TODO:Userlike
-    // TODO:Usercomment
-    // TODO:Userdonate
-
-
-//    private Date createdDateForOrder;
-//
-//    private String topicCreateDate;
-//
-//    private Date createdDate ;
+    private int topicReportStatus;
 }

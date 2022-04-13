@@ -43,7 +43,7 @@ public class TopicData {
     private String topicGroup;
 
     @Column(name = "topic_report_status")
-    private String topicReportStatus;
+    private int topicReportStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
@@ -56,7 +56,7 @@ public class TopicData {
 
     private Date createdDate = new Date();
 
-    //TODO: FK
+    //TODO: AFK
     /*
     @ManyToOne
     @JoinColumn(name = "user_info", nullable = false)

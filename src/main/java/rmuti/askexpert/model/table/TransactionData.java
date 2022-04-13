@@ -23,14 +23,17 @@ public class TransactionData {
     private String tranReceive;
 
     @Column(name = "tran_amount"/*,nullable = false*/)
-    private String tranAmount;
+    private long tranAmount;
+
+    @Column(name = "tran_contentId"/*,nullable = false*/)
+    private String tranContentId;
 
     @Column(name = "tran_status"/*,nullable = false*/)
     private String tranStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/*,nullable = false*/)
-    private Date createdDateForOrder= new Date();;
+    private Date createdDateForOrder= new Date();
 
     private Date createdDate = new Date();
 }

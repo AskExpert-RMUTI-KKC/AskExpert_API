@@ -1,16 +1,13 @@
 package rmuti.askexpert.controller;
 
-import org.apache.catalina.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
-import rmuti.askexpert.model.repo.CommentDataRepository;
-import rmuti.askexpert.model.repo.TopicDataRepository;
-import rmuti.askexpert.model.repo.UserInfoRepository;
-import rmuti.askexpert.model.repo.UserNameRepository;
+import rmuti.askexpert.model.repo.*;
 import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
+import rmuti.askexpert.model.table.LikeData;
 import rmuti.askexpert.model.table.TopicData;
 import rmuti.askexpert.model.table.UserInfoData;
 
@@ -40,6 +37,9 @@ public class TopicDataController {
     @Autowired
     private UserInfoRepository userInfoRepository;
 
+    @Autowired
+    private LikeDataRepository likeDataRepository;
+
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
@@ -48,7 +48,8 @@ public class TopicDataController {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicOwnerId(tokenService.userId());
-        //TODO: FK topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
+        topicData.setTopicReportStatus((byte) 0);
+        //TODO: AFK topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);
         res.setData(topicData);
         return res;
@@ -71,22 +72,37 @@ public class TopicDataController {
         return res;
     }
 
+    @PostMapping("read")
+    public Object readTopic(@RequestParam String contentId){
+        Optional<TopicData> topicData = topicDataRepository.findById(contentId);
+        topicData.get().setTopicReadCount(topicData.get().getTopicReadCount()+1);
+        topicDataRepository.save(topicData.get());
+        return topicData;
+    }
+
+    //@PostMapping("Read")
+
     @PostMapping("/findAll")
     public Object findAllTopic() {
         APIResponse res = new APIResponse();
-        //List<ResTopic> data = mapper.toListTopicResponse(topicDataRepository.findAll());
-        //List<ResTopic> data =  topicDataRepository.findAll().stream().map(List);
-        //List<ResTopic> data = mapper.map(topicDataRepository.findAll());
-        //List<ResTopic> data = new ResTopicMap().toResTopicListMapper(topicDataRepository.findAll());
-        List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAll());
-        for(ResTopic dataindex : data){
-            String id = dataindex.getTopicOwnerId();
-            System.out.printf("\n dataindex.getTopicOwnerId : "+ id+"\n");
-            Optional<UserInfoData> userInfoData = userInfoRepository.findById(id);
-            dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+        List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAllByTopicReportStatus(0));
+        for (ResTopic dataindex : data) {
+            String userId = dataindex.getTopicOwnerId();
+            Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
+            if(userInfoData.isPresent())
+            {
+                dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+            }
+            String likeContentId = dataindex.getTopicId();
+            Optional<LikeData> likeData = likeDataRepository.findByLikeOwnerIdAndLikeContentId(userId, likeContentId);
+            if(likeData.isPresent())
+            {
+                dataindex.setLikeStatus(likeData.get().getLikeStatus());
+            }
         }
         res.setData(data);
-        if(data.isEmpty()){
+        //checkNull
+        if (data.isEmpty()) {
             data.add(new ResTopic());
         }
         return res;
