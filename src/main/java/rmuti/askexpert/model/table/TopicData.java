@@ -56,8 +56,10 @@ public class TopicData {
 
     private Date createdDate = new Date();
 
-
+    //TODO: FK
+    /*
     @ManyToOne
     @JoinColumn(name = "user_info", nullable = false)
     private UserInfoData userInfoData;
+    */
 }

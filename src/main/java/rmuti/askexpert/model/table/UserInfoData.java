@@ -45,7 +45,8 @@ public class UserInfoData {
 
     private Date createdDate = new Date();
 
+    //TODO: FK
+//    @OneToMany(mappedBy = "userInfoData", orphanRemoval = true)
+//    private List<TopicData> topicDataList;
 
-    @OneToMany(mappedBy = "userInfoData", orphanRemoval = true)
-    private List<TopicData> topicDataList;
 }

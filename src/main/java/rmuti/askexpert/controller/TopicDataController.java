@@ -48,7 +48,7 @@ public class TopicDataController {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicOwnerId(tokenService.userId());
-        topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
+        //TODO: FK topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);
         res.setData(topicData);
         return res;
@@ -79,12 +79,16 @@ public class TopicDataController {
         //List<ResTopic> data = mapper.map(topicDataRepository.findAll());
         //List<ResTopic> data = new ResTopicMap().toResTopicListMapper(topicDataRepository.findAll());
         List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAll());
-//        for(ResTopic dataindex : data){
-//
-//
-//
-//        }
+        for(ResTopic dataindex : data){
+            String id = dataindex.getTopicOwnerId();
+            System.out.printf("\n dataindex.getTopicOwnerId : "+ id+"\n");
+            Optional<UserInfoData> userInfoData = userInfoRepository.findById(id);
+            dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+        }
         res.setData(data);
+        if(data.isEmpty()){
+            data.add(new ResTopic());
+        }
         return res;
     }
 

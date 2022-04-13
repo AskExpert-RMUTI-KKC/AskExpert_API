@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ResTopic  {
 
-    private ResUserInfo userInfoData;
+    private ResTopicUserInfo userInfoData;
 
     //user
     private String userInfoId;
