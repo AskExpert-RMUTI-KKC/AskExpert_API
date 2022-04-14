@@ -118,6 +118,12 @@ public class UserNameController {
 
     @PostMapping("/register")
     public Object register(@RequestBody UserName userName) throws BaseException {
+        Optional<UserName> opt = userNameRepository.findByEmail(userName.getEmail());
+        if(opt.isPresent())
+        {
+            throw UserException.createEmailDuplicated();
+        }
+
         //create UserName
         //System.out.printf("dataGetRegistre: "+userName.toString());
         APIResponse res = new APIResponse();
@@ -147,7 +153,7 @@ public class UserNameController {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
-            if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWord())) {
+            if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWord())) {
                 res.setData(tokenService.tokenize(opt));
             } else {
                 throw UserException.accessDenied();
@@ -168,11 +174,11 @@ public class UserNameController {
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         UserName fbregister = new UserName();
         if (opt.isPresent()) {
-            if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWordFb())) {
+            if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWordFb())) {
                 res.setData(tokenService.tokenize(opt));
             } else if (opt.get().getPassWordFb().equals("0")) {
                 fbregister = opt.get();
-                fbregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+                fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
                 userNameRepository.save(fbregister);
             } else {
                 throw UserException.accessDenied();
@@ -183,7 +189,7 @@ public class UserNameController {
             fbregister.setPassWordFb("0");
             fbregister.setPassWordGoogle("0");
             fbregister.setPassWord("0");
-            fbregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+            fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
             userNameRepository.save(fbregister);
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(fbregister)));
@@ -202,11 +208,11 @@ public class UserNameController {
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         UserName googleregister = new UserName();
         if (opt.isPresent()) {
-            if (passwordEncoder.matches(user.getPassword(), opt.get().getPassWordGoogle())) {
+            if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWordGoogle())) {
                 res.setData(tokenService.tokenize(opt));
             } else if (opt.get().getPassWordGoogle().equals("0")) {
                 googleregister = opt.get();
-                googleregister.setPassWordGoogle(passwordEncoder.encode(user.getPassword()));
+                googleregister.setPassWordGoogle(passwordEncoder.encode(user.getPassWord()));
                 userNameRepository.save(googleregister);
             } else {
                 throw UserException.accessDenied();
@@ -218,7 +224,7 @@ public class UserNameController {
             googleregister.setPassWordFb("0");
             googleregister.setPassWordGoogle("0");
             googleregister.setPassWord("0");
-            googleregister.setPassWordFb(passwordEncoder.encode(user.getPassword()));
+            googleregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
             userNameRepository.save(googleregister);
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(googleregister)));
