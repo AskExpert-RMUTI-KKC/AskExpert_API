@@ -20,22 +20,20 @@ import java.util.Collections;
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     private final String[] PUBLIC = {
-            //"/user/checkJWT",
             "/topic/add",
             "/topic/remove",
-            "/topic/add",
             "/topic/findMyTopic",
             "/comment/remove",
             "/comment/add",
             "/comment/findMyComment",
             "/like/setStatus",
-            //"/like/getStatus",
             "/user/edituserinfo",
             "/user/editimgprofile",
             "/user/checkJWT",
             "/user/refreshJWT",
-            "/transaction/*",
-            //"/like/",
+            "/verify/add",
+            "/verify/update",
+            "/verify/findMyVerify",
     };
     private final TokenService tokenService;
 

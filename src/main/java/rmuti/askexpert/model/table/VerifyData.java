@@ -20,14 +20,14 @@ public class VerifyData {
     @Column(name = "verify_from"/*,nullable = false*/)
     private String verifyFrom;//userId
 
-    @Column(name = "verify_expert"/*,nullable = false*/)
-    private String verifyReceive;
+    @Column(name = "verify_expert"/* ,nullable = false */)
+    private String verifyExpert;
 
-    @Column(name = "verify_pass"/*,nullable = false*/)
-    private String verifyPass;
+    @Column(name = "verify_pass_of"/*,nullable = false*/)
+    private String verifyPassOf;//userIdAdmin
 
     @Column(name = "verify_status"/*,nullable = false*/)
-    private int verifyStatus;
+    private char verifyStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/*,nullable = false*/)
