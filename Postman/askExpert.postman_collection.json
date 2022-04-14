@@ -1,0 +1,757 @@
+{
+	"info": {
+		"_postman_id": "189fdd87-41fc-4cb4-95f8-cd2ff5de1ea5",
+		"name": "askExpert",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "topic",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"topicCaption\": \"topicCaption1\", \r\n  \"topicGroup\": \"1\",\r\n  \"topicHeadline\": \"topicHeadline1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/topic/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/topic/remove?topicIdRemove=45f664a6-d640-4038-a6eb-1b4aacd1d244",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "topicIdRemove",
+									"value": "45f664a6-d640-4038-a6eb-1b4aacd1d244"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "finall",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/topic/findAll",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"findAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findMyTopic",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/topic/findMyTopic",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"findMyTopic"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "read",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/topic/read?contentId=cfffaa0b-70ba-4966-8611-89adf8906192",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"topic",
+								"read"
+							],
+							"query": [
+								{
+									"key": "contentId",
+									"value": "cfffaa0b-70ba-4966-8611-89adf8906192"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "comment",
+			"item": [
+				{
+					"name": "add",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " {\r\n  \"commentCaption\": \"Test2\", \r\n  \"commentContentId\": \"7a6d466f-5bf5-4543-ba71-2c19b96f778a\",\r\n  \"commentIsSubComment\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/comment/add",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comment",
+								"add"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "remove",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"topicIdRemove\":\"0c79c6d9-d8f4-4693-86dc-3aecddabc459\"\r\n}\r\n    ",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/comment/remove?commentIdRemove=2f70e165-3383-44d3-8554-cdf1bd987910",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comment",
+								"remove"
+							],
+							"query": [
+								{
+									"key": "commentIdRemove",
+									"value": "2f70e165-3383-44d3-8554-cdf1bd987910"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findall",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/comment/findAll",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comment",
+								"findAll"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findByTopicId",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "a4ff2632-b88a-47c6-bbde-3b6cab815e5f",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/comment/findByTopicId",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comment",
+								"findByTopicId"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "findMyComment",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/comment/findMyComment",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"comment",
+								"findMyComment"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "like",
+			"item": [
+				{
+					"name": "setStatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"likeContentId\": \"a4e58710-6ec4-4de9-8108-16873aa01719\",\r\n  \"likeStatus\": 1\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "http://localhost:8080/like/setStatus",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"like",
+								"setStatus"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "getStatus",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "file",
+							"file": {}
+						},
+						"url": {
+							"raw": "http://localhost:8080/like/getStatus?contentId=string5",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"like",
+								"getStatus"
+							],
+							"query": [
+								{
+									"key": "contentId",
+									"value": "string5"
+								}
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "count",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/like/count?status=true",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"like",
+								"count"
+							],
+							"query": [
+								{
+									"key": "status",
+									"value": "true"
+								},
+								{
+									"key": "status",
+									"value": "false",
+									"disabled": true
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "user",
+			"item": [
+				{
+					"name": "register",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ubolchai2000@gmail.com\",\r\n  \"passWord\": \"00110011\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ubolchai2000@gmail.com\",\r\n  \"passWord\": \"00110011\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "registe2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ubolchai3000@gmail.com\",\r\n  \"passWord\": \"3000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/register",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"register"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "login2",
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"email\": \"ubolchai3000@gmail.com\",\r\n  \"passWord\": \"3000\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/login",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"login"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "edituserinfo",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n  \"firstName\": \"firstName\", \r\n  \"lastName\": \"lastName\", \r\n  \"userName\": \"NamelessKing1\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/user/edituserinfo",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"edituserinfo"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "editimgprofile",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "formdata",
+							"formdata": [
+								{
+									"key": "file",
+									"type": "file",
+									"src": []
+								},
+								{
+									"key": "file",
+									"type": "file",
+									"src": [],
+									"disabled": true
+								}
+							]
+						},
+						"url": {
+							"raw": "{{url}}/user/editimgprofile",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"editimgprofile"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "checkJWT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/checkJWT",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"checkJWT"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "refreshJWT",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcmluY2lwYWwiOiI4NTllOWMwYy1kYjA4LTQxYzQtYmVlNC1jNTM5ZjI4NDcwZTMiLCJyb2xlIjoiVVNFUiIsImlzcyI6Ik1lb3ciLCJleHAiOjE2NDk2NzkwNjR9.M3v_JZoG8FfeaQ99gIsc6DGKG7Vvd0dN9JxqJ-CY7CU",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"url": {
+							"raw": "{{url}}/user/refreshJWT",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"user",
+								"refreshJWT"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "transaction",
+			"item": [
+				{
+					"name": "transactionHistory",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{ \r\n  \"tranAmount\": 0,\r\n  \"tranContentId\": \"string\",\r\n  \"tranRx\": \"Test\" \r\n}\r\n// { \r\n//   \"tranAmount\": 0,\r\n//   \"tranContentId\": \"string\",\r\n//   \"tranFrom\": \"string\", \r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/transaction/transactionHistory",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaction",
+								"transactionHistory"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "transaction",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \r\n  \"tranAmount\": 100,\r\n  \"tranContentId\": \"TestContent\",\r\n  \"tranRx\": \"Syste,Tranfer\" \r\n}\r\n// { \r\n//   \"tranAmount\": 0,\r\n//   \"tranContentId\": \"string\",\r\n//   \"tranFrom\": \"string\", \r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/transaction/transaction",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaction",
+								"transaction"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "withdraw",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \r\n  \"tranAmount\": 0,\r\n  \"tranContentId\": \"string\",\r\n  \"tranRx\": \"string\" \r\n}\r\n// { \r\n//   \"tranAmount\": 0,\r\n//   \"tranContentId\": \"string\",\r\n//   \"tranFrom\": \"string\", \r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/transaction/withdraw",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaction",
+								"withdraw"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "deposit",
+					"request": {
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": " { \r\n  \"tranAmount\": 0,\r\n  \"tranContentId\": \"string\",\r\n  \"tranRx\": \"string\" \r\n}\r\n// { \r\n//   \"tranAmount\": 0,\r\n//   \"tranContentId\": \"string\",\r\n//   \"tranFrom\": \"string\", \r\n// }",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{url}}/transaction/deposit",
+							"host": [
+								"{{url}}"
+							],
+							"path": [
+								"transaction",
+								"deposit"
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		}
+	],
+	"auth": {
+		"type": "bearer",
+		"bearer": [
+			{
+				"key": "token",
+				"value": "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJwcmluY2lwYWwiOiI0NDNhZWFlYi1iMzlmLTQ0ODktOTUyOS01MTYwZDgwMTllOTIiLCJyb2xlIjoiVVNFUiIsImlzcyI6Ik1lb3ciLCJleHAiOjE2NDk5OTAyNjV9.zgJMhHX6F8wNxizczNCfy4easT0P7dZ8-PDZI1cAD8Q",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	]
+}
