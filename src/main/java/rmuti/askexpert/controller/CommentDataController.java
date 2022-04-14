@@ -6,12 +6,11 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResCommentMapper;
 import rmuti.askexpert.model.repo.*;
+import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResComment;
-import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.LikeData;
-import rmuti.askexpert.model.table.TopicData;
 import rmuti.askexpert.model.table.UserInfoData;
 
 import java.text.SimpleDateFormat;
@@ -98,7 +97,7 @@ public class CommentDataController {
                     String subUserId = subDataComment.getCommentUserId();
                     Optional<UserInfoData> subUserInfoData = userInfoRepository.findById(subUserId);
                     if (subUserInfoData.isPresent()) {
-                        subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(userInfoData.get()));
+                        subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(subUserInfoData.get()));
                     }
                     String sublikeContentId = subDataComment.getCommentId();
                     Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);

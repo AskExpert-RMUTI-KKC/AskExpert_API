@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
 import rmuti.askexpert.model.repo.*;
+import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.LikeData;

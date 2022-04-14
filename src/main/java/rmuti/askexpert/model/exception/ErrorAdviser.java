@@ -1,4 +1,4 @@
-package rmuti.askexpert.controller;
+package rmuti.askexpert.model.exception;
 
 import lombok.Data;
 import org.springframework.http.HttpStatus;

@@ -11,6 +11,8 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.repo.UserInfoRepository;
+import rmuti.askexpert.model.response.APIResponse;
+import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.request.ReqLogin;
 import rmuti.askexpert.model.repo.CommentDataRepository;
@@ -109,7 +111,7 @@ public class UserNameController {
         img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
         img.put("name", imgName);
 
-        Object res = new Response().ok("upload success", "img", img);
+        Object res = new AResponse().ok("upload success", "img", img);
 
         opt_userinfo.get().setProfilePic(imgName);
         userInfoRepository.save(opt_userinfo.get());
@@ -310,7 +312,7 @@ public class UserNameController {
         img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
         img.put("name", imgName);
 
-        Object res = new Response().ok("upload success", "img", img);
+        Object res = new AResponse().ok("upload success", "img", img);
         return res;
     }
 }

@@ -1,4 +1,4 @@
-package rmuti.askexpert.controller;
+package rmuti.askexpert.model.response;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
@@ -8,7 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @Service
-public class Response {
+public class AResponse {
 
     private final LocalDateTime timestamp = LocalDateTime.now();
 

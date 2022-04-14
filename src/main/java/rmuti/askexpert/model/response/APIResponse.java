@@ -1,4 +1,4 @@
-package rmuti.askexpert.controller;
+package rmuti.askexpert.model.response;
 
 import lombok.Data;
 
