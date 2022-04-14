@@ -23,20 +23,20 @@ public class ReportData {
     @Column(name = "report_from"/*,nullable = false*/)
     private String reportFrom;
 
-    @Column(name = "report_type"/*,nullable = false*/)
-    private String reportType;
+//    @Column(name = "report_type"/*,nullable = false*/)
+//    private String reportType;
 
     @Column(name = "report_reason"/*,nullable = false*/)
     private String reportReason;
 
-    @Column(name = "report_decide"/*,nullable = false*/)
-    private String reportDecide;
+    @Column(name = "report_who_decide"/*,nullable = false*/)
+    private String reportWhoDecide;
 
-    @Column(name = "report_content_status"/*,nullable = false*/)
-    private String reportContentStatus;
+//    @Column(name = "report_content_status"/*,nullable = false*/)
+//    private String reportContentStatus;
 
     @Column(name = "report_status"/*,nullable = false*/)
-    private String report_status;
+    private char reportStatus;
 
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

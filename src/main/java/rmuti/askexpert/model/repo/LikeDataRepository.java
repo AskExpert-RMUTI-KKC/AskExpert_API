@@ -13,4 +13,5 @@ public interface LikeDataRepository extends JpaRepository<LikeData, String> {
     // Optional<LikeData> findByContentIdAndUserId(String content,String id);
     Optional<LikeData> findByLikeUserIdAndLikeContentId(String id, String content);
 
+
 }
