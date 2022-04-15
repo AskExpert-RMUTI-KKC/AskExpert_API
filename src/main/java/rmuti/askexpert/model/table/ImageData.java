@@ -1,9 +1,11 @@
 package rmuti.askexpert.model.table;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 import org.hibernate.annotations.GenericGenerator;
 
 import javax.persistence.*;
+import java.util.Date;
 
 @Data
 @Entity
@@ -20,4 +22,10 @@ public class ImageData {
 
     @Column(name = "img_name"/*,nullable = false*/)
     private String imgName;
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @Column(name = "create_order"/* ,nullable = false */)
+    private Date createdDateForOrder = new Date();
+
+    private Date createdDate = new Date();
 }

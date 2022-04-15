@@ -14,6 +14,7 @@ import org.springframework.web.multipart.MultipartFile;
 import rmuti.askexpert.model.config.BaseUrlFile;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
+import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.mapper.ResVerifyMapper;
 import rmuti.askexpert.model.repo.VerifyDataRepository;
 import rmuti.askexpert.model.request.ReqVerifySendData;
@@ -42,7 +43,7 @@ public class VerifyDataController {
     // sendDataToVerify
     @PostMapping("/add")
     public Object addVerifyData(@RequestBody ReqVerifySendData verifyData,@RequestHeader String Authorization)
-        throws BaseException { 
+        throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         VerifyData optVerifyData = new VerifyData();
@@ -69,6 +70,9 @@ public class VerifyDataController {
     // ViewDataToVerifyById
     @PostMapping("/findById")
     public Object findByIdVerifyData(@RequestBody String verifyId)throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         Optional<VerifyData> optVerifyData = verifyDataRepository.findById(verifyId);
@@ -78,6 +82,9 @@ public class VerifyDataController {
 
     @PostMapping("/findMyVerify")
     public Object findMyVerify()throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         List<VerifyData> optVerifyData = verifyDataRepository.findByVerifyPassOf(userId);
@@ -89,6 +96,9 @@ public class VerifyDataController {
     //updateDataToVerify
     @PostMapping("/update")
     public Object updateVerifyData(@RequestBody ReqVerifyUpdateData reqVerifyUpdateData,@RequestHeader String Authorization)throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         Optional<VerifyData> optVerifyData = verifyDataRepository.findById(reqVerifyUpdateData.getVerifyId());

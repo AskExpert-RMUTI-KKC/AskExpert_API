@@ -2,6 +2,7 @@ package rmuti.askexpert.controller;
 
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
@@ -11,6 +12,7 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.repo.UserInfoRepository;
+import rmuti.askexpert.model.request.ReqRegister;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.services.TokenService;
@@ -49,6 +51,9 @@ public class UserNameController {
 
     @Autowired
     UserInfoRepository userInfoRepository;
+
+    @Value("${app.token.passWordForAdmin}")
+    private String passWordForAdmin;
 
     @PostMapping("/edituserinfo")
     public Object edituserinfo(@RequestBody UserInfoData info) {
@@ -119,27 +124,34 @@ public class UserNameController {
     }
 
     @PostMapping("/register")
-    public Object register(@RequestBody UserName userName) throws BaseException {
-        Optional<UserName> opt = userNameRepository.findByEmail(userName.getEmail());
-        if(opt.isPresent())
-        {
+    public Object register(@RequestBody ReqRegister reqRegister) throws BaseException {
+        Optional<UserName> opt = userNameRepository.findByEmail(reqRegister.getEmail());
+        if (opt.isPresent()) {
             throw UserException.createEmailDuplicated();
         }
+        APIResponse res = new APIResponse();
 
         //create UserName
         //System.out.printf("dataGetRegistre: "+userName.toString());
-        APIResponse res = new APIResponse();
+        UserName userName = new UserName();
+        userName.setEmail(reqRegister.getEmail());
         userName.setPassWordFb("0");
         userName.setPassWordGoogle("0");
-        userName.setPassWord(passwordEncoder.encode(userName.getPassWord()));
+        userName.setPassWord(passwordEncoder.encode(reqRegister.getPassWord()));
+        if (reqRegister.getPassWordForAdmin().toString().equals(passWordForAdmin)) {
+            userName.setRole("ADMIN");
+        } else {
+            userName.setRole("USER");
+        }
         userNameRepository.save(userName);
+
 
         //create UserInfo
         UserInfoData info = new UserInfoData();
         info.setUserInfoId(userName.getUserId());
         info.setUserName(userName.getUserId());
-        info.setFirstName("FN : "+userName.getEmail());
-        info.setLastName("LN : "+userName.getEmail());
+        info.setFirstName("FN : " + userName.getEmail());
+        info.setLastName("LN : " + userName.getEmail());
         info.setToken(0.0);
         info.setProfilePic("no_profile_pic.png");
         info.setVerifyStatus(false);

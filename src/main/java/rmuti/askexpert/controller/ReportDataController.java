@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rmuti.askexpert.model.exception.BaseException;
+import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.ReportDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
@@ -49,6 +50,9 @@ public class ReportDataController {
     //update
     @PostMapping("/update")
     public Object reportUpdate(@RequestBody ReqReportUpdate reportUpdate) throws BaseException{
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         List<ReportData> reportDataOptional = reportDataRepository.findByReportContentId(reportUpdate.getReportId());
         Optional<TopicData> topicDataOptional = topicDataRepository.findById(reportUpdate.getReportContentId());

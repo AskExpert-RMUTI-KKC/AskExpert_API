@@ -42,7 +42,7 @@ public class TokenService {
                 .withIssuer(issuer)
                 .withClaim("principal", user.get().getUserId())
                 //.withClaim("email", user.get().getEmail())
-                .withClaim("role", "USER")
+                .withClaim("role", user.get().getRole())
                 .withExpiresAt(expiresAt)
                 .sign(algorithm());
     }
@@ -92,11 +92,25 @@ public class TokenService {
         return userId;
     }
 
+//    public Object role(){
+//        SecurityContext context = SecurityContextHolder.getContext();
+//        Authentication authentication = context.getAuthentication();
+//        String role = authentication.getAuthorities().toString();
+//        return role;
+//    }
+
     public String author(){
         SecurityContext context = SecurityContextHolder.getContext();
         Authentication authentication = context.getAuthentication();
         String author = authentication.getAuthorities().toString();
         return author;
+    }
+
+    public boolean isAdmin(){
+        SecurityContext context = SecurityContextHolder.getContext();
+        Authentication authentication = context.getAuthentication();
+        String author = authentication.getAuthorities().toString();
+        return author.equals("[ADMIN]");
     }
 
 }

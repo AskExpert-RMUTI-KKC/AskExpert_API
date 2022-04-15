@@ -1,0 +1,62 @@
+package rmuti.askexpert.controller;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
+import rmuti.askexpert.model.exception.BaseException;
+import rmuti.askexpert.model.exception.UserException;
+import rmuti.askexpert.model.repo.ExpertGroupDataRepository;
+import rmuti.askexpert.model.request.ReqExpertDataAdd;
+import rmuti.askexpert.model.response.APIResponse;
+import rmuti.askexpert.model.services.TokenService;
+import rmuti.askexpert.model.table.ExpertGroupListData;
+
+@RestController
+@RequestMapping("/expertGroupList")
+public class ExpertGroupDataController {
+    @Autowired
+    private ExpertGroupDataRepository expertGroupDataRepository;
+
+    @Autowired
+    private TokenService tokenService;
+
+    //Add
+    @PostMapping("/add")
+    public Object add(@RequestBody ReqExpertDataAdd reqExpertDataAdd) throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        } 
+        APIResponse res = new APIResponse();
+        ExpertGroupListData expert = new ExpertGroupListData();    
+        expert.setExpertPath(reqExpertDataAdd.getExpertPath());
+        expertGroupDataRepository.save(expert);
+        res.setData(expert);
+        res.setData(expert);
+        return res;
+    }
+    //Remove
+    @PostMapping("/remove")
+    public Object remove(@RequestBody String expertId) throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
+        APIResponse res = new APIResponse(); 
+        expertGroupDataRepository.deleteById(expertId);
+        res.setData("remove expertid : "+expertId);
+        return res;
+    }
+
+
+    //ListView
+    @PostMapping("/findAll")
+    public Object findAll() throws BaseException {
+        APIResponse res = new APIResponse(); 
+        res.setData(expertGroupDataRepository.findAll());
+        return res;
+    }
+
+    //findById
+    //update
+}

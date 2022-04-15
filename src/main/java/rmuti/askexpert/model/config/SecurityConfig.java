@@ -34,6 +34,11 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/verify/add",
             "/verify/update",
             "/verify/findMyVerify",
+            "/expertGroupList/add",
+            "/expertGroupList/remove",
+//            "/expertGroupList/findMyVerify",
+//            "/expertGroupList/findMyVerify",
+//            "/expertGroupList/findMyVerify",
     };
     private final TokenService tokenService;
 

@@ -49,6 +49,9 @@ public class UserException extends BaseException {
     public static UserException nouserinfo () {
         return new UserException("no.user.info");
     }
+    public static UserException youarenotadmin () {
+        return new UserException("you.are.not.fucking.admin");
+    }
 
 
 }

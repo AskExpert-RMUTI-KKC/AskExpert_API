@@ -29,6 +29,9 @@ public class UserName {
     @Column (name = "pass_word_google")
     private String passWordGoogle;
 
+    @Column(name = "role")
+    private String role;
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column (name = "create_order"/*,nullable = false*/)
     private Date createdDateForOrder= new Date();;
