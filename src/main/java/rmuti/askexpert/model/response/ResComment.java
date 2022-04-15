@@ -1,8 +1,6 @@
 package rmuti.askexpert.model.response;
 
-import lombok.Data;
-
-import javax.persistence.Column;
+import lombok.Data; 
 import java.util.List;
 
 @Data

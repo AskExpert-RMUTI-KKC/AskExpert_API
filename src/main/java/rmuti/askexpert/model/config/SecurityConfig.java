@@ -14,8 +14,7 @@ import org.springframework.web.filter.CorsFilter;
 import rmuti.askexpert.model.config.token.TokenFilterConfiguerer;
 import rmuti.askexpert.model.services.TokenService;
 
-import java.util.Arrays;
-import java.util.Collections;
+import java.util.Arrays; 
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {

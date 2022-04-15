@@ -66,8 +66,7 @@ public class TokenService {
 
 
     public UserName GetuserformJWT() throws BaseException {
-        String userId = this.userId();
-        String author = this.author();
+        String userId = this.userId(); 
         Optional<UserName> opt = userNameRepository.findByUserId(userId);
         if (opt.isEmpty()) {
             throw UserException.notFound();

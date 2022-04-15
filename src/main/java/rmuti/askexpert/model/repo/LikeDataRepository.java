@@ -1,6 +1,4 @@
-package rmuti.askexpert.model.repo;
-
-import lombok.Data;
+package rmuti.askexpert.model.repo; 
 import org.springframework.data.jpa.repository.JpaRepository;
 import rmuti.askexpert.model.table.LikeData;
 

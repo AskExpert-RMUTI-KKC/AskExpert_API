@@ -4,14 +4,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.mapper.ResTransactionMapper;
-import rmuti.askexpert.model.repo.CommentDataRepository;
-import rmuti.askexpert.model.repo.LikeDataRepository;
+import rmuti.askexpert.model.repo.CommentDataRepository; 
 import rmuti.askexpert.model.repo.TopicDataRepository;
 import rmuti.askexpert.model.repo.TransactionRepository;
 import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.response.APIResponse;
-import rmuti.askexpert.model.response.ResTransaction;
-import rmuti.askexpert.model.response.ResTransactionUserInfo;
+import rmuti.askexpert.model.response.ResTransaction; 
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.TopicData;
@@ -34,10 +32,7 @@ public class TransactionController {
     private TokenService tokenService;
 
     @Autowired
-    private UserInfoRepository userInfoRepository;
-
-    @Autowired
-    private LikeDataRepository likeDataRepository;
+    private UserInfoRepository userInfoRepository; 
 
     @Autowired
     private TransactionRepository transactionRepository;

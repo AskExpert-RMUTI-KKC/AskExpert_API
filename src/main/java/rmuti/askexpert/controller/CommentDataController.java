@@ -11,19 +11,13 @@ import rmuti.askexpert.model.response.ResComment;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.LikeData;
-import rmuti.askexpert.model.table.UserInfoData;
-
-import java.text.SimpleDateFormat;
-import java.util.Date;
+import rmuti.askexpert.model.table.UserInfoData; 
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/comment")
-public class CommentDataController {
-    @Autowired
-    private TopicDataRepository topicDataRepository;
-
+public class CommentDataController {  
     @Autowired
     private CommentDataRepository commentDataRepository;
 
@@ -43,7 +37,7 @@ public class CommentDataController {
     public Object addComment(@RequestBody CommentData commentData, @RequestHeader String Authorization)
             throws BaseException {
         APIResponse res = new APIResponse();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        //String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         commentData.setCommentReportStatus(0);
         commentData.setCommentDonateCount(0);
         commentData.setCommentLikeCount(0);
@@ -100,7 +94,7 @@ public class CommentDataController {
                         subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(subUserInfoData.get()));
                     }
                     String sublikeContentId = subDataComment.getCommentId();
-                    Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);
+                    Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId,sublikeContentId);
                     if (sublikeData.isPresent()) {
                         subDataComment.setLikeStatus(sublikeData.get().getLikeStatus());
                     }

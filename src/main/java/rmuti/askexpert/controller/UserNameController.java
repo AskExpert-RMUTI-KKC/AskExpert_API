@@ -16,9 +16,7 @@ import rmuti.askexpert.model.request.ReqRegister;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.request.ReqLogin;
-import rmuti.askexpert.model.repo.CommentDataRepository;
-import rmuti.askexpert.model.repo.TopicDataRepository;
+import rmuti.askexpert.model.request.ReqLogin; 
 import rmuti.askexpert.model.repo.UserNameRepository;
 import rmuti.askexpert.model.table.UserInfoData;
 import rmuti.askexpert.model.table.UserName;
@@ -35,13 +33,7 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserNameController {
     @Autowired
-    private UserNameRepository userNameRepository;
-
-    @Autowired
-    private TopicDataRepository topicDataRepository;
-
-    @Autowired
-    private CommentDataRepository commentDataRepository;
+    private UserNameRepository userNameRepository; 
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -55,73 +47,73 @@ public class UserNameController {
     @Value("${app.token.passWordForAdmin}")
     private String passWordForAdmin;
 
-    @PostMapping("/edituserinfo")
-    public Object edituserinfo(@RequestBody UserInfoData info) {
-        String userId = tokenService.userId();
-        APIResponse res = new APIResponse();
-        Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
-        info.setUserInfoId(userId);
-        userInfoRepository.save(info);
-        res.setData(info);
-        return res;
-    }
+    // @PostMapping("/edituserinfo")
+    // public Object edituserinfo(@RequestBody UserInfoData info) {
+    //     String userId = tokenService.userId();
+    //     APIResponse res = new APIResponse();
+    //     Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
+    //     info.setUserInfoId(userId);
+    //     userInfoRepository.save(info);
+    //     res.setData(info);
+    //     return res;
+    // }
 
-    @PostMapping("/editimgprofile")
-    public Object editimgprofile(@RequestPart MultipartFile file) throws IOException {
-        String userId = tokenService.userId();
-        Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
-        if (opt_userinfo.isEmpty()) {
-            throw UserException.nouserinfo();
-        }
+    // @PostMapping("/editimgprofile")
+    // public Object editimgprofile(@RequestPart MultipartFile file) throws IOException {
+    //     String userId = tokenService.userId();
+    //     Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
+    //     if (opt_userinfo.isEmpty()) {
+    //         throw UserException.nouserinfo();
+    //     }
 
 
-        String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
-        String tempname = UUID.randomUUID().toString().replaceAll("-", "");
-        String imgName = timeStamp + tempname + ".png";
+    //     String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
+    //     String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
+    //     String tempname = UUID.randomUUID().toString().replaceAll("-", "");
+    //     String imgName = timeStamp + tempname + ".png";
 
-        //validate file
-        if (file == null) {
-            //throw error
-            throw FileException.fileNull();
-        }
+    //     //validate file
+    //     if (file == null) {
+    //         //throw error
+    //         throw FileException.fileNull();
+    //     }
 
-        //validate size
-        if (file.getSize() > 1048576 * 5) {
-            //throw error
-            throw FileException.fileMaxSize();
-        }
-        String contentType = file.getContentType();
-        if (contentType == null) {
-            //throw  error
-            throw FileException.unsupported();
-        }
+    //     //validate size
+    //     if (file.getSize() > 1048576 * 5) {
+    //         //throw error
+    //         throw FileException.fileMaxSize();
+    //     }
+    //     String contentType = file.getContentType();
+    //     if (contentType == null) {
+    //         //throw  error
+    //         throw FileException.unsupported();
+    //     }
 
-        StringBuilder fileNames = new StringBuilder();
+    //     StringBuilder fileNames = new StringBuilder();
 
-        Path fileNameAndPath = Paths.get(uploadDirectory + dir, imgName);
-        fileNames.append(file.getOriginalFilename() + " ");
-        try {
-            Files.write(fileNameAndPath, file.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            byte[] bytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
+    //     Path fileNameAndPath = Paths.get(uploadDirectory + dir, imgName);
+    //     fileNames.append(file.getOriginalFilename() + " ");
+    //     try {
+    //         Files.write(fileNameAndPath, file.getBytes());
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
+    //     try {
+    //         byte[] bytes = file.getBytes();
+    //     } catch (IOException e) {
+    //         e.printStackTrace();
+    //     }
 
-        Map<Object, Object> img = new HashMap<>();
-        img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
-        img.put("name", imgName);
+    //     Map<Object, Object> img = new HashMap<>();
+    //     img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
+    //     img.put("name", imgName);
 
-        Object res = new AResponse().ok("upload success", "img", img);
+    //     Object res = new AResponse().ok("upload success", "img", img);
 
-        opt_userinfo.get().setProfilePic(imgName);
-        userInfoRepository.save(opt_userinfo.get());
-        return res;
-    }
+    //     opt_userinfo.get().setProfilePic(imgName);
+    //     userInfoRepository.save(opt_userinfo.get());
+    //     return res;
+    // }
 
     @PostMapping("/register")
     public Object register(@RequestBody ReqRegister reqRegister) throws BaseException {

@@ -1,32 +1,20 @@
 package rmuti.askexpert.controller;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.text.SimpleDateFormat;
+ 
 import java.util.*;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import org.springframework.web.multipart.MultipartFile;
-import rmuti.askexpert.model.config.BaseUrlFile;
-import rmuti.askexpert.model.exception.BaseException;
-import rmuti.askexpert.model.exception.FileException;
+ 
+import rmuti.askexpert.model.exception.BaseException; 
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.mapper.ResVerifyMapper;
 import rmuti.askexpert.model.repo.VerifyDataRepository;
 import rmuti.askexpert.model.request.ReqVerifySendData;
 import rmuti.askexpert.model.request.ReqVerifyUpdateData;
-import rmuti.askexpert.model.response.APIResponse;
-import rmuti.askexpert.model.response.AResponse;
+import rmuti.askexpert.model.response.APIResponse; 
 import rmuti.askexpert.model.response.ResVerify;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.table.VerifyData;
-
-import static rmuti.askexpert.model.config.PathConfig.uploadDirectory;
-
+import rmuti.askexpert.model.table.VerifyData; 
 
 @RestController
 @RequestMapping("/verify")
@@ -73,8 +61,7 @@ public class VerifyDataController {
         if(!tokenService.isAdmin()){
             throw UserException.youarenotadmin();
         }
-        APIResponse res = new APIResponse();
-        String userId = tokenService.userId();
+        APIResponse res = new APIResponse(); 
         Optional<VerifyData> optVerifyData = verifyDataRepository.findById(verifyId);
         res.setData(optVerifyData.get());
         return res;

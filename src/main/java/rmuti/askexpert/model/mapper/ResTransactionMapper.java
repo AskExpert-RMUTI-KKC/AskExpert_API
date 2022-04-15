@@ -1,11 +1,8 @@
 package rmuti.askexpert.model.mapper;
 
-import org.mapstruct.Mapper;
-import rmuti.askexpert.model.response.ResTopic;
-import rmuti.askexpert.model.response.ResTopicUserInfo;
+import org.mapstruct.Mapper; 
 import rmuti.askexpert.model.response.ResTransaction;
-import rmuti.askexpert.model.response.ResTransactionUserInfo;
-import rmuti.askexpert.model.table.TopicData;
+import rmuti.askexpert.model.response.ResTransactionUserInfo; 
 import rmuti.askexpert.model.table.TransactionData;
 import rmuti.askexpert.model.table.UserInfoData;
 

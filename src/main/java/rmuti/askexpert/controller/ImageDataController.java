@@ -17,4 +17,9 @@ public class ImageDataController {
         APIResponse res = new APIResponse();
         return res;
     }
+
+    //uploadProfileImg
+    //uploadTopicImg
+    //uploadCommentImg
+    
 }

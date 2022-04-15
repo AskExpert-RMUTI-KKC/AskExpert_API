@@ -19,15 +19,9 @@ import java.util.Optional;
 
 @RestController
 @RequestMapping("/topic")
-public class TopicDataController {
+public class TopicDataController {  
     @Autowired
-    private UserNameRepository userNameRepository;
-
-    @Autowired
-    private TopicDataRepository topicDataRepository;
-
-    @Autowired
-    private CommentDataRepository commentDataRepository;
+    private TopicDataRepository topicDataRepository; 
 
     @Autowired
     private TokenService tokenService;
