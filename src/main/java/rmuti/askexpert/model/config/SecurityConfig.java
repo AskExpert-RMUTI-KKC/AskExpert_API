@@ -23,16 +23,22 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/topic/remove",
             "/topic/findMyTopic",
 
-
             "/comment/add",
             "/comment/remove",
             "/comment/findMyComment",
 
             "/like/setStatus",
+            "/like/findMyLike",
 
             "/user/update",
             "/user/checkJWT",
             "/user/refreshJWT",
+
+            "/transaction/transfer",
+            "/transaction/withdraw",
+            "/transaction/deposit",
+            "/transaction/findMyPay",
+            "/transaction/transactionHistory",
 
             "/verify/add",
             "/verify/update",

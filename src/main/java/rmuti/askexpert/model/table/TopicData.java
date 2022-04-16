@@ -41,12 +41,13 @@ public class TopicData {
     @Column(name = "topic_group")
     private String topicGroup;
 
-    @Column(name = "topic_report_status",columnDefinition = "0 = ON,1 = OFF")
+    @Column(name = "topic_report_status")
     private int topicReportStatus;
+    // ,columnDefinition = "0 = ON,1 = OFF"
 
-
-    @Column(name = "topic_report",columnDefinition = "R = report,N = no report")
+    @Column(name = "topic_report")
     private char topicReport;
+    // ,columnDefinition = "R = report,N = no report"
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/* ,nullable = false */)

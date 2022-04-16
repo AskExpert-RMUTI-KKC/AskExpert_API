@@ -35,11 +35,13 @@ public class CommentData {
     @Column(name = "comment_donate_count")
     private int commentDonateCount;
 
-    @Column(name = "comment_report_status",columnDefinition = "0 = ON,1 = OFF")
+    @Column(name = "comment_report_status")
     private int commentReportStatus;
+    // ,columnDefinition = "0 = ON,1 = OFF"
 
-    @Column(name = "comment_report",columnDefinition = "R = report,N = no report")
+    @Column(name = "comment_report")
     private char commentReport;
+    // ,columnDefinition = "R = report,N = no report"
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/* ,nullable = false */)

@@ -43,7 +43,7 @@ public class TopicDataController {
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicUserId(tokenService.userId());
         topicData.setTopicReportStatus(0);
-        topicData.setTopicReport('R');
+        topicData.setTopicReport('N');
         // TODO: AFK
         // topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);

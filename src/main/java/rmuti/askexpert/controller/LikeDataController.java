@@ -39,8 +39,9 @@ public class LikeDataController {
                 likeData.getLikeContentId());
         // update
         if (opt.isPresent()) {
-            opt.get().setLikeStatus(likeData.getLikeStatus());
-            likeDataRepository.save(opt.get());
+            if(likeData.getLikeStatus() == 0){
+                likeDataRepository.save(opt.get());
+            }
         }
         // create
         else {
@@ -52,7 +53,7 @@ public class LikeDataController {
         Optional<TopicData> topicData = topicDataRepository.findById(likeData.getLikeContentId());
         Optional<CommentData> commentData = commentDataRepository.findById(likeData.getLikeContentId());
         if (topicData.isPresent()) {
-            if (likeData.getLikeStatus() == 1) {
+            if (likeData.getLikeStatus() == 1 && opt.isEmpty()) {
                 topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() + 1);
             } else {
                 topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() - 1);
@@ -61,7 +62,7 @@ public class LikeDataController {
         }
         else if(commentData.isPresent())
         {
-            if (likeData.getLikeStatus() == 1) {
+            if (likeData.getLikeStatus() == 1 && opt.isEmpty()) {
                 commentData.get().setCommentLikeCount(commentData.get().getCommentLikeCount() + 1);
             } else {
                 commentData.get().setCommentLikeCount(commentData.get().getCommentLikeCount() - 1);
@@ -100,6 +101,7 @@ public class LikeDataController {
             }
             res.setData(commentDataList);
         }
+        //res.setData(likeData);
         return res;
     }
 

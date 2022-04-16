@@ -11,11 +11,9 @@ import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResTransaction; 
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.table.CommentData;
-import rmuti.askexpert.model.table.TopicData;
-import rmuti.askexpert.model.table.TransactionData;
-import rmuti.askexpert.model.table.UserInfoData;
+import rmuti.askexpert.model.table.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -146,6 +144,28 @@ public class TransactionController {
         }
 
         res.setData(transactionData);
+        return res;
+    }
+
+    @PostMapping("/findMyPay")
+    public Object findMyPay(@RequestBody char contentType) throws BaseException{
+        APIResponse res = new APIResponse();
+        String userId = tokenService.userId();
+        List<TransactionData> transactionData = transactionRepository.findByTranTx(userId);
+        if(contentType == 'T'){
+            List<Optional<TopicData>> topicDataList = new ArrayList<>();
+            for(TransactionData data:transactionData){
+                topicDataList.add(topicDataRepository.findById(data.getTranContentId()));
+            }
+            res.setData(topicDataList);
+        }
+        if(contentType == 'C'){
+            List<Optional<CommentData>> commentDataList = new ArrayList<>();
+            for(TransactionData data:transactionData){
+                commentDataList.add(commentDataRepository.findById(data.getTranContentId()));
+            }
+            res.setData(commentDataList);
+        }
         return res;
     }
 }
