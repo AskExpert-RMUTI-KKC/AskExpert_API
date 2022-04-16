@@ -17,6 +17,9 @@ public class ImageData {
     @Column(length = 36,nullable = false,updatable = false)
     private String imgId;
 
+    @Column(name = "img_contentId"/*,nullable = false*/)
+    private String imgContentId;
+
     @Column(name = "img_path"/*,nullable = false*/)
     private String imgPath;
 

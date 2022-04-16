@@ -45,6 +45,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/topicGroupList/add",
             "/topicGroupList/remove",
             "/topicGroupList/update",
+
+            "/image/userInfoDataProfile",
+            "/image/topicImg",
     };
     private final TokenService tokenService;
 

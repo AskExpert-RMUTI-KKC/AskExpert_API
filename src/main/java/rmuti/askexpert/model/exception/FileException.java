@@ -1,6 +1,6 @@
 package rmuti.askexpert.model.exception;
 
-public class FileException extends BaseException{
+public class FileException extends BaseException {
     public FileException(String code) {
         super("file." + code);
     }
@@ -16,6 +16,10 @@ public class FileException extends BaseException{
 
     public static FileException unsupported() {
         return new FileException("unsupported.file.type");
+    }
+
+    public static FileException nopath() {
+        return new FileException("nopath.hacker");
     }
 
 }

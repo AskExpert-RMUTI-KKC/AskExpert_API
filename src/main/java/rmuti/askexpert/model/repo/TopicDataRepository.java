@@ -12,6 +12,8 @@ public interface TopicDataRepository extends JpaRepository<TopicData, String> {
     // List<TopicData> findAll();
     Optional<TopicData> findByTopicId(String id);
 
+    Optional<TopicData> findByTopicIdAndTopicUserId(String topicId,String userId);
+
     List<TopicData> findAllByTopicUserIdOrderByTopicCreateDateDesc(String id);
 
     @Query("SELECT t from TopicData t WHERE t.topicReportStatus = :report")
