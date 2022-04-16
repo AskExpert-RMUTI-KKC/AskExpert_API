@@ -1,5 +1,6 @@
 package rmuti.askexpert.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestPart;
@@ -9,28 +10,42 @@ import org.springframework.web.multipart.MultipartFile;
 import rmuti.askexpert.model.config.BaseUrlFile;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
+import rmuti.askexpert.model.exception.UserException;
+import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
+import rmuti.askexpert.model.services.TokenService;
+import rmuti.askexpert.model.table.UserInfoData;
 
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.HashMap;
-import java.util.Map;
-import java.util.UUID;
+import java.util.*;
 
 @RestController
 @RequestMapping("/image")
 public class ImageDataController {
     //TODO : imageUploade and showImage
 
+    @Autowired
+    private TokenService tokenService;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
+
     public static String uploadDirectory = System.getProperty("user.dir");
 
-    @PostMapping("/uploadProfile")
-    public Object uploadpic(@RequestPart MultipartFile file) throws IOException {
+    @PostMapping("/userInfoDataProfile")
+    public Object userInfoDataProfile(@RequestPart MultipartFile file) throws IOException,BaseException {
+        String userId = tokenService.userId();
+        Optional<UserInfoData> userInfoData =userInfoRepository.findById(userId);
+        if(userInfoData.isEmpty()){
+            throw UserException.notFound();
+        }
+
         String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
         String tempname = UUID.randomUUID().toString().replaceAll("-", "");
@@ -75,6 +90,7 @@ public class ImageDataController {
         Object res = new AResponse().ok("upload success", "img", img);
         return res;
     }
+
     // @PostMapping("/editimgprofile")
     // public Object editimgprofile(@RequestPart MultipartFile file) throws IOException {
     //     String userId = tokenService.userId();

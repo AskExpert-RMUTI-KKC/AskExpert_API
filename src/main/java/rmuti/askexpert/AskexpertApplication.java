@@ -14,8 +14,9 @@ public class AskexpertApplication {
 		BaseUrlFile pathUrl = new BaseUrlFile();
 		new File(pathUrl.getBaseDir()).mkdir();
 		new File(pathUrl.getImageTopicUrl()).mkdir();
-		new File(pathUrl.getImageCommetUrl()).mkdir();
+		new File(pathUrl.getImageCommentUrl()).mkdir();
 		new File(pathUrl.getImageProfileUrl()).mkdir();
+		new File(pathUrl.getImageVerifyUrl()).mkdir();
 		SpringApplication.run(AskexpertApplication.class, args);
 	}
 }

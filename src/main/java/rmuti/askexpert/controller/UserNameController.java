@@ -16,10 +16,11 @@ import rmuti.askexpert.model.request.ReqRegister;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.request.ReqLogin; 
+import rmuti.askexpert.model.request.ReqLogin;
 import rmuti.askexpert.model.repo.UserNameRepository;
 import rmuti.askexpert.model.table.UserInfoData;
 import rmuti.askexpert.model.table.UserName;
+import rmuti.askexpert.model.table.VerifyData;
 
 import java.io.IOException;
 import java.nio.file.Files;
@@ -33,7 +34,7 @@ import java.util.*;
 @RequestMapping("/user")
 public class UserNameController {
     @Autowired
-    private UserNameRepository userNameRepository; 
+    private UserNameRepository userNameRepository;
 
     @Autowired
     private PasswordEncoder passwordEncoder;
@@ -47,18 +48,21 @@ public class UserNameController {
     @Value("${app.token.passWordForAdmin}")
     private String passWordForAdmin;
 
-    
-    // @PostMapping("/edituserinfo")
-    // public Object edituserinfo(@RequestBody UserInfoData info) {
-    //     String userId = tokenService.userId();
-    //     APIResponse res = new APIResponse();
-    //     Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
-    //     info.setUserInfoId(userId);
-    //     userInfoRepository.save(info);
-    //     res.setData(info);
-    //     return res;
-    // }
- 
+    private UserInfoData createUserInfo(String userId, String eMail) {
+        //create UserInfo
+        UserInfoData info = new UserInfoData();
+        info.setUserInfoId(userId);
+        info.setUserName(eMail);
+        info.setFirstName("FN : " + eMail);
+        info.setLastName("LN : " + eMail);
+        info.setToken(0.0);
+        info.setProfilePic("no_profile_pic.png");
+        info.setVerifyStatus(false);
+        info.setExpert("none");
+        userInfoRepository.save(info);
+        return info;
+    }
+
     //Add UserName-UserInfo
     @PostMapping("/register")
     public Object register(@RequestBody ReqRegister reqRegister) throws BaseException {
@@ -80,22 +84,31 @@ public class UserNameController {
             userName.setRole("USER");
         }
         userNameRepository.save(userName);
- 
-        //create UserInfo
-        UserInfoData info = new UserInfoData();
-        info.setUserInfoId(userName.getUserId());
-        info.setUserName(userName.getUserId());
-        info.setFirstName("FN : " + userName.getEmail());
-        info.setLastName("LN : " + userName.getEmail());
-        info.setToken(0.0);
-        info.setProfilePic("no_profile_pic.png");
-        info.setVerifyStatus(false);
-        info.setExpert("none");
-        userInfoRepository.save(info);
+
+        //Create userInfoData
+        UserInfoData userInfoData = createUserInfo(userName.getUserId(), userName.getEmail());
 
         res.setData(tokenService.tokenize(Optional.of(userName)));
         return res;
     }
+
+    @PostMapping("/update")
+    public Object updateUserInfo(@RequestBody UserInfoData userInfoData) {
+        APIResponse res = new APIResponse();
+        Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(userInfoData.getUserInfoId());
+        userInfoDataOptional.get().setUserName(userInfoData.getUserName());
+        userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
+        userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
+        if (!userInfoData.getExpert().equals(userInfoDataOptional.get().getExpert())) {
+            userInfoDataOptional.get().setExpert(userInfoData.getExpert());
+            userInfoDataOptional.get().setVerifyStatus(false);
+        }
+        userInfoRepository.save(userInfoDataOptional.get());
+        res.setData(userInfoDataOptional.get());
+
+        return res;
+    }
+
 
     //findByEMail-passWord
     @PostMapping("/login")
@@ -113,6 +126,8 @@ public class UserNameController {
         }
         //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
         if (!userInfoRepository.existsByUserInfoId(opt.get().getUserId())) {
+            //Create userInfoData
+            UserInfoData userInfoData = createUserInfo(opt.get().getUserId(), opt.get().getEmail());
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
@@ -142,14 +157,16 @@ public class UserNameController {
             fbregister.setPassWord("0");
             fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
             userNameRepository.save(fbregister);
+            //Create userInfoData
+            UserInfoData userInfoData = createUserInfo(fbregister.getUserId(), fbregister.getEmail());
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(fbregister)));
         }
         //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
         if (!userInfoRepository.existsByUserInfoId(fbregister.getUserId())) {
+            UserInfoData userInfoData = createUserInfo(fbregister.getUserId(), fbregister.getEmail());
             res.setMessage("register");
         }
-
         return ResponseEntity.ok(res);
     }
 
@@ -178,18 +195,22 @@ public class UserNameController {
             googleRegister.setPassWord("0");
             googleRegister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
             userNameRepository.save(googleRegister);
+            UserInfoData userInfoData = createUserInfo(googleRegister.getUserId(), googleRegister.getEmail());
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(googleRegister)));
         }
-        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(googleRegister.getUserId());
         if (!userInfoRepository.existsByUserInfoId(googleRegister.getUserId())) {
+            UserInfoData userInfoData = createUserInfo(googleRegister.getUserId(), googleRegister.getEmail());
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
     }
 
-    @GetMapping("/findall")
+    @GetMapping("/findAll")
     public Object findAll() throws BaseException {
+        if (!tokenService.isAdmin()) {
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         List<UserName> data = userNameRepository.findAll();
         res.setData(data);
@@ -215,5 +236,5 @@ public class UserNameController {
         res.setData(tokenService.tokenize(opt));
         return ResponseEntity.ok(res);
     }
- 
+
 }

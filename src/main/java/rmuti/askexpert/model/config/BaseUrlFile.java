@@ -22,12 +22,13 @@ public class BaseUrlFile {
     //private String imageTopicUrl = this.domain+this.baseDir+"/image/topic/";
 
     //if change update in main too
-    private String imageTopicUrl = this.baseDir+"/topicImg";
+    private String imageTopicUrl = this.baseDir+"/imgTopic";
 
-    private String imageProfileUrl = this.baseDir+"/profileImg";
+    private String imageProfileUrl = this.baseDir+"/imgProfile";
 
-    private String imageCommetUrl = this.baseDir+"/commentImg";
+    private String imageCommentUrl = this.baseDir+"/imgComment";
 
+    private String imageVerifyUrl = this.baseDir+"/imgVerify";
 
     public String ipAddress() throws UnknownHostException {
         return InetAddress.getLocalHost().getHostAddress();
