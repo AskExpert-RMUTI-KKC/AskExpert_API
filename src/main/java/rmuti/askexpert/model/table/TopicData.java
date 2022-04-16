@@ -24,7 +24,7 @@ public class TopicData {
     private String topicCaption;
 
     @Column(name = "topic_userId", length = 36, nullable = false, updatable = false)
-    private String topicUserId; // userId
+    private String topicUserId;
 
     @Column(name = "topic_like_count")
     private long topicLikeCount;
@@ -41,8 +41,12 @@ public class TopicData {
     @Column(name = "topic_group")
     private String topicGroup;
 
-    @Column(name = "topic_report_status")
+    @Column(name = "topic_report_status",columnDefinition = "0 = ON,1 = OFF")
     private int topicReportStatus;
+
+
+    @Column(name = "topic_report",columnDefinition = "R = report,N = no report")
+    private char topicReport;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/* ,nullable = false */)

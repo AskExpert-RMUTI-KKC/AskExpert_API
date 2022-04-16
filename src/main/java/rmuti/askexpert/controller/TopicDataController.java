@@ -42,7 +42,8 @@ public class TopicDataController {
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicUserId(tokenService.userId());
-        topicData.setTopicReportStatus((byte) 0);
+        topicData.setTopicReportStatus(0);
+        topicData.setTopicReport('R');
         // TODO: AFK
         // topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);

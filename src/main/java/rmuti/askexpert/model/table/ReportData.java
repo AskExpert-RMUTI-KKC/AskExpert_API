@@ -20,6 +20,9 @@ public class ReportData {
     @Column(name = "report_contentId"/*,nullable = false*/)
     private String reportContentId;
 
+    @Column(name = "report_content_type"/*,nullable = false*/)
+    private char reportContentType;
+
     @Column(name = "report_from"/*,nullable = false*/)
     private String reportFrom;
 

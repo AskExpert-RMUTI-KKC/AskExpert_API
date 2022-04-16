@@ -41,6 +41,7 @@ public class CommentDataController {
         commentData.setCommentReportStatus(0);
         commentData.setCommentDonateCount(0);
         commentData.setCommentLikeCount(0);
+        commentData.setCommentReport('R');
         commentData.setCommentUserId(tokenService.userId());
         commentDataRepository.save(commentData);
         res.setData(commentData);

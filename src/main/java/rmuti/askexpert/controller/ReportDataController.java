@@ -26,6 +26,7 @@ public class ReportDataController {
     @Autowired
     private TopicDataRepository topicDataRepository;
 
+
     @Autowired
     private CommentDataRepository commentDataRepository;
 
@@ -38,75 +39,93 @@ public class ReportDataController {
 
     //Add
     @PostMapping("/add")
-    public Object reportAdd(@RequestBody ReportData reportData) throws BaseException{
+    public Object reportAdd(@RequestBody ReportData reportData) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         reportData.setReportFrom(userId);
+        Optional<TopicData> topicDataOptional = topicDataRepository.findById(reportData.getReportContentId());
+        Optional<CommentData> commentDataOptional = commentDataRepository.findById(reportData.getReportContentId());
+        if (topicDataOptional.isPresent()) {
+            reportData.setReportContentType('T');
+            topicDataOptional.get().setTopicReport('R');
+            topicDataRepository.save(topicDataOptional.get());
+        } else if (commentDataOptional.isPresent()) {
+            reportData.setReportContentType('C');
+            commentDataOptional.get().setCommentReport('R');
+            commentDataRepository.save(commentDataOptional.get());
+        }
         reportData.setReportWhoDecide("none");
         reportData.setReportStatus('W');
+        reportDataRepository.save(reportData);
+        res.setData(reportData);
         return res;
     }
 
     //update
     @PostMapping("/update")
-    public Object reportUpdate(@RequestBody ReqReportUpdate reportUpdate) throws BaseException{
-        if(!tokenService.isAdmin()){
+    public Object reportUpdate(@RequestBody ReqReportUpdate reportUpdate) throws BaseException {
+        if (!tokenService.isAdmin()) {
             throw UserException.youarenotadmin();
         }
         APIResponse res = new APIResponse();
         List<ReportData> reportDataOptional = reportDataRepository.findByReportContentId(reportUpdate.getReportId());
         Optional<TopicData> topicDataOptional = topicDataRepository.findById(reportUpdate.getReportContentId());
         Optional<CommentData> commentDataOptional = commentDataRepository.findById(reportUpdate.getReportContentId());
-        if(topicDataOptional.isPresent()){
-            if(reportUpdate.getReportStatus() == 'D'){
+        if (topicDataOptional.isPresent()) {
+            if (reportUpdate.getReportStatus() == 'D') {
                 topicDataOptional.get().setTopicReportStatus(1);
                 topicDataRepository.save(topicDataOptional.get());
                 res.setData(topicDataOptional.get());
             }
-        }
-        else if(commentDataOptional.isPresent())
-        {
-            if(reportUpdate.getReportStatus() == 'D'){
+        } else if (commentDataOptional.isPresent()) {
+            if (reportUpdate.getReportStatus() == 'D') {
                 commentDataOptional.get().setCommentReportStatus(1);
                 commentDataRepository.save(commentDataOptional.get());
                 res.setData(commentDataOptional.get());
             }
         }
-        if(reportUpdate.getReportStatus() == 'A') {
-            for(ReportData reportData : reportDataOptional){
+        if (reportUpdate.getReportStatus() == 'A') {
+            for (ReportData reportData : reportDataOptional) {
                 reportData.setReportStatus('A');
                 reportDataRepository.save(reportData);
             }
         }
         return res;
     }
+
     //findymyUpdate
     //findAll
     @PostMapping("/findAll")
-    public Object findAll(@RequestBody ReqReportUpdate reportUpdate) throws BaseException{
+    public Object findAll(@RequestBody char reportContentType) throws BaseException {
         APIResponse res = new APIResponse();
-        List<ReportData> reportDataOptional = reportDataRepository.findByReportContentId(reportUpdate.getReportId());
-        res.setData(reportDataOptional);
+        if (reportContentType == 'T') {
+            List<TopicData> topicData = topicDataRepository.findByTopicReport('R');
+            res.setData(topicData);
+        }
+        if (reportContentType == 'C') {
+            List<CommentData> commentData = commentDataRepository.findByCommentReport('R');
+            res.setData(commentData);
+        }
         return res;
     }
-    
+
     //findByContentId
     @PostMapping("/findByContentId")
     public Object findByIdContent(@RequestBody String contentId) throws BaseException {
         APIResponse res = new APIResponse();
         List<ReportData> reportDataList = reportDataRepository.findByReportContentId(contentId);
-        res.setData(reportDataList);
+        Optional<TopicData> topicDataOptional = topicDataRepository.findById(contentId);
+        Optional<CommentData> commentDataOptional = commentDataRepository.findById(contentId);
+        if (topicDataOptional.isPresent()) {
+            topicDataOptional.get().setTopicReportStatus(1);
+            topicDataRepository.save(topicDataOptional.get());
+            res.setData(topicDataOptional.get());
+        }if (commentDataOptional.isPresent()) {
+            commentDataOptional.get().setCommentReportStatus(1);
+            commentDataRepository.save(commentDataOptional.get());
+            res.setData(commentDataOptional.get());
+        }
         return res;
-    }    
+    }
 
 }
-
-//
-//
-//
-//stringbuidkler sql = ( selec + form xxx)
-//
-//            if(){
-//            sql.(+"join xxx on xxx")
-//            }
-//        )
