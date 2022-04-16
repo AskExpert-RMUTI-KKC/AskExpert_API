@@ -48,6 +48,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
             "/image/userInfoDataProfile",
             "/image/topicImg",
+            "/image/commentImg",
+            "/image/verifyImg",
     };
     private final TokenService tokenService;
 
