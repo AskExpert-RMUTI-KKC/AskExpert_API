@@ -47,6 +47,7 @@ public class UserNameController {
     @Value("${app.token.passWordForAdmin}")
     private String passWordForAdmin;
 
+    
     // @PostMapping("/edituserinfo")
     // public Object edituserinfo(@RequestBody UserInfoData info) {
     //     String userId = tokenService.userId();
@@ -57,64 +58,8 @@ public class UserNameController {
     //     res.setData(info);
     //     return res;
     // }
-
-    // @PostMapping("/editimgprofile")
-    // public Object editimgprofile(@RequestPart MultipartFile file) throws IOException {
-    //     String userId = tokenService.userId();
-    //     Optional<UserInfoData> opt_userinfo = userInfoRepository.findById(userId);
-    //     if (opt_userinfo.isEmpty()) {
-    //         throw UserException.nouserinfo();
-    //     }
-
-
-    //     String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
-    //     String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
-    //     String tempname = UUID.randomUUID().toString().replaceAll("-", "");
-    //     String imgName = timeStamp + tempname + ".png";
-
-    //     //validate file
-    //     if (file == null) {
-    //         //throw error
-    //         throw FileException.fileNull();
-    //     }
-
-    //     //validate size
-    //     if (file.getSize() > 1048576 * 5) {
-    //         //throw error
-    //         throw FileException.fileMaxSize();
-    //     }
-    //     String contentType = file.getContentType();
-    //     if (contentType == null) {
-    //         //throw  error
-    //         throw FileException.unsupported();
-    //     }
-
-    //     StringBuilder fileNames = new StringBuilder();
-
-    //     Path fileNameAndPath = Paths.get(uploadDirectory + dir, imgName);
-    //     fileNames.append(file.getOriginalFilename() + " ");
-    //     try {
-    //         Files.write(fileNameAndPath, file.getBytes());
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-    //     try {
-    //         byte[] bytes = file.getBytes();
-    //     } catch (IOException e) {
-    //         e.printStackTrace();
-    //     }
-
-    //     Map<Object, Object> img = new HashMap<>();
-    //     img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
-    //     img.put("name", imgName);
-
-    //     Object res = new AResponse().ok("upload success", "img", img);
-
-    //     opt_userinfo.get().setProfilePic(imgName);
-    //     userInfoRepository.save(opt_userinfo.get());
-    //     return res;
-    // }
-
+ 
+    //Add UserName-UserInfo
     @PostMapping("/register")
     public Object register(@RequestBody ReqRegister reqRegister) throws BaseException {
         Optional<UserName> opt = userNameRepository.findByEmail(reqRegister.getEmail());
@@ -123,8 +68,7 @@ public class UserNameController {
         }
         APIResponse res = new APIResponse();
 
-        //create UserName
-        //System.out.printf("dataGetRegistre: "+userName.toString());
+        //create UserName 
         UserName userName = new UserName();
         userName.setEmail(reqRegister.getEmail());
         userName.setPassWordFb("0");
@@ -136,8 +80,7 @@ public class UserNameController {
             userName.setRole("USER");
         }
         userNameRepository.save(userName);
-
-
+ 
         //create UserInfo
         UserInfoData info = new UserInfoData();
         info.setUserInfoId(userName.getUserId());
@@ -154,6 +97,7 @@ public class UserNameController {
         return res;
     }
 
+    //findByEMail-passWord
     @PostMapping("/login")
     public Object login(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
@@ -174,8 +118,9 @@ public class UserNameController {
         return ResponseEntity.ok(res);
     }
 
-    @PostMapping("/loginfb")
-    public Object loginfb(@RequestBody ReqLogin user) throws BaseException {
+    //Add-FindBy_FB
+    @PostMapping("/loginFb")
+    public Object loginFb(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         UserName fbregister = new UserName();
@@ -208,35 +153,36 @@ public class UserNameController {
         return ResponseEntity.ok(res);
     }
 
-    @PostMapping("/logingoogle")
+    //Add-FindBy_Gooole
+    @PostMapping("/loginGoogle")
     public Object logingoogle(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
-        UserName googleregister = new UserName();
+        UserName googleRegister = new UserName();
         if (opt.isPresent()) {
             if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWordGoogle())) {
                 res.setData(tokenService.tokenize(opt));
             } else if (opt.get().getPassWordGoogle().equals("0")) {
-                googleregister = opt.get();
-                googleregister.setPassWordGoogle(passwordEncoder.encode(user.getPassWord()));
-                userNameRepository.save(googleregister);
+                googleRegister = opt.get();
+                googleRegister.setPassWordGoogle(passwordEncoder.encode(user.getPassWord()));
+                userNameRepository.save(googleRegister);
             } else {
                 throw UserException.accessDenied();
             }
         } else {
-            googleregister = new UserName();
+            googleRegister = new UserName();
 
-            googleregister.setEmail(user.getEmail());
-            googleregister.setPassWordFb("0");
-            googleregister.setPassWordGoogle("0");
-            googleregister.setPassWord("0");
-            googleregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
-            userNameRepository.save(googleregister);
+            googleRegister.setEmail(user.getEmail());
+            googleRegister.setPassWordFb("0");
+            googleRegister.setPassWordGoogle("0");
+            googleRegister.setPassWord("0");
+            googleRegister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
+            userNameRepository.save(googleRegister);
             res.setMessage("register");
-            res.setData(tokenService.tokenize(Optional.of(googleregister)));
+            res.setData(tokenService.tokenize(Optional.of(googleRegister)));
         }
-        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(googleregister.getUserId());
-        if (!userInfoRepository.existsByUserInfoId(googleregister.getUserId())) {
+        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(googleRegister.getUserId());
+        if (!userInfoRepository.existsByUserInfoId(googleRegister.getUserId())) {
             res.setMessage("register");
         }
         return ResponseEntity.ok(res);
@@ -269,54 +215,5 @@ public class UserNameController {
         res.setData(tokenService.tokenize(opt));
         return ResponseEntity.ok(res);
     }
-
-
-    public static String uploadDirectory = System.getProperty("user.dir");
-
-    @PostMapping("/uploadProfile")
-    public Object uploadpic(@RequestPart MultipartFile file) throws IOException {
-        String dir = new BaseUrlFile().getPathSet() + new BaseUrlFile().getImageProfileUrl();
-        String timeStamp = new SimpleDateFormat("yyyy-MM-dd_HH-mm-ss_").format(new Date());
-        String tempname = UUID.randomUUID().toString().replaceAll("-", "");
-        String imgName = timeStamp + tempname + ".png";
-
-        //validate file
-        if (file == null) {
-            //throw error
-            throw FileException.fileNull();
-        }
-
-        //validate size
-        if (file.getSize() > 1048576 * 5) {
-            //throw error
-            throw FileException.fileMaxSize();
-        }
-        String contentType = file.getContentType();
-        if (contentType == null) {
-            //throw  error
-            throw FileException.unsupported();
-        }
-
-        StringBuilder fileNames = new StringBuilder();
-
-        Path fileNameAndPath = Paths.get(uploadDirectory + dir, imgName);
-        fileNames.append(file.getOriginalFilename() + " ");
-        try {
-            Files.write(fileNameAndPath, file.getBytes());
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        try {
-            byte[] bytes = file.getBytes();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
-        Map<Object, Object> img = new HashMap<>();
-        img.put("url", new BaseUrlFile().ipAddress() + ":8080" + dir + "/" + imgName);
-        img.put("name", imgName);
-
-        Object res = new AResponse().ok("upload success", "img", img);
-        return res;
-    }
+ 
 }

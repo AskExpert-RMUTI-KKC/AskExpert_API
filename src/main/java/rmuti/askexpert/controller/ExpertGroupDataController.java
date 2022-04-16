@@ -9,9 +9,14 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.repo.ExpertGroupDataRepository;
 import rmuti.askexpert.model.request.ReqExpertDataAdd;
+import rmuti.askexpert.model.request.ReqExpertDataUpdate;
+import rmuti.askexpert.model.request.ReqTopicGroupDataUpdate;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.ExpertGroupListData;
+import rmuti.askexpert.model.table.TopicGroupListData;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/expertGroupList")
@@ -31,6 +36,7 @@ public class ExpertGroupDataController {
         APIResponse res = new APIResponse();
         ExpertGroupListData expert = new ExpertGroupListData();    
         expert.setExpertPath(reqExpertDataAdd.getExpertPath());
+        expert.setExpertStatus(1);
         expertGroupDataRepository.save(expert);
         res.setData(expert);
         res.setData(expert);
@@ -58,5 +64,31 @@ public class ExpertGroupDataController {
     }
 
     //findById
+    @PostMapping("/findById")
+    public Object findById(@RequestBody String expertGroupId)throws BaseException{
+        APIResponse res = new APIResponse();
+        res.setData(expertGroupDataRepository.findById(expertGroupId));
+        return res;
+    }
     //update
+    @PostMapping("/update")
+    public Object update(@RequestBody ReqExpertDataUpdate reqExpertDataUpdate)throws BaseException{
+        if (!tokenService.isAdmin()) {
+            throw UserException.youarenotadmin();
+        }
+        Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(
+                reqExpertDataUpdate.getExpertGroupId()
+        );
+        APIResponse res = new APIResponse();
+        if(expertGroupListData.isPresent())
+        {
+            expertGroupListData.get().setExpertPath(reqExpertDataUpdate.getExpertPath());
+            expertGroupListData.get().setExpertStatus(reqExpertDataUpdate.getExpertStatus());
+            expertGroupDataRepository.save(expertGroupListData.get());
+        }
+        else{
+            //throw
+        }
+        return res;
+    }
 }

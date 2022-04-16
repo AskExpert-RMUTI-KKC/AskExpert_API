@@ -11,9 +11,12 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.repo.TopicGroupDataRepository;
 import rmuti.askexpert.model.request.ReqTopicGroupDataAdd;
+import rmuti.askexpert.model.request.ReqTopicGroupDataUpdate;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.TopicGroupListData;
+
+import java.util.Optional;
 
 @RestController
 @RequestMapping("/topicGroupList")
@@ -33,7 +36,9 @@ public class TopicGroupDataController {
         APIResponse res = new APIResponse();
         TopicGroupListData topicGroupListData = new TopicGroupListData();
         topicGroupListData.setTopicGroupPath(reqTopicGroupDataAdd.getTopicGroupPath());
+        topicGroupListData.setTopicGroupStatus(1);
         topicGroupDataRepository.save(topicGroupListData);
+        res.setData(topicGroupListData);
         return res;
     }
 
@@ -58,5 +63,31 @@ public class TopicGroupDataController {
     }
 
     //findById
+    @PostMapping("/findById")
+    public Object findById(@RequestBody String topicGroupId)throws BaseException{
+        APIResponse res = new APIResponse();
+        res.setData(topicGroupDataRepository.findById(topicGroupId));
+        return res;
+    }
     //update
+    @PostMapping("/update")
+    public Object update(@RequestBody ReqTopicGroupDataUpdate reqTopicGroupDataUpdate)throws BaseException{
+        if (!tokenService.isAdmin()) {
+            throw UserException.youarenotadmin();
+        }
+        Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupDataRepository.findById(
+                reqTopicGroupDataUpdate.getTopicGroupId()
+        );
+        APIResponse res = new APIResponse();
+        if(topicGroupListDataOptional.isPresent())
+        {
+            topicGroupListDataOptional.get().setTopicGroupPath(reqTopicGroupDataUpdate.getTopicGroupPath());
+            topicGroupListDataOptional.get().setTopicGroupStatus(reqTopicGroupDataUpdate.getTopicGroupStatus());
+            topicGroupDataRepository.save(topicGroupListDataOptional.get());
+        }
+        else{
+            //throw
+        }
+        return res;
+    }
 }

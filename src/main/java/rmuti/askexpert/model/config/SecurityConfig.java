@@ -22,22 +22,29 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/topic/add",
             "/topic/remove",
             "/topic/findMyTopic",
-            "/comment/remove",
+
+
             "/comment/add",
+            "/comment/remove",
             "/comment/findMyComment",
+
             "/like/setStatus",
-            "/user/edituserinfo",
-            "/user/editimgprofile",
+
+            "/user/update",
             "/user/checkJWT",
             "/user/refreshJWT",
+
             "/verify/add",
             "/verify/update",
             "/verify/findMyVerify",
+
             "/expertGroupList/add",
             "/expertGroupList/remove",
-//            "/expertGroupList/findMyVerify",
-//            "/expertGroupList/findMyVerify",
-//            "/expertGroupList/findMyVerify",
+            "/expertGroupList/update",
+
+            "/topicGroupList/add",
+            "/topicGroupList/remove",
+            "/topicGroupList/update",
     };
     private final TokenService tokenService;
 
