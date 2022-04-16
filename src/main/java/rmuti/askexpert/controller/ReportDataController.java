@@ -40,6 +40,9 @@ public class ReportDataController {
     //Add
     @PostMapping("/add")
     public Object reportAdd(@RequestBody ReportData reportData) throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         reportData.setReportFrom(userId);
@@ -97,6 +100,9 @@ public class ReportDataController {
     //findAll
     @PostMapping("/findAll")
     public Object findAll(@RequestBody char reportContentType) throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         if (reportContentType == 'T') {
             List<TopicData> topicData = topicDataRepository.findByTopicReport('R');
@@ -112,6 +118,9 @@ public class ReportDataController {
     //findByContentId
     @PostMapping("/findByContentId")
     public Object findByIdContent(@RequestBody String contentId) throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         List<ReportData> reportDataList = reportDataRepository.findByReportContentId(contentId);
         Optional<TopicData> topicDataOptional = topicDataRepository.findById(contentId);

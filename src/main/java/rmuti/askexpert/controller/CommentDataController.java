@@ -107,10 +107,10 @@ public class CommentDataController {
         return res;
     }
 
-    @PostMapping("/findByTopicId")
-    public Object findByTopicId(@RequestBody String topicId) throws BaseException {
+    @PostMapping("/findByCommentId")
+    public Object findByTopicId(@RequestBody String CommentId) throws BaseException {
         APIResponse res = new APIResponse();
-        List<CommentData> data = commentDataRepository.findByCommentContentId(topicId);
+        List<CommentData> data = commentDataRepository.findByCommentContentId(CommentId);
         System.out.println(data);
         res.setData(data);
         return res;
@@ -119,9 +119,8 @@ public class CommentDataController {
     @PostMapping("/findMyComment")
     public Object findMyComment(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
-        System.out.println("userID : " + tokenService.userId());
         List<CommentData> data = commentDataRepository
-                .findAllByCommentUserIdOrderByCreatedDateForOrder(tokenService.userId());
+                .findAllByCommentUserIdOrderByCreatedDateForOrderDesc(tokenService.userId());
         res.setData(data);
         return res;
     }

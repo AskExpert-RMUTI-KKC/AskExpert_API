@@ -12,6 +12,8 @@ import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.LikeData;
 import rmuti.askexpert.model.table.TopicData;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @RestController
@@ -80,16 +82,24 @@ public class LikeDataController {
         return res;
     }
 
-    @PostMapping("/count")
-    public Object count(@RequestParam boolean status) throws BaseException {
+    @PostMapping("/findMyLike")
+    public Object findMyLike(@RequestBody char contentType)throws BaseException{
         APIResponse res = new APIResponse();
-        long count = 0;
-        // if(status){
-        // count = likeDataRepository.countAllByStatusIsTrue();
-        // }else {
-        // count = likeDataRepository.countAllByContentIsFalse();
-        // }
-        res.setData(count);
+        List<LikeData> likeData = likeDataRepository.findByLikeUserId(tokenService.userId());
+        if(contentType == 'T'){
+            List<Optional<TopicData>> topicDataList = new ArrayList<>();
+            for(LikeData data:likeData){
+                topicDataList.add(topicDataRepository.findById(data.getLikeContentId()));
+            }
+            res.setData(topicDataList);
+        }
+        if(contentType == 'C'){
+            List<Optional<CommentData>> commentDataList = new ArrayList<>();
+            for(LikeData data:likeData){
+                commentDataList.add(commentDataRepository.findById(data.getLikeContentId()));
+            }
+            res.setData(commentDataList);
+        }
         return res;
     }
 

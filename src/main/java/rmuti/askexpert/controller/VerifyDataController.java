@@ -48,6 +48,9 @@ public class VerifyDataController {
     //ViewDataToVerifyAll
     @PostMapping("/findAll")
     public Object findAllVerifyData()throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         APIResponse res = new APIResponse();
         List<ResVerify> resVerifyList = resVerifyMapper.toListResVerify(verifyDataRepository.findAll());
         res.setData(resVerifyList);
@@ -58,6 +61,9 @@ public class VerifyDataController {
     // ViewDataToVerifyById
     @PostMapping("/findById")
     public Object findByIdVerifyData(@RequestBody String verifyId)throws BaseException {
+        if(!tokenService.isAdmin()){
+            throw UserException.youarenotadmin();
+        }
         if(!tokenService.isAdmin()){
             throw UserException.youarenotadmin();
         }
