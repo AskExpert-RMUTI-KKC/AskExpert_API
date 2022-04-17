@@ -14,16 +14,15 @@ public class TopicGroupListData {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
-    @Column(name = "topic_group_id", length = 36, nullable = false, updatable = false)
+    @Column(name = "topic_group_id", length = 36, nullable = false, updatable = false, unique = true)
     private String topicGroupId;
 
-    @Column(name = "expert_path")
+    @Column(name = "expert_path", nullable = false)
     private String topicGroupPath;
 
-    @Column(name = "expert_status")
+    @Column(name = "expert_status", nullable = false)
     private int topicGroupStatus;
-    //1 ON
-    //0 OFF
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/* ,nullable = false */)
     private Date createdDateForOrder = new Date();

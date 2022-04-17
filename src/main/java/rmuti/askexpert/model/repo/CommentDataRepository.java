@@ -20,9 +20,9 @@ public interface CommentDataRepository extends JpaRepository<CommentData, String
 
     List<CommentData> findAllByCommentContentIdAndCommentReportStatusAndCommentIsSubComment(String connentId, int report, int subComent);
 
-    Optional<CommentData> findByCommentIdAndCommentReport(
+    Optional<CommentData> findByCommentIdAndCommentReportStatus(
             String commentId,
-            char report
+           int report
     );
 
     List<CommentData> findByCommentUserIdAndCommentReportStatus(

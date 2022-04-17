@@ -14,10 +14,10 @@ public class TopicData {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
-    @Column(name = "topic_id", length = 36, nullable = false, updatable = false)
+    @Column(name = "topic_id", length = 36, nullable = false, updatable = false, unique = true)
     private String topicId;
 
-    @Column(name = "topic_headline")
+    @Column(name = "topic_headline", nullable = false)
     private String topicHeadline;
 
     @Column(name = "topic_caption", length = 10240)

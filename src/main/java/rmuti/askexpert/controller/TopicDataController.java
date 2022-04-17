@@ -82,7 +82,11 @@ public class TopicDataController {
     @PostMapping("/findAll")
     public Object findAllTopic() {
         APIResponse res = new APIResponse();
-        List<ResTopic> data = resTopicMapper.toListResTopic(topicDataRepository.findAllByTopicReportStatus(0));
+        List<ResTopic> data = resTopicMapper
+                .toListResTopic(
+                        topicDataRepository
+                                .findAllByTopicReportStatus(0)
+                );
         for (ResTopic dataindex : data) {
             String userId = dataindex.getTopicUserId();
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
@@ -90,7 +94,10 @@ public class TopicDataController {
                 dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
             }
             String likeContentId = dataindex.getTopicId();
-            Optional<LikeData> likeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);
+            Optional<LikeData> likeData = likeDataRepository
+                    .findByLikeUserIdAndLikeContentId(
+                            userId,
+                            likeContentId);
             if (likeData.isPresent()) {
                 dataindex.setLikeStatus(likeData.get().getLikeStatus());
             }
@@ -110,6 +117,18 @@ public class TopicDataController {
         List<TopicData> data = topicDataRepository
                 .findAllByTopicUserIdOrderByTopicCreateDateDesc(tokenService.userId());
         res.setData(data);
+        return res;
+    }
+
+    @PostMapping("/findByText")
+    public Object findByText(@RequestBody String text){
+        APIResponse res = new APIResponse();
+        List<TopicData> topicDataList = topicDataRepository
+                .findByTopicHeadlineContainingOrTopicCaptionContaining(
+                        text,
+                        text
+                );
+        res.setData(topicDataList);
         return res;
     }
 }

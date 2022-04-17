@@ -11,7 +11,7 @@ import java.util.Date;
 @Table(name = "user_info")
 public class UserInfoData {
     @Id
-    @Column(length = 36,nullable = false,updatable = false)
+    @Column(length = 36,nullable = false,updatable = false, unique = true)
     private String userInfoId;
 
     @Column(name = "user_name", unique = true)
@@ -31,6 +31,9 @@ public class UserInfoData {
 
     @Column(name = "verify_Status")
     private boolean verifyStatus;
+
+    @Column(name = "user_caption")
+    private String userCaption;
 
     @Column(name = "expert")
     private String expert;

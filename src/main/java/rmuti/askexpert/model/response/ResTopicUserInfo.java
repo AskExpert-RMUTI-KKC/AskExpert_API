@@ -17,4 +17,6 @@ public class ResTopicUserInfo {
     private boolean verifyStatus;
 
     private String expert;
+
+    private String userCaption;
 }

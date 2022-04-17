@@ -14,22 +14,22 @@ public class TransactionData {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY, generator = "uuid2")
-    @Column(length = 36, nullable = false, updatable = false)
+    @Column(length = 36, nullable = false, updatable = false, unique = true)
     private String tranId;
 
-    @Column(name = "tran_tx"/* ,nullable = false */)
+    @Column(name = "tran_tx" ,nullable = false )
     private String tranTx;
 
-    @Column(name = "tran_rx"/* ,nullable = false */)
+    @Column(name = "tran_rx",nullable = false )
     private String tranRx;
 
-    @Column(name = "tran_amount"/* ,nullable = false */)
+    @Column(name = "tran_amount",nullable = false )
     private int tranAmount;
 
-    @Column(name = "tran_contentId"/* ,nullable = false */)
+    @Column(name = "tran_contentId",nullable = false )
     private String tranContentId;
 
-    @Column(name = "tran_status"/* ,nullable = false */)
+    @Column(name = "tran_status",nullable = false )
     private String tranStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

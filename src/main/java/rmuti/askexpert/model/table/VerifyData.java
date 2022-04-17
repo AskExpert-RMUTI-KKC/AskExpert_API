@@ -14,7 +14,7 @@ public class VerifyData {
     @Id
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "uuid2")
-    @Column(length = 36,nullable = false,updatable = false)
+    @Column(length = 36,nullable = false,updatable = false, unique = true)
     private String verifyId;
 
     @Column(name = "verify_from"/*,nullable = false*/)

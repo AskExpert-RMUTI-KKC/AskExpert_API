@@ -14,22 +14,22 @@ public class ReportData {
     @Id
     @GenericGenerator(name = "uuid2",strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.IDENTITY,generator = "uuid2")
-    @Column(length = 36,nullable = false,updatable = false)
+    @Column(length = 36,nullable = false,updatable = false, unique = true)
     private String reportId;
 
-    @Column(name = "report_contentId"/*,nullable = false*/)
+    @Column(name = "report_contentId",nullable = false, updatable = false,length = 36)
     private String reportContentId;
 
-    @Column(name = "report_content_type"/*,nullable = false*/)
+    @Column(name = "report_content_type",nullable = false, updatable = false)
     private char reportContentType;
 
-    @Column(name = "report_from"/*,nullable = false*/)
+    @Column(name = "report_from",nullable = false, updatable = false,length = 36)
     private String reportFrom;
 
 //    @Column(name = "report_type"/*,nullable = false*/)
 //    private String reportType;
 
-    @Column(name = "report_reason"/*,nullable = false*/)
+    @Column(name = "report_reason",nullable = false, updatable = false)
     private String reportReason;
 
     @Column(name = "report_who_decide"/*,nullable = false*/)

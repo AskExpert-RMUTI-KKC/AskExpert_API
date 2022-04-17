@@ -14,7 +14,7 @@ public class LikeData {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
-    @Column(name = "like_id", length = 36, nullable = false, updatable = false)
+    @Column(name = "like_id", length = 36, nullable = false, updatable = false, unique = true)
     private String likeId;
 
     @Column(name = "like_contentId", updatable = false, nullable = false)

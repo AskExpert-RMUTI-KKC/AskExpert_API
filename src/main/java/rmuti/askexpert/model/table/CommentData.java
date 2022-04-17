@@ -14,16 +14,16 @@ public class CommentData {
     @Id
     @GenericGenerator(name = "uuid2", strategy = "uuid2")
     @GeneratedValue(strategy = GenerationType.AUTO, generator = "uuid2")
-    @Column(name = "comment_id", length = 36, nullable = false, updatable = false)
+    @Column(name = "comment_id", length = 36, nullable = false, updatable = false, unique = true)
     private String commentId;
 
-    @Column(name = "comment_topicId")
+    @Column(name = "comment_topicId",length = 36,nullable = false, updatable = false)
     private String commentContentId; // TopicId // CommentId
 
-    @Column(name = "comment_UserId")
+    @Column(name = "comment_userId",length = 36,nullable = false, updatable = false)
     private String commentUserId; // userId
 
-    @Column(name = "comment_caption", length = 10240)
+    @Column(name = "comment_caption", length = 10240,nullable = false)
     private String commentCaption;
 
     @Column(name = "comment_is_sub_comment")

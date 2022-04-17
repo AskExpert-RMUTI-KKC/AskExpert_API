@@ -47,8 +47,11 @@ public class CommentDataController {
                 dataindex.setLikeStatus(likeData.get().getLikeStatus());
             }
             List<ResComment> subComment = resCommentMapper.toListResComment(
-                    commentDataRepository.findAllByCommentContentIdAndCommentReportStatusAndCommentIsSubComment(
-                            dataindex.getCommentId(), 0, 1
+                    commentDataRepository
+                            .findAllByCommentContentIdAndCommentReportStatusAndCommentIsSubComment(
+                            dataindex.getCommentId(),
+                                    0,
+                                    1
                     ));
             if (!subComment.isEmpty()) {
 
@@ -121,9 +124,9 @@ public class CommentDataController {
     public Object findByTopicId(@RequestBody String CommentId) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<CommentData> commentData = commentDataRepository
-                .findByCommentIdAndCommentReport(
+                .findByCommentIdAndCommentReportStatus(
                         CommentId,
-                        'N'
+                        0
         );
         if (commentData.isPresent()) {
             ResComment data = resCommentMapper.toResComment(commentData.get());

@@ -59,6 +59,7 @@ public class UserNameController {
         info.setProfilePic("no_profile_pic.png");
         info.setVerifyStatus(false);
         info.setExpert("none");
+        info.setUserCaption("none");
         userInfoRepository.save(info);
         return info;
     }
@@ -216,6 +217,17 @@ public class UserNameController {
         res.setData(data);
         return ResponseEntity.ok(res);
 
+    }
+
+    @PostMapping("/findByText")
+    public Object findByText(@RequestBody String text){
+        APIResponse res = new APIResponse();
+        res.setData(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
+                text,
+                text,
+                text
+        ));
+        return  res;
     }
 
     @PostMapping("/checkJWT")
