@@ -11,13 +11,14 @@ import rmuti.askexpert.model.response.ResComment;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.LikeData;
-import rmuti.askexpert.model.table.UserInfoData; 
+import rmuti.askexpert.model.table.UserInfoData;
+
 import java.util.List;
 import java.util.Optional;
 
 @RestController
 @RequestMapping("/comment")
-public class CommentDataController {  
+public class CommentDataController {
     @Autowired
     private CommentDataRepository commentDataRepository;
 
@@ -33,44 +34,7 @@ public class CommentDataController {
     @Autowired
     private LikeDataRepository likeDataRepository;
 
-    @PostMapping("/add")
-    public Object addComment(@RequestBody CommentData commentData, @RequestHeader String Authorization)
-            throws BaseException {
-        APIResponse res = new APIResponse();
-        //String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        commentData.setCommentReportStatus(0);
-        commentData.setCommentDonateCount(0);
-        commentData.setCommentLikeCount(0);
-        commentData.setCommentReport('N');
-        commentData.setCommentUserId(tokenService.userId());
-        commentDataRepository.save(commentData);
-        res.setData(commentData);
-        return res;
-    }
-
-    @PostMapping("/remove")
-    public Object removeComment(@RequestParam String commentIdRemove, @RequestHeader String Authorization)
-            throws BaseException {
-        APIResponse res = new APIResponse();
-        String userId = tokenService.userId();
-        Optional<CommentData> opt = commentDataRepository.findByCommentIdAndCommentUserId(commentIdRemove, userId);
-        System.out.println("topicIdRemove : " + commentIdRemove);
-        System.out.println("UserId : " + userId);
-        System.out.println("UserId : " + opt.get().getCommentUserId());
-        if (userId.equals(opt.get().getCommentUserId())) {
-            commentDataRepository.deleteById(commentIdRemove);
-        } else {
-            throw TopicException.notyourtopic();
-        }
-        res.setData(opt);
-        return res;
-    }
-
-    @PostMapping("/findAll")
-    public Object findAllComment() throws BaseException {
-        APIResponse res = new APIResponse();
-        List<ResComment> data = resCommentMapper.toListResComment(
-                commentDataRepository.findAllByCommentReportStatusAndCommentIsSubComment(0, 0));
+    public List<ResComment> commentDisplayBuild(List<ResComment> data) {
         for (ResComment dataindex : data) {
             String userId = dataindex.getCommentUserId();
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
@@ -95,7 +59,7 @@ public class CommentDataController {
                         subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(subUserInfoData.get()));
                     }
                     String sublikeContentId = subDataComment.getCommentId();
-                    Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId,sublikeContentId);
+                    Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, sublikeContentId);
                     if (sublikeData.isPresent()) {
                         subDataComment.setLikeStatus(sublikeData.get().getLikeStatus());
                     }
@@ -103,6 +67,52 @@ public class CommentDataController {
                 dataindex.setSubComment(subComment);
             }
         }
+        return data;
+    }
+
+    @PostMapping("/add")
+    public Object addComment(
+            @RequestBody CommentData commentData,
+            @RequestHeader String Authorization)
+            throws BaseException {
+        APIResponse res = new APIResponse();
+        //String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
+        commentData.setCommentReportStatus(0);
+        commentData.setCommentDonateCount(0);
+        commentData.setCommentLikeCount(0);
+        commentData.setCommentReport('N');
+        commentData.setCommentReportStatus(0);
+        commentData.setCommentUserId(tokenService.userId());
+        commentDataRepository.save(commentData);
+        res.setData(commentData);
+        return res;
+    }
+
+    @PostMapping("/remove")
+    public Object removeComment(
+            @RequestParam String commentIdRemove,
+            @RequestHeader String Authorization)
+            throws BaseException {
+        APIResponse res = new APIResponse();
+        String userId = tokenService.userId();
+        Optional<CommentData> opt = commentDataRepository.findByCommentIdAndCommentUserId(
+                commentIdRemove,
+                userId);
+        if (userId.equals(opt.get().getCommentUserId())) {
+            commentDataRepository.deleteById(commentIdRemove);
+        } else {
+            throw TopicException.notyourtopic();
+        }
+        res.setData(opt);
+        return res;
+    }
+
+    @PostMapping("/findAll")
+    public Object findAllComment() throws BaseException {
+        APIResponse res = new APIResponse();
+        List<ResComment> data = resCommentMapper.toListResComment(
+                commentDataRepository.findAll());
+        data = commentDisplayBuild(data);
         res.setData(data);
         return res;
     }
@@ -110,17 +120,41 @@ public class CommentDataController {
     @PostMapping("/findByCommentId")
     public Object findByTopicId(@RequestBody String CommentId) throws BaseException {
         APIResponse res = new APIResponse();
-        List<CommentData> data = commentDataRepository.findByCommentContentId(CommentId);
-        System.out.println(data);
-        res.setData(data);
+        Optional<CommentData> commentData = commentDataRepository
+                .findByCommentIdAndCommentReport(
+                        CommentId,
+                        'N'
+        );
+        if (commentData.isPresent()) {
+            ResComment data = resCommentMapper.toResComment(commentData.get());
+            res.setData(data);
+        }
         return res;
     }
 
+    @PostMapping("/findByContentId") // topic
+    public Object findByContentId(@RequestBody String conetentId) throws BaseException{
+        APIResponse res = new APIResponse();
+        List<ResComment> data = resCommentMapper.toListResComment(
+                commentDataRepository
+                        .findByCommentContentIdAndCommentReportStatus(
+                            conetentId,
+                            0
+                        )
+        );
+        return res;
+    }
     @PostMapping("/findMyComment")
     public Object findMyComment(@RequestHeader String Authorization) {
         APIResponse res = new APIResponse();
-        List<CommentData> data = commentDataRepository
-                .findAllByCommentUserIdOrderByCreatedDateForOrderDesc(tokenService.userId());
+        List<ResComment> data = resCommentMapper.toListResComment(
+                commentDataRepository
+                        .findByCommentUserIdAndCommentReportStatus(
+                                tokenService.userId(),
+                                '0'
+                        )
+        );
+        data = commentDisplayBuild(data);
         res.setData(data);
         return res;
     }

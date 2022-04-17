@@ -31,16 +31,22 @@ public class LikeDataController {
     @Autowired
     CommentDataRepository commentDataRepository;
 
+    //add-remove
     @PostMapping("/setStatus")
     public Object setStatus(@RequestBody LikeData likeData, @RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(userId,
-                likeData.getLikeContentId());
+
+        //find
+        Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(
+                userId,
+                likeData.getLikeContentId()
+        );
+
         // update
         if (opt.isPresent()) {
             if(likeData.getLikeStatus() == 0){
-                likeDataRepository.save(opt.get());
+                likeDataRepository.delete(opt.get());
             }
         }
         // create
@@ -55,7 +61,7 @@ public class LikeDataController {
         if (topicData.isPresent()) {
             if (likeData.getLikeStatus() == 1 && opt.isEmpty()) {
                 topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() + 1);
-            } else {
+            } else if(likeData.getLikeStatus() == 0 && opt.isPresent()) {
                 topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() - 1);
             }
             topicDataRepository.save(topicData.get());
@@ -64,7 +70,7 @@ public class LikeDataController {
         {
             if (likeData.getLikeStatus() == 1 && opt.isEmpty()) {
                 commentData.get().setCommentLikeCount(commentData.get().getCommentLikeCount() + 1);
-            } else {
+            } else if (likeData.getLikeStatus() == 0 && opt.isPresent()) {
                 commentData.get().setCommentLikeCount(commentData.get().getCommentLikeCount() - 1);
             }
             commentDataRepository.save(commentData.get());
@@ -74,10 +80,12 @@ public class LikeDataController {
     }
 
     @PostMapping("/getStatus")
-    public Object getStatus(@RequestParam String contentId, @RequestHeader String Authorization) throws BaseException {
+    public Object getStatus(
+            @RequestParam String contentId,
+            @RequestHeader String Authorization)
+            throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        System.out.printf("userId : " + userId);
         Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, contentId);
         res.setData(opt);
         return res;
@@ -92,6 +100,7 @@ public class LikeDataController {
             for(LikeData data:likeData){
                 topicDataList.add(topicDataRepository.findById(data.getLikeContentId()));
             }
+            topicDataList.removeIf(null);
             res.setData(topicDataList);
         }
         if(contentType == 'C'){
@@ -99,6 +108,7 @@ public class LikeDataController {
             for(LikeData data:likeData){
                 commentDataList.add(commentDataRepository.findById(data.getLikeContentId()));
             }
+            commentDataList.removeIf(null);
             res.setData(commentDataList);
         }
         //res.setData(likeData);
