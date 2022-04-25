@@ -11,7 +11,6 @@ import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.LikeData;
 import rmuti.askexpert.model.table.TopicData;
 import rmuti.askexpert.model.table.UserInfoData;
-
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
@@ -21,7 +20,7 @@ import java.util.Optional;
 @RequestMapping("/topic")
 public class TopicDataController {  
     @Autowired
-    private TopicDataRepository topicDataRepository; 
+    private TopicDataRepository topicDataRepository;
 
     @Autowired
     private TokenService tokenService;
@@ -38,7 +37,6 @@ public class TopicDataController {
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
         APIResponse res = new APIResponse();
-        System.out.printf("userid : " + tokenService.userId());
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicUserId(tokenService.userId());
@@ -52,7 +50,7 @@ public class TopicDataController {
     }
 
     @PostMapping("/remove")
-    public Object removeTopic(@RequestParam String topicIdRemove, @RequestHeader String Authorization)
+    public Object removeTopic(@RequestParam String topicIdRemove)
             throws Exception {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
@@ -69,7 +67,7 @@ public class TopicDataController {
         return res;
     }
 
-    @PostMapping("read")
+    @PostMapping("/read")
     public Object readTopic(@RequestParam String contentId) {
         Optional<TopicData> topicData = topicDataRepository.findById(contentId);
         topicData.get().setTopicReadCount(topicData.get().getTopicReadCount() + 1);
@@ -81,25 +79,26 @@ public class TopicDataController {
 
     @PostMapping("/findAll")
     public Object findAllTopic() {
+        String userIdLike = tokenService.userId();
         APIResponse res = new APIResponse();
         List<ResTopic> data = resTopicMapper
                 .toListResTopic(
                         topicDataRepository
                                 .findAllByTopicReportStatus(0)
                 );
-        for (ResTopic dataindex : data) {
-            String userId = dataindex.getTopicUserId();
+        for (ResTopic dataIndex : data) {
+            String userId = dataIndex.getTopicUserId();
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
             if (userInfoData.isPresent()) {
-                dataindex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+                dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
             }
-            String likeContentId = dataindex.getTopicId();
+            String likeContentId = dataIndex.getTopicId();
             Optional<LikeData> likeData = likeDataRepository
                     .findByLikeUserIdAndLikeContentId(
-                            userId,
+                            userIdLike,
                             likeContentId);
             if (likeData.isPresent()) {
-                dataindex.setLikeStatus(likeData.get().getLikeStatus());
+                dataIndex.setLikeStatus(likeData.get().getLikeStatus());
             }
         }
         res.setData(data);

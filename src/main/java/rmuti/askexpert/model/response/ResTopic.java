@@ -5,7 +5,7 @@ import lombok.Data;
 @Data
 public class ResTopic {
 
-    private byte likeStatus;
+    private int likeStatus;
     // topic
     private String topicId;
 

@@ -18,7 +18,7 @@ public class ReportData {
     private String reportId;
 
     @Column(name = "report_contentId",nullable = false, updatable = false,length = 36)
-    private String reportContentId;
+    private String reportContentId;//TOPIC_ID
 
     @Column(name = "report_content_type",nullable = false, updatable = false)
     private char reportContentType;
