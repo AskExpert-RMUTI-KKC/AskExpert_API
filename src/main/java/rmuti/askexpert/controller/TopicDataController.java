@@ -68,11 +68,15 @@ public class TopicDataController {
     }
 
     @PostMapping("/read")
-    public Object readTopic(@RequestParam String contentId) {
+    public Object readTopic(@RequestBody String contentId) {
         Optional<TopicData> topicData = topicDataRepository.findById(contentId);
-        topicData.get().setTopicReadCount(topicData.get().getTopicReadCount() + 1);
-        topicDataRepository.save(topicData.get());
-        return topicData;
+        if(topicData.isPresent())
+        {
+            topicData.get().setTopicReadCount(topicData.get().getTopicReadCount() + 1);
+            topicDataRepository.save(topicData.get());
+
+        }
+        return topicData.get();
     }
 
     // @PostMapping("Read")

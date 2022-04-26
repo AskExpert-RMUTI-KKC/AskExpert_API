@@ -23,6 +23,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/topic/remove",
             "/topic/findMyTopic",
             "/topic/findAll",
+            "/topic/read",
 
             "/comment/add",
             "/comment/remove",
