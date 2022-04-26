@@ -34,6 +34,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/user/update",
             "/user/checkJWT",
             "/user/refreshJWT",
+            "/user/findById",
 
             "/transaction/transfer",
             "/transaction/withdraw",
