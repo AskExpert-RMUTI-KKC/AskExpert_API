@@ -3,6 +3,7 @@ package rmuti.askexpert.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
+import rmuti.askexpert.model.exception.TransactionExecption;
 import rmuti.askexpert.model.mapper.ResTransactionMapper;
 import rmuti.askexpert.model.repo.CommentDataRepository; 
 import rmuti.askexpert.model.repo.TopicDataRepository;
@@ -44,6 +45,12 @@ public class TransactionController {
         String userId = tokenService.userId();
         Optional<UserInfoData> txUser = userInfoRepository.findById(userId);
         Optional<UserInfoData> rxUser = userInfoRepository.findById(transactionData.getTranRx());
+        if(txUser.isPresent() && rxUser.isPresent()){
+            if(txUser.get().getUserInfoId().equals(rxUser.get().getUserInfoId()))
+            {
+                throw TransactionExecption.loopTranfer();
+            }
+        }
         transactionData.setTranTx(userId);
         transactionData.setTranStatus("transfer");
         if (transactionData.getTranAmount() <= txUser.get().getToken()) {
@@ -68,9 +75,8 @@ public class TransactionController {
                 commentDataRepository.save(commentData.get());
             }
         } else {
-
+            throw TransactionExecption.notenoughtoken();
         }
-
         return res;
     }
 
