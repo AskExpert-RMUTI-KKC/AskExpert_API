@@ -35,8 +35,8 @@ public class UserInfoData {
     @Column(name = "user_caption")
     private String userCaption;
 
-    @Column(name = "expert")
-    private String expert;
+    @Column(name = "expert_group_id")
+    private String expertGroupId;
 
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Column (name = "join_date"/*,nullable = false*/)
