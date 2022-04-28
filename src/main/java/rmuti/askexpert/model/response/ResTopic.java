@@ -1,6 +1,9 @@
 package rmuti.askexpert.model.response;
-
+import rmuti.askexpert.model.table.ImageData;
 import lombok.Data;
+
+import java.util.List;
+
 
 @Data
 public class ResTopic {
@@ -23,11 +26,11 @@ public class ResTopic {
 
     private long topicDonateCount;
 
-    private String topicGroup;
+    private String topicGroupId;
 
     private int topicReportStatus;
 
-
+    private List<ImageData> topicImg;
 
     private ResTopicUserInfo userInfoData;
 }

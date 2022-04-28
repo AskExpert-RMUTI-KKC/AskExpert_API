@@ -38,15 +38,12 @@ public class TopicData {
     @Column(name = "topic_donate_count")
     private long topicDonateCount;
 
-    @Column(name = "topic_group")
-    private String topicGroup;
+    @Column(name = "topic_group_id")
+    private String topicGroupId;
 
     @Column(name = "topic_report_status")
     private int topicReportStatus;
     // ,columnDefinition = "0 = ON,1 = OFF"
-
-    @Column(name = "topic_report")
-    private char topicReport;
     // ,columnDefinition = "R = report,N = no report"
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

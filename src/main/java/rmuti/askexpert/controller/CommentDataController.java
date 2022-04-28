@@ -83,7 +83,6 @@ public class CommentDataController {
         commentData.setCommentReportStatus(0);
         commentData.setCommentDonateCount(0);
         commentData.setCommentLikeCount(0);
-        commentData.setCommentReport('N');
         commentData.setCommentReportStatus(0);
         commentData.setCommentUserId(tokenService.userId());
         commentDataRepository.save(commentData);

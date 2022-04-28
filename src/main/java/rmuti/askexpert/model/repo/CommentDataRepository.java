@@ -10,7 +10,6 @@ public interface CommentDataRepository extends JpaRepository<CommentData, String
     // List<CommentData> findAll();
     Optional<CommentData> findByCommentIdAndCommentUserId(String commentId, String UserId);
 
-    List<CommentData> findByCommentReport(char report);
 
     List<CommentData> findAllByCommentUserIdOrderByCreatedDateForOrderDesc(String Id);
 

@@ -50,11 +50,9 @@ public class ReportDataController {
         Optional<CommentData> commentDataOptional = commentDataRepository.findById(reportData.getReportContentId());
         if (topicDataOptional.isPresent()) {
             reportData.setReportContentType('T');
-            topicDataOptional.get().setTopicReport('R');
             topicDataRepository.save(topicDataOptional.get());
         } else if (commentDataOptional.isPresent()) {
             reportData.setReportContentType('C');
-            commentDataOptional.get().setCommentReport('R');
             commentDataRepository.save(commentDataOptional.get());
         }
         reportData.setReportWhoDecide("none");
@@ -105,12 +103,12 @@ public class ReportDataController {
         }
         APIResponse res = new APIResponse();
         if (reportContentType == 'T') {
-            List<TopicData> topicData = topicDataRepository.findByTopicReport('R');
-            res.setData(topicData);
+            //List<TopicData> topicData = topicDataRepository.findByTopicReport('R');
+            //res.setData(topicData);
         }
         if (reportContentType == 'C') {
-            List<CommentData> commentData = commentDataRepository.findByCommentReport('R');
-            res.setData(commentData);
+            //List<CommentData> commentData = commentDataRepository.findByCommentReport('R');
+            //res.setData(commentData);
         }
         return res;
     }

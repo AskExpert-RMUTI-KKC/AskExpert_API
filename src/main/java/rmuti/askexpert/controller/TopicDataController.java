@@ -1,5 +1,6 @@
 package rmuti.askexpert.controller;
 
+import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
@@ -8,40 +9,33 @@ import rmuti.askexpert.model.repo.*;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.table.LikeData;
-import rmuti.askexpert.model.table.TopicData;
-import rmuti.askexpert.model.table.UserInfoData;
+import rmuti.askexpert.model.table.*;
+
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+@AllArgsConstructor
 @RestController
 @RequestMapping("/topic")
 public class TopicDataController {  
-    @Autowired
+
     private TopicDataRepository topicDataRepository;
-
-    @Autowired
     private TokenService tokenService;
-
-    @Autowired
     private ResTopicMapper resTopicMapper;
-
-    @Autowired
     private UserInfoRepository userInfoRepository;
-
-    @Autowired
     private LikeDataRepository likeDataRepository;
+    private ImageRepository imageRepository;
+    private TopicGroupListDataRepository topicGroupListDataRepository;
+
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
         APIResponse res = new APIResponse();
         String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
-        topicData.setTopicCreateDate(timeStamp);
+        //topicData.setTopicCreateDate(timeStamp);
         topicData.setTopicUserId(tokenService.userId());
         topicData.setTopicReportStatus(0);
-        topicData.setTopicReport('N');
         // TODO: AFK
         // topicData.setUserInfoData(userInfoRepository.findById(tokenService.userId()).get());
         topicDataRepository.save(topicData);
@@ -103,6 +97,14 @@ public class TopicDataController {
                             likeContentId);
             if (likeData.isPresent()) {
                 dataIndex.setLikeStatus(likeData.get().getLikeStatus());
+            }
+            List<ImageData> topicImgData = imageRepository.findByImgContentId(dataIndex.getTopicId());
+            if(!topicImgData.isEmpty()){
+                dataIndex.setTopicImg(topicImgData);
+            }
+            Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
+            if(!topicGroupListDataOptional.isEmpty()){
+                dataIndex.setTopicGroupId(topicGroupListDataOptional.get().getTopicGroupPath());
             }
         }
         res.setData(data);

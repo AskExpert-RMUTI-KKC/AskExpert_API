@@ -21,8 +21,6 @@ public interface TopicDataRepository extends JpaRepository<TopicData, String> {
 
     List<TopicData> findAllByTopicReportStatus(int Report);
 
-    List<TopicData> findByTopicReport(char report);
-
     List<TopicData> findByTopicHeadlineContainingOrTopicCaptionContaining(String headText,String capText);
 
 }

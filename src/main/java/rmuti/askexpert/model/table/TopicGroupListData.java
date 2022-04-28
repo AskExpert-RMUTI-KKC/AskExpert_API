@@ -17,10 +17,10 @@ public class TopicGroupListData {
     @Column(name = "topic_group_id", length = 36, nullable = false, updatable = false, unique = true)
     private String topicGroupId;
 
-    @Column(name = "expert_path", nullable = false)
+    @Column(name = "topic_group_path", nullable = false)
     private String topicGroupPath;
 
-    @Column(name = "expert_status", nullable = false)
+    @Column(name = "topic_group_status", nullable = false)
     private int topicGroupStatus;
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")

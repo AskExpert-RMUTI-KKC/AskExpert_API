@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.UserException;
-import rmuti.askexpert.model.repo.TopicGroupDataRepository;
+import rmuti.askexpert.model.repo.TopicGroupListDataRepository;
 import rmuti.askexpert.model.request.ReqTopicGroupDataAdd;
 import rmuti.askexpert.model.request.ReqTopicGroupDataUpdate;
 import rmuti.askexpert.model.response.APIResponse;
@@ -22,7 +22,7 @@ import java.util.Optional;
 @RequestMapping("/topicGroupList")
 public class TopicGroupDataController {
     @Autowired
-    private TopicGroupDataRepository topicGroupDataRepository;
+    private TopicGroupListDataRepository topicGroupDataRepository;
 
     @Autowired
     private TokenService tokenService;

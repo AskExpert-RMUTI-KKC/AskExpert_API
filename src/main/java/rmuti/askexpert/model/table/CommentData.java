@@ -39,8 +39,8 @@ public class CommentData {
     private int commentReportStatus;
     // ,columnDefinition = "0 = ON,1 = OFF"
 
-    @Column(name = "comment_report")
-    private char commentReport;
+//    @Column(name = "comment_report")
+//    private char commentReport;
     // ,columnDefinition = "R = report,N = no report"
 
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
