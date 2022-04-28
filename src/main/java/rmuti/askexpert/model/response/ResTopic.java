@@ -1,6 +1,7 @@
 package rmuti.askexpert.model.response;
 import rmuti.askexpert.model.table.ImageData;
 import lombok.Data;
+import rmuti.askexpert.model.table.TopicGroupListData;
 
 import java.util.List;
 
@@ -27,6 +28,8 @@ public class ResTopic {
     private long topicDonateCount;
 
     private String topicGroupId;
+
+    private TopicGroupListData topicGroupListData;
 
     private int topicReportStatus;
 

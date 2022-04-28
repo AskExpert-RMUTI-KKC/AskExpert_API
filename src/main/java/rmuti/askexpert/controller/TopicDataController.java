@@ -104,7 +104,7 @@ public class TopicDataController {
             }
             Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
             if(!topicGroupListDataOptional.isEmpty()){
-                dataIndex.setTopicGroupId(topicGroupListDataOptional.get().getTopicGroupPath());
+                dataIndex.setTopicGroupListData(topicGroupListDataOptional.get());
             }
         }
         res.setData(data);

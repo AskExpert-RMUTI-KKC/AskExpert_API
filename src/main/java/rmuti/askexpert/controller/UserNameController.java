@@ -58,7 +58,7 @@ public class UserNameController {
         info.setToken(0.0);
         info.setProfilePic("no_profile_pic.png");
         info.setVerifyStatus(false);
-        info.setExpert("none");
+        info.setExpertGroupId("none");
         info.setUserCaption("none");
         userInfoRepository.save(info);
         return info;
@@ -100,8 +100,8 @@ public class UserNameController {
         userInfoDataOptional.get().setUserName(userInfoData.getUserName());
         userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
         userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
-        if (!userInfoData.getExpert().equals(userInfoDataOptional.get().getExpert())) {
-            userInfoDataOptional.get().setExpert(userInfoData.getExpert());
+        if (!userInfoData.getExpertGroupId().equals(userInfoDataOptional.get().getExpertGroupId())) {
+            userInfoDataOptional.get().setExpertGroupId(userInfoData.getExpertGroupId());
             userInfoDataOptional.get().setVerifyStatus(false);
         }
         userInfoRepository.save(userInfoDataOptional.get());
