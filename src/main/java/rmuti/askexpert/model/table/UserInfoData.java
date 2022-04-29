@@ -14,7 +14,7 @@ public class UserInfoData {
     @Column(length = 36,nullable = false,updatable = false, unique = true)
     private String userInfoId;
 
-    @Column(name = "user_name", unique = true)
+    @Column(name = "user_name", unique = true,length = 16)
     private String userName;
 
     @Column(name = "first_name"/*,nullable = false*/)

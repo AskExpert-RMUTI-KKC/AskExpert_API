@@ -96,8 +96,13 @@ public class UserNameController {
     }
 
     @PostMapping("/update")
-    public Object updateUserInfo(@RequestBody UserInfoData userInfoData) {
+    public Object updateUserInfo(@RequestBody UserInfoData userInfoData) throws BaseException {
         APIResponse res = new APIResponse();
+        Optional<UserInfoData> duplicated = userInfoRepository.findByUserName(userInfoData.getUserName());
+        if(duplicated.isPresent())
+        {
+            throw UserException.createUserNameDuplicated();
+        }
         Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(userInfoData.getUserInfoId());
         userInfoDataOptional.get().setUserName(userInfoData.getUserName());
         userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());

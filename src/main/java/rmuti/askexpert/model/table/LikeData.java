@@ -20,6 +20,8 @@ public class LikeData {
     @Column(name = "like_contentId", updatable = false, nullable = false)
     private String likeContentId;
 
+
+
     @Column(name = "like_UserId", updatable = false, nullable = false)
     private String likeUserId;
 
