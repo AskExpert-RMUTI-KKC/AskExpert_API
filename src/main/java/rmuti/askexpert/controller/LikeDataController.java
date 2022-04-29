@@ -6,11 +6,13 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.repo.CommentDataRepository;
 import rmuti.askexpert.model.repo.LikeDataRepository;
 import rmuti.askexpert.model.repo.TopicDataRepository;
+import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.CommentData;
 import rmuti.askexpert.model.table.LikeData;
 import rmuti.askexpert.model.table.TopicData;
+import rmuti.askexpert.model.table.UserInfoData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -31,11 +33,18 @@ public class LikeDataController {
     @Autowired
     CommentDataRepository commentDataRepository;
 
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
     //add-remove
     @PostMapping("/setStatus")
     public Object setStatus(@RequestBody LikeData likeData, @RequestHeader String Authorization) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
+
+        // ! contenId เอาไปาหา UserId
+        int LikeStatus = 0;
+        String ContentIdUserId ="ContentIdUserId";
 
         //find
         Optional<LikeData> opt = likeDataRepository.findByLikeUserIdAndLikeContentId(
@@ -47,13 +56,19 @@ public class LikeDataController {
         if (opt.isPresent()) {
             if(likeData.getLikeStatus() == 0){
                 likeDataRepository.delete(opt.get());
+                LikeStatus = -1;
             }
         }
         // create
         else {
             likeData.setLikeUserId(userId);
             likeDataRepository.save(likeData);
+            LikeStatus = 1;
         }
+
+
+
+
 
         // updateLike()
         Optional<TopicData> topicData = topicDataRepository.findById(likeData.getLikeContentId());
@@ -65,6 +80,7 @@ public class LikeDataController {
                 topicData.get().setTopicLikeCount(topicData.get().getTopicLikeCount() - 1);
             }
             topicDataRepository.save(topicData.get());
+            ContentIdUserId = topicData.get().getTopicUserId();
         }
         else if(commentData.isPresent())
         {
@@ -74,7 +90,14 @@ public class LikeDataController {
                 commentData.get().setCommentLikeCount(commentData.get().getCommentLikeCount() - 1);
             }
             commentDataRepository.save(commentData.get());
+            ContentIdUserId = commentData.get().getCommentUserId();
         }
+
+
+        Optional<UserInfoData> userInfoData =userInfoRepository.findById(ContentIdUserId);
+        userInfoData.get().setLikeCount(userInfoData.get().getLikeCount() + LikeStatus);
+        userInfoRepository.save(userInfoData.get());
+
         res.setData(likeData);
         return res;
     }

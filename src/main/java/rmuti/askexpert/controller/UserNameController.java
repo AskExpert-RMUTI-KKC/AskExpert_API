@@ -60,6 +60,8 @@ public class UserNameController {
         info.setVerifyStatus(false);
         info.setExpertGroupId("none");
         info.setUserCaption("none");
+        info.setLikeCount(0);
+        info.setTokenCount(0.0);
         userInfoRepository.save(info);
         return info;
     }

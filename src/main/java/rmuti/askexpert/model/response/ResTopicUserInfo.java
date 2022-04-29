@@ -1,6 +1,8 @@
 package rmuti.askexpert.model.response;
 
-import lombok.Data; 
+import lombok.Data;
+
+import javax.persistence.Column;
 
 @Data
 public class ResTopicUserInfo {
@@ -19,4 +21,9 @@ public class ResTopicUserInfo {
     private String expert;
 
     private String userCaption;
+
+    private Double tokenCount;
+
+    private int likeCount;
+
 }

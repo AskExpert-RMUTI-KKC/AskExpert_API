@@ -38,6 +38,12 @@ public class UserInfoData {
     @Column(name = "expert_group_id")
     private String expertGroupId;
 
+    @Column(name = "token_count")
+    private Double tokenCount;
+
+    @Column(name = "like_count")
+    private int likeCount;
+
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Column (name = "join_date"/*,nullable = false*/)
 //    private Date joinDate;

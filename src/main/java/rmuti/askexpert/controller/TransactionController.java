@@ -58,6 +58,10 @@ public class TransactionController {
                     txUser.get().getToken() - transactionData.getTranAmount());
             rxUser.get().setToken(
                     rxUser.get().getToken() + transactionData.getTranAmount());
+
+
+            rxUser.get().setTokenCount(rxUser.get().getTokenCount()+transactionData.getTranAmount());
+
             userInfoRepository.save(txUser.get());
             userInfoRepository.save(rxUser.get());
             transactionRepository.save(transactionData);
