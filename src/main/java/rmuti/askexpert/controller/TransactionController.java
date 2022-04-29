@@ -137,6 +137,8 @@ public class TransactionController {
         for (ResTransaction data : transactionData) {
             Optional<UserInfoData> txUser = userInfoRepository.findById(data.getTranTx());
             Optional<UserInfoData> rxUser = userInfoRepository.findById(data.getTranRx());
+            Optional<CommentData> commentData = commentDataRepository.findById(data.getTranContentId());
+            Optional<TopicData> topicData = topicDataRepository.findById(data.getTranContentId());
             if (txUser.isEmpty()) {
                 txUser = Optional.of(new UserInfoData());
                 txUser.get().setFirstName(data.getTranTx());
@@ -148,6 +150,26 @@ public class TransactionController {
                 rxUser.get().setFirstName(data.getTranRx());
                 rxUser.get().setLastName(data.getTranRx());
                 rxUser.get().setUserName(data.getTranRx());
+            }
+            if(commentData.isEmpty()){
+                if(topicData.isPresent()){
+                    data.setTopicId(topicData.get().getTopicId());
+                    data.setTopicContent(topicData.get().getTopicHeadline());
+                    data.setTopicData(topicData.get());
+                }
+            }
+            if(topicData.isEmpty()){
+                if(commentData.isPresent()){
+                    Optional<TopicData> optionalTopicData = topicDataRepository.findById(commentData.get().getCommentContentId());
+                    data.setTopicId(optionalTopicData.get().getTopicId());
+                    data.setTopicContent(optionalTopicData.get().getTopicHeadline());
+
+                    data.setCommentId(commentData.get().getCommentId());
+                    data.setCommentContent(commentData.get().getCommentId());
+
+                    data.setTopicData(optionalTopicData.get());
+                    data.setCommentData(commentData.get());
+                }
             }
             data.setUserInfoDataTx(resTransactionMapper.toResTransactionUserInfo(txUser.get()));
             data.setUserInfoDataRx(resTransactionMapper.toResTransactionUserInfo(rxUser.get()));

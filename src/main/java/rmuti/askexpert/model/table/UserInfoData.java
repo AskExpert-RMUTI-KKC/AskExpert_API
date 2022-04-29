@@ -32,7 +32,7 @@ public class UserInfoData {
     @Column(name = "verify_Status")
     private boolean verifyStatus;
 
-    @Column(name = "user_caption")
+    @Column(name = "user_caption",length = 512)
     private String userCaption;
 
     @Column(name = "expert_group_id")
