@@ -93,6 +93,7 @@ public class TransactionController {
         transactionData.setTranStatus("withdraw");
         transactionData.setTranRx("SystemWithdraw");
         transactionData.setTranStatus("SystemWithdraw");
+        transactionData.setTranContentId("SystemWithdraw");
         if (transactionData.getTranAmount() <= txUser.get().getToken()) {
             txUser.get().setToken(
                     txUser.get().getToken() - transactionData.getTranAmount());
@@ -116,7 +117,7 @@ public class TransactionController {
         transactionData.setTranRx(userId);
         transactionData.setTranTx("SystemDeposit");
         transactionData.setTranStatus("SystemDeposit");
-
+        transactionData.setTranContentId("SystemDeposit");
         txUser.get().setToken(
                 txUser.get().getToken() + transactionData.getTranAmount()
         );
