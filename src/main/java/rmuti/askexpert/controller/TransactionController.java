@@ -72,10 +72,10 @@ public class TransactionController {
             Optional<TopicData> topicData = topicDataRepository.findById(transactionData.getTranContentId());
             Optional<CommentData> commentData = commentDataRepository.findById(transactionData.getTranContentId());
             if (topicData.isPresent()) {
-                topicData.get().setTopicDonateCount(topicData.get().getTopicLikeCount() + transactionData.getTranAmount());
+                topicData.get().setTopicDonateCount(topicData.get().getTopicDonateCount() + transactionData.getTranAmount());
                 topicDataRepository.save(topicData.get());
             } else if (commentData.isPresent()) {
-                commentData.get().setCommentDonateCount(commentData.get().getCommentLikeCount() + transactionData.getTranAmount());
+                commentData.get().setCommentDonateCount(commentData.get().getCommentDonateCount() + transactionData.getTranAmount());
                 commentDataRepository.save(commentData.get());
             }
         } else {
