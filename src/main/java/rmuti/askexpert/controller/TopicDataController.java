@@ -61,7 +61,7 @@ public class TopicDataController {
         return res;
     }
 
-    @PostMapping("/read")
+    @PostMapping("/findById")
     public Object readTopic(@RequestBody String contentId) {
         Optional<TopicData> topicData = topicDataRepository.findById(contentId);
         if(topicData.isPresent())

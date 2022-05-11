@@ -179,25 +179,25 @@ public class TransactionController {
         return res;
     }
 
-    @PostMapping("/findMyPay")
-    public Object findMyPay(@RequestBody char contentType) throws BaseException{
-        APIResponse res = new APIResponse();
-        String userId = tokenService.userId();
-        List<TransactionData> transactionData = transactionRepository.findByTranTx(userId);
-        if(contentType == 'T'){
-            List<Optional<TopicData>> topicDataList = new ArrayList<>();
-            for(TransactionData data:transactionData){
-                topicDataList.add(topicDataRepository.findById(data.getTranContentId()));
-            }
-            res.setData(topicDataList);
-        }
-        if(contentType == 'C'){
-            List<Optional<CommentData>> commentDataList = new ArrayList<>();
-            for(TransactionData data:transactionData){
-                commentDataList.add(commentDataRepository.findById(data.getTranContentId()));
-            }
-            res.setData(commentDataList);
-        }
-        return res;
-    }
+//    @PostMapping("/findMyPay")
+//    public Object findMyPay(@RequestBody char contentType) throws BaseException{
+//        APIResponse res = new APIResponse();
+//        String userId = tokenService.userId();
+//        List<TransactionData> transactionData = transactionRepository.findByTranTx(userId);
+//        if(contentType == 'T'){
+//            List<Optional<TopicData>> topicDataList = new ArrayList<>();
+//            for(TransactionData data:transactionData){
+//                topicDataList.add(topicDataRepository.findById(data.getTranContentId()));
+//            }
+//            res.setData(topicDataList);
+//        }
+//        if(contentType == 'C'){
+//            List<Optional<CommentData>> commentDataList = new ArrayList<>();
+//            for(TransactionData data:transactionData){
+//                commentDataList.add(commentDataRepository.findById(data.getTranContentId()));
+//            }
+//            res.setData(commentDataList);
+//        }
+//        return res;
+//    }
 }
