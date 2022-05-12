@@ -101,19 +101,20 @@ public class UserNameController {
         Optional<UserInfoData> duplicated = userInfoRepository.findByUserName(userInfoData.getUserName());
         if(duplicated.isPresent())
         {
+            if(tokenService.userId() != duplicated.get().getUserInfoId())
             throw UserException.createUserNameDuplicated();
         }
-        Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(userInfoData.getUserInfoId());
+        Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(tokenService.userId());
         userInfoDataOptional.get().setUserName(userInfoData.getUserName());
         userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
-        userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
+        userInfoDataOptional.get().setLastName(userInfoData.getLastName());
+        userInfoDataOptional.get().setUserCaption(userInfoData.getUserCaption());
         if (!userInfoData.getExpertGroupId().equals(userInfoDataOptional.get().getExpertGroupId())) {
             userInfoDataOptional.get().setExpertGroupId(userInfoData.getExpertGroupId());
             userInfoDataOptional.get().setVerifyStatus(false);
         }
         userInfoRepository.save(userInfoDataOptional.get());
         res.setData(userInfoDataOptional.get());
-
         return res;
     }
 
