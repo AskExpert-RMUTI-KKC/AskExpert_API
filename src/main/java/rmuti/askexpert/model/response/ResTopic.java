@@ -29,7 +29,7 @@ public class ResTopic {
 
     private String topicGroupId;
 
-    private TopicGroupListData topicGroupListData;
+    private String topicGroupName;
 
     private int topicReportStatus;
 

@@ -28,6 +28,8 @@ public class TopicDataController {
     private ImageRepository imageRepository;
     private TopicGroupListDataRepository topicGroupListDataRepository;
 
+    private ExpertGroupDataRepository expertGroupDataRepository;
+
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
@@ -89,6 +91,8 @@ public class TopicDataController {
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
             if (userInfoData.isPresent()) {
                 dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+                Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
+                dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
             }
             String likeContentId = dataIndex.getTopicId();
             Optional<LikeData> likeData = likeDataRepository
@@ -104,7 +108,7 @@ public class TopicDataController {
             }
             Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
             if(!topicGroupListDataOptional.isEmpty()){
-                dataIndex.setTopicGroupListData(topicGroupListDataOptional.get());
+                dataIndex.setTopicGroupName(topicGroupListDataOptional.get().getTopicGroupPath());
             }
         }
         res.setData(data);

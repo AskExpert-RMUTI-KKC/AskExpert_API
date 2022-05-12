@@ -11,13 +11,17 @@ import rmuti.askexpert.model.config.BaseUrlFile;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
 import rmuti.askexpert.model.exception.UserException;
+import rmuti.askexpert.model.mapper.ResTopicMapper;
+import rmuti.askexpert.model.repo.ExpertGroupDataRepository;
 import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.request.ReqRegister;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
+import rmuti.askexpert.model.response.ResTopicUserInfo;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.request.ReqLogin;
 import rmuti.askexpert.model.repo.UserNameRepository;
+import rmuti.askexpert.model.table.ExpertGroupListData;
 import rmuti.askexpert.model.table.UserInfoData;
 import rmuti.askexpert.model.table.UserName;
 import rmuti.askexpert.model.table.VerifyData;
@@ -44,6 +48,12 @@ public class UserNameController {
 
     @Autowired
     UserInfoRepository userInfoRepository;
+
+    @Autowired
+    private ResTopicMapper resTopicMapper;
+
+    @Autowired
+    private ExpertGroupDataRepository expertGroupDataRepository;
 
     @Value("${app.token.passWordForAdmin}")
     private String passWordForAdmin;
