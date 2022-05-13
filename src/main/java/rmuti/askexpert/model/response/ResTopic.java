@@ -1,8 +1,11 @@
 package rmuti.askexpert.model.response;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import rmuti.askexpert.model.table.ImageData;
 import lombok.Data;
 import rmuti.askexpert.model.table.TopicGroupListData;
 
+import javax.persistence.Column;
+import java.util.Date;
 import java.util.List;
 
 
@@ -36,4 +39,10 @@ public class ResTopic {
     private List<ImageData> topicImg;
 
     private ResTopicUserInfo userInfoData;
+
+    private Date createdDateForOrder;
+
+    private String topicCreateDate;
+
+    private Date createdDate;
 }
