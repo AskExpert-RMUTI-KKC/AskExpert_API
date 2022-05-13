@@ -15,10 +15,11 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 @AllArgsConstructor
 @RestController
 @RequestMapping("/topic")
-public class TopicDataController {  
+public class TopicDataController {
 
     private TopicDataRepository topicDataRepository;
     private TokenService tokenService;
@@ -30,6 +31,35 @@ public class TopicDataController {
 
     private ExpertGroupDataRepository expertGroupDataRepository;
 
+
+    public ResTopic topicBuildResponse(ResTopic dataIndex, String userIdLike) {
+
+        String userId = dataIndex.getTopicUserId();
+        Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
+        if (userInfoData.isPresent()) {
+            dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+            Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
+            dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+        }
+        String likeContentId = dataIndex.getTopicId();
+        Optional<LikeData> likeData = likeDataRepository
+                .findByLikeUserIdAndLikeContentId(
+                        userIdLike,
+                        likeContentId);
+        if (likeData.isPresent()) {
+            dataIndex.setLikeStatus(likeData.get().getLikeStatus());
+        }
+        List<ImageData> topicImgData = imageRepository.findByImgContentId(dataIndex.getTopicId());
+        if (!topicImgData.isEmpty()) {
+            dataIndex.setTopicImg(topicImgData);
+        }
+        Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
+        if (!topicGroupListDataOptional.isEmpty()) {
+            dataIndex.setTopicGroupName(topicGroupListDataOptional.get().getTopicGroupPath());
+        }
+
+        return dataIndex;
+    }
 
     @PostMapping("/add")
     public Object addTopic(@RequestBody TopicData topicData) {
@@ -66,13 +96,18 @@ public class TopicDataController {
     @PostMapping("/findById")
     public Object readTopic(@RequestBody String contentId) {
         Optional<TopicData> topicData = topicDataRepository.findById(contentId);
-        if(topicData.isPresent())
-        {
+        if (topicData.isPresent()) {
             topicData.get().setTopicReadCount(topicData.get().getTopicReadCount() + 1);
             topicDataRepository.save(topicData.get());
 
         }
-        return topicData.get();
+
+        String userIdLike = tokenService.userId();
+        APIResponse res = new APIResponse();
+        ResTopic data = resTopicMapper.toResTopic(topicDataRepository.findById(contentId).get());
+        data = topicBuildResponse(data, userIdLike);
+        res.setData(data);
+        return data;
     }
 
     // @PostMapping("Read")
@@ -87,29 +122,30 @@ public class TopicDataController {
                                 .findAllByTopicReportStatus(0)
                 );
         for (ResTopic dataIndex : data) {
-            String userId = dataIndex.getTopicUserId();
-            Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
-            if (userInfoData.isPresent()) {
-                dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
-                Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
-                dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
-            }
-            String likeContentId = dataIndex.getTopicId();
-            Optional<LikeData> likeData = likeDataRepository
-                    .findByLikeUserIdAndLikeContentId(
-                            userIdLike,
-                            likeContentId);
-            if (likeData.isPresent()) {
-                dataIndex.setLikeStatus(likeData.get().getLikeStatus());
-            }
-            List<ImageData> topicImgData = imageRepository.findByImgContentId(dataIndex.getTopicId());
-            if(!topicImgData.isEmpty()){
-                dataIndex.setTopicImg(topicImgData);
-            }
-            Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
-            if(!topicGroupListDataOptional.isEmpty()){
-                dataIndex.setTopicGroupName(topicGroupListDataOptional.get().getTopicGroupPath());
-            }
+            dataIndex = topicBuildResponse(dataIndex, userIdLike);
+//            String userId = dataIndex.getTopicUserId();
+//            Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
+//            if (userInfoData.isPresent()) {
+//                dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
+//                Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
+//                dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+//            }
+//            String likeContentId = dataIndex.getTopicId();
+//            Optional<LikeData> likeData = likeDataRepository
+//                    .findByLikeUserIdAndLikeContentId(
+//                            userIdLike,
+//                            likeContentId);
+//            if (likeData.isPresent()) {
+//                dataIndex.setLikeStatus(likeData.get().getLikeStatus());
+//            }
+//            List<ImageData> topicImgData = imageRepository.findByImgContentId(dataIndex.getTopicId());
+//            if (!topicImgData.isEmpty()) {
+//                dataIndex.setTopicImg(topicImgData);
+//            }
+//            Optional<TopicGroupListData> topicGroupListDataOptional = topicGroupListDataRepository.findById(dataIndex.getTopicGroupId());
+//            if (!topicGroupListDataOptional.isEmpty()) {
+//                dataIndex.setTopicGroupName(topicGroupListDataOptional.get().getTopicGroupPath());
+//            }
         }
         res.setData(data);
         // checkNull
@@ -130,7 +166,7 @@ public class TopicDataController {
     }
 
     @PostMapping("/findByText")
-    public Object findByText(@RequestBody String text){
+    public Object findByText(@RequestBody String text) {
         APIResponse res = new APIResponse();
         List<TopicData> topicDataList = topicDataRepository
                 .findByTopicHeadlineContainingOrTopicCaptionContaining(

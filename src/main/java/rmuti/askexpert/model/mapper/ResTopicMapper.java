@@ -11,5 +11,8 @@ import java.util.List;
 @Mapper(componentModel = "spring")
 public interface ResTopicMapper {
     List<ResTopic> toListResTopic(List<TopicData> topicData);
+
+    ResTopic toResTopic(TopicData topicData);
+
     ResTopicUserInfo toResTopicUserInfo(UserInfoData userInfoData);
 }
