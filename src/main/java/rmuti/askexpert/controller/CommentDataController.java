@@ -134,7 +134,7 @@ public class CommentDataController {
         return res;
     }
 
-    @PostMapping("/findByContentId") // topic
+    @PostMapping("/findByTopicId") // topic
     public Object findByContentId(@RequestBody String conetentId) throws BaseException{
         APIResponse res = new APIResponse();
         List<ResComment> data = resCommentMapper.toListResComment(
@@ -144,6 +144,8 @@ public class CommentDataController {
                             0
                         )
         );
+        data = commentDisplayBuild(data);
+        res.setData(data);
         return res;
     }
     @PostMapping("/findMyComment")

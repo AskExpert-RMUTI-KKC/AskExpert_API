@@ -107,7 +107,8 @@ public class TopicDataController {
         ResTopic data = resTopicMapper.toResTopic(topicDataRepository.findById(contentId).get());
         data = topicBuildResponse(data, userIdLike);
         res.setData(data);
-        return data;
+
+        return res;
     }
 
     // @PostMapping("Read")
