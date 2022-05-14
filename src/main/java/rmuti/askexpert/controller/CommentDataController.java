@@ -9,9 +9,7 @@ import rmuti.askexpert.model.repo.*;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResComment;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.table.CommentData;
-import rmuti.askexpert.model.table.LikeData;
-import rmuti.askexpert.model.table.UserInfoData;
+import rmuti.askexpert.model.table.*;
 
 import java.util.List;
 import java.util.Optional;
@@ -34,12 +32,20 @@ public class CommentDataController {
     @Autowired
     private LikeDataRepository likeDataRepository;
 
-    public List<ResComment> commentDisplayBuild(List<ResComment> data) {
+
+    @Autowired
+    private ExpertGroupDataRepository expertGroupDataRepository;
+
+    @Autowired
+    private TopicDataRepository topicDataRepository;
+
+    public List<ResComment> commentDisplayBuild(List<ResComment> data,String userId) {
         for (ResComment dataindex : data) {
-            String userId = dataindex.getCommentUserId();
             Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
             if (userInfoData.isPresent()) {
                 dataindex.setUserInfoData(resCommentMapper.toResTopicUserInfo(userInfoData.get()));
+                Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
+                dataindex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
             }
             String likeContentId = dataindex.getCommentId();
             Optional<LikeData> likeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);
@@ -54,12 +60,13 @@ public class CommentDataController {
                                     1
                     ));
             if (!subComment.isEmpty()) {
-
                 for (ResComment subDataComment : subComment) {
                     String subUserId = subDataComment.getCommentUserId();
                     Optional<UserInfoData> subUserInfoData = userInfoRepository.findById(subUserId);
                     if (subUserInfoData.isPresent()) {
                         subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(subUserInfoData.get()));
+                        Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(subUserInfoData.get().getExpertGroupId());
+                        dataindex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
                     }
                     String sublikeContentId = subDataComment.getCommentId();
                     Optional<LikeData> sublikeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, sublikeContentId);
@@ -78,6 +85,14 @@ public class CommentDataController {
             @RequestBody CommentData commentData,
             @RequestHeader String Authorization)
             throws BaseException {
+
+        Optional<TopicData> topicData = topicDataRepository.findById(commentData.getCommentContentId());
+        if (topicData.isPresent()) {
+            topicData.get().setTopicCommentCount(topicData.get().getTopicCommentCount() + 1);
+            topicDataRepository.save(topicData.get());
+
+        }
+
         APIResponse res = new APIResponse();
         //String timeStamp = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date());
         commentData.setCommentReportStatus(0);
@@ -114,7 +129,7 @@ public class CommentDataController {
         APIResponse res = new APIResponse();
         List<ResComment> data = resCommentMapper.toListResComment(
                 commentDataRepository.findAll());
-        data = commentDisplayBuild(data);
+        data = commentDisplayBuild(data,tokenService.userId());
         res.setData(data);
         return res;
     }
@@ -144,7 +159,7 @@ public class CommentDataController {
                             0
                         )
         );
-        data = commentDisplayBuild(data);
+        data = commentDisplayBuild(data,tokenService.userId());
         res.setData(data);
         return res;
     }
@@ -158,7 +173,7 @@ public class CommentDataController {
                                 '0'
                         )
         );
-        data = commentDisplayBuild(data);
+        data = commentDisplayBuild(data,tokenService.userId());
         res.setData(data);
         return res;
     }
