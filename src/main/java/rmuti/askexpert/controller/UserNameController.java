@@ -111,7 +111,8 @@ public class UserNameController {
         Optional<UserInfoData> duplicated = userInfoRepository.findByUserName(userInfoData.getUserName());
         if(duplicated.isPresent())
         {
-            if(tokenService.userId() != duplicated.get().getUserInfoId())
+            String userId = tokenService.userId();
+            if(!userId.equals(duplicated.get().getUserInfoId()))
             throw UserException.createUserNameDuplicated();
         }
         Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(tokenService.userId());
