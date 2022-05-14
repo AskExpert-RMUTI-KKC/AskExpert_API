@@ -244,6 +244,13 @@ public class UserNameController {
         return res;
     }
 
+    @PostMapping("/findByUserId")
+    public Object findById(@RequestBody String userId) throws BaseException{
+        APIResponse res = new APIResponse();
+        res.setData(userInfoRepository.findById(userId));
+        return res;
+    }
+
     @PostMapping("/findByText")
     public Object findByText(@RequestBody String text){
         APIResponse res = new APIResponse();
