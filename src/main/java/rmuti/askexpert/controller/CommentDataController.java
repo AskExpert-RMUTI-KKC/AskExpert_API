@@ -41,7 +41,7 @@ public class CommentDataController {
 
     public List<ResComment> commentDisplayBuild(List<ResComment> data,String userId) {
         for (ResComment dataindex : data) {
-            Optional<UserInfoData> userInfoData = userInfoRepository.findById(userId);
+            Optional<UserInfoData> userInfoData = userInfoRepository.findById(dataindex.getCommentUserId());
             if (userInfoData.isPresent()) {
                 dataindex.setUserInfoData(resCommentMapper.toResTopicUserInfo(userInfoData.get()));
                 Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
@@ -61,8 +61,7 @@ public class CommentDataController {
                     ));
             if (!subComment.isEmpty()) {
                 for (ResComment subDataComment : subComment) {
-                    String subUserId = subDataComment.getCommentUserId();
-                    Optional<UserInfoData> subUserInfoData = userInfoRepository.findById(subUserId);
+                    Optional<UserInfoData> subUserInfoData = userInfoRepository.findById(subDataComment.getCommentUserId());
                     if (subUserInfoData.isPresent()) {
                         subDataComment.setUserInfoData(resCommentMapper.toResTopicUserInfo(subUserInfoData.get()));
                         Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(subUserInfoData.get().getExpertGroupId());
