@@ -12,12 +12,15 @@ import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.FileException;
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
+import rmuti.askexpert.model.mapper.ResUserMapper;
 import rmuti.askexpert.model.repo.ExpertGroupDataRepository;
 import rmuti.askexpert.model.repo.UserInfoRepository;
+import rmuti.askexpert.model.repo.VerifyDataRepository;
 import rmuti.askexpert.model.request.ReqRegister;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.response.ResTopicUserInfo;
+import rmuti.askexpert.model.response.ResUserExpertVerify;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.request.ReqLogin;
 import rmuti.askexpert.model.repo.UserNameRepository;
@@ -55,6 +58,12 @@ public class UserNameController {
     @Autowired
     private ExpertGroupDataRepository expertGroupDataRepository;
 
+    @Autowired
+    private VerifyDataRepository verifyDataRepository;
+
+    @Autowired
+    private ResUserMapper resUserMapper;
+
     @Value("${app.token.passWordForAdmin}")
     private String passWordForAdmin;
 
@@ -74,6 +83,19 @@ public class UserNameController {
         info.setTokenCount(0.0);
         userInfoRepository.save(info);
         return info;
+    }
+
+    private ResUserExpertVerify createUserDisplay(ResUserExpertVerify resUserExpertVerify){
+
+        Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(resUserExpertVerify.getExpertGroupId());
+        Optional<VerifyData> verifyData = verifyDataRepository.findByVerifyFrom(resUserExpertVerify.getUserInfoId());
+
+        resUserExpertVerify.setExpertGroupListData(expertGroupListData.get());
+        if(verifyData.isPresent()){
+            resUserExpertVerify.setVerifyData(verifyData.get());
+        }
+
+        return resUserExpertVerify;
     }
 
     //Add UserName-UserInfo
@@ -123,6 +145,12 @@ public class UserNameController {
         if (!userInfoData.getExpertGroupId().equals(userInfoDataOptional.get().getExpertGroupId())) {
             userInfoDataOptional.get().setExpertGroupId(userInfoData.getExpertGroupId());
             userInfoDataOptional.get().setVerifyStatus(false);
+
+            Optional<VerifyData> verifyData = verifyDataRepository.findById(userInfoDataOptional.get().getUserInfoId());
+            if(verifyData.isPresent()){
+                verifyData.get().setVerifyStatus('N');
+                verifyDataRepository.save(verifyData.get());
+            }
         }
         userInfoRepository.save(userInfoDataOptional.get());
         res.setData(userInfoDataOptional.get());
@@ -241,7 +269,13 @@ public class UserNameController {
     @PostMapping("/findById")
     public Object findById() throws BaseException{
         APIResponse res = new APIResponse();
-        res.setData(userInfoRepository.findById(tokenService.userId()));
+
+        String userId = tokenService.userId();
+
+        ResUserExpertVerify resUserExpertVerify = resUserMapper.toResUserExpertVerify(userInfoRepository.findById(userId).get());
+        resUserExpertVerify = createUserDisplay(resUserExpertVerify);
+        res.setData(resUserExpertVerify);
+
         return res;
     }
 

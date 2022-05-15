@@ -14,7 +14,8 @@ import rmuti.askexpert.model.request.ReqVerifyUpdateData;
 import rmuti.askexpert.model.response.APIResponse; 
 import rmuti.askexpert.model.response.ResVerify;
 import rmuti.askexpert.model.services.TokenService;
-import rmuti.askexpert.model.table.VerifyData; 
+import rmuti.askexpert.model.table.ExpertGroupListData;
+import rmuti.askexpert.model.table.VerifyData;
 
 @RestController
 @RequestMapping("/verify")
@@ -30,17 +31,28 @@ public class VerifyDataController {
 
     // sendDataToVerify
     @PostMapping("/add")
-    public Object addVerifyData(@RequestBody ReqVerifySendData verifyData,@RequestHeader String Authorization)
+    public Object addVerifyData(@RequestBody ExpertGroupListData expertGroupListData, @RequestHeader String Authorization)
         throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         VerifyData optVerifyData = new VerifyData();
+        Optional<VerifyData> updateVerifyData = verifyDataRepository.findByVerifyFrom(userId);
 
-        optVerifyData.setVerifyFrom(userId);
-        optVerifyData.setVerifyExpert(verifyData.getVerifyExpert());
-        optVerifyData.setVerifyStatus('W');
-        optVerifyData.setVerifyPassOf("none");
-        verifyDataRepository.save(optVerifyData);
+        if(updateVerifyData.isPresent()){
+            updateVerifyData.get().setVerifyExpert(expertGroupListData.getExpertGroupId());
+            updateVerifyData.get().setVerifyStatus('W');
+            updateVerifyData.get().setVerifyPassOf("none");
+            verifyDataRepository.save(updateVerifyData.get());
+        }else {
+            optVerifyData.setVerifyFrom(userId);
+            optVerifyData.setVerifyExpert(expertGroupListData.getExpertGroupId());
+            optVerifyData.setVerifyStatus('W');
+            optVerifyData.setVerifyPassOf("none");
+            verifyDataRepository.save(optVerifyData);
+        }
+
+
+
         res.setData(optVerifyData);
         return  res;
     }

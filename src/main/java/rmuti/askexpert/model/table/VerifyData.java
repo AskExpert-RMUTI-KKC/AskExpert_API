@@ -29,6 +29,11 @@ public class VerifyData {
     @Column(name = "verify_status"/*,nullable = false*/)
     private char verifyStatus;
 
+    // Null
+    // Wait
+    // Approve
+    // Decline
+
     @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Column(name = "create_order"/*,nullable = false*/)
     private Date createdDateForOrder= new Date();;

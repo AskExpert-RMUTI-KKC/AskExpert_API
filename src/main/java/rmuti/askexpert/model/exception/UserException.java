@@ -57,4 +57,6 @@ public class UserException extends BaseException {
     }
 
 
+    public static BaseException youarealreadyverify() { return new UserException("youarealreadyverify");
+    }
 }

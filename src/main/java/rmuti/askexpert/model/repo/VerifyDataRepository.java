@@ -10,4 +10,6 @@ public interface VerifyDataRepository  extends JpaRepository<VerifyData,String> 
     List<VerifyData> findByVerifyPassOf(String id);
     Optional<VerifyData> findByVerifyIdAndAndVerifyFrom(String verifyId,String userId);
 
+    Optional<VerifyData> findByVerifyFrom(String userId);
+
 }
