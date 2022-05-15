@@ -282,18 +282,25 @@ public class UserNameController {
     @PostMapping("/findByUserId")
     public Object findById(@RequestBody String userId) throws BaseException{
         APIResponse res = new APIResponse();
-        res.setData(userInfoRepository.findById(userId));
+        ResUserExpertVerify resUserExpertVerify = resUserMapper.toResUserExpertVerify(userInfoRepository.findById(userId).get());
+        resUserExpertVerify = createUserDisplay(resUserExpertVerify);
+        res.setData(resUserExpertVerify);
+
         return res;
     }
 
     @PostMapping("/findByText")
     public Object findByText(@RequestBody String text){
         APIResponse res = new APIResponse();
-        res.setData(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
+        List<ResUserExpertVerify> resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
                 text,
                 text,
                 text
         ));
+        for(ResUserExpertVerify user : resUserExpertVerify){
+            user = createUserDisplay(user);
+        }
+        res.setData(resUserExpertVerify);
         return  res;
     }
 
