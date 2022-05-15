@@ -43,17 +43,16 @@ public class VerifyDataController {
             updateVerifyData.get().setVerifyStatus('W');
             updateVerifyData.get().setVerifyPassOf("none");
             verifyDataRepository.save(updateVerifyData.get());
+            res.setData(updateVerifyData.get());
         }else {
             optVerifyData.setVerifyFrom(userId);
             optVerifyData.setVerifyExpert(expertGroupListData.getExpertGroupId());
             optVerifyData.setVerifyStatus('W');
             optVerifyData.setVerifyPassOf("none");
             verifyDataRepository.save(optVerifyData);
+            res.setData(optVerifyData);
         }
 
-
-
-        res.setData(optVerifyData);
         return  res;
     }
      

@@ -316,7 +316,11 @@ public class ImageDataController {
         }
 
 
-
+        //RemoveOldFile
+        List<ImageData> imageDataList = imageRepository.findByImgContentId(verifyId);
+        for(ImageData imageData:imageDataList){
+            imageRepository.delete(imageData);
+        }
         //update
         APIResponse res = new APIResponse();
 
@@ -334,7 +338,6 @@ public class ImageDataController {
 
         res.setMessage("upload success");
         res.setData(img);
-
         return res;
     }
 }
