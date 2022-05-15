@@ -102,7 +102,7 @@ public class ImageDataController {
 
         //update
         ImageData  imageData = new ImageData();
-        imageData.setImgPath(baseUrlFile.getImageTopic());
+        imageData.setImgPath(baseUrlFile.getImageProfileUrl());
         imageData.setImgContentId(userId);
         imageData.setImgName(imgName);
         imageRepository.save(imageData);
