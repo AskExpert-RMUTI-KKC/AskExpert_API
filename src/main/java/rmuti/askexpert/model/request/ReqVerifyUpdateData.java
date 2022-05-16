@@ -5,5 +5,6 @@ import lombok.Data;
 @Data
 public class ReqVerifyUpdateData {
     private String verifyId;
-    private char status;
+    private boolean isVerified;
+    private String verifyUserId;
 }

@@ -1,6 +1,7 @@
 package rmuti.askexpert.model.response;
 
 import lombok.Data;
+import rmuti.askexpert.model.table.ExpertGroupListData;
 import rmuti.askexpert.model.table.ImageData;
 import rmuti.askexpert.model.table.UserInfoData;
 
@@ -17,6 +18,8 @@ public class ResVerify {
     private char verifyStatus;
 
     private UserInfoData userInfoData;
+
+    private ExpertGroupListData expertGroupListData;
 
     private ImageData imageData;
 }
