@@ -8,6 +8,8 @@ import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException; 
 import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.mapper.ResVerifyMapper;
+import rmuti.askexpert.model.repo.ImageRepository;
+import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.repo.VerifyDataRepository;
 import rmuti.askexpert.model.request.ReqVerifySendData;
 import rmuti.askexpert.model.request.ReqVerifyUpdateData;
@@ -15,6 +17,8 @@ import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResVerify;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.ExpertGroupListData;
+import rmuti.askexpert.model.table.ImageData;
+import rmuti.askexpert.model.table.UserInfoData;
 import rmuti.askexpert.model.table.VerifyData;
 
 @RestController
@@ -28,6 +32,30 @@ public class VerifyDataController {
 
     @Autowired
     private ResVerifyMapper resVerifyMapper;
+
+    @Autowired
+    private UserInfoRepository userInfoRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
+
+
+    public ResVerify verifyCreateDisplay(ResVerify resVerify){
+
+        Optional<UserInfoData> optUserInfo = userInfoRepository.findById(resVerify.getVerifyFrom());
+        if(optUserInfo.isPresent()){
+            resVerify.setUserInfoData(optUserInfo.get());
+        }
+        List<ImageData> optImage = imageRepository.findByImgContentId(resVerify.getVerifyId());
+        if(optImage.size() > 0){
+            for(ImageData imageData : optImage){
+                resVerify.setImageData(imageData);
+            }
+        }
+        return resVerify;
+    }
+
 
     // sendDataToVerify
     @PostMapping("/add")
@@ -64,6 +92,9 @@ public class VerifyDataController {
         }
         APIResponse res = new APIResponse();
         List<ResVerify> resVerifyList = resVerifyMapper.toListResVerify(verifyDataRepository.findAll());
+        for(ResVerify resVerify : resVerifyList){
+            resVerify = verifyCreateDisplay(resVerify);
+        }
         res.setData(resVerifyList);
         return res;
     }

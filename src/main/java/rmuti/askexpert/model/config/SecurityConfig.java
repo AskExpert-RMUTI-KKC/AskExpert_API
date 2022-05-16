@@ -42,9 +42,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/transaction/findMyPay",
             "/transaction/transactionHistory",
 
-            "/verify/add",
-            "/verify/update",
-            "/verify/findMyVerify",
+            "/verify/**",
 
             "/expertGroupList/add",
             "/expertGroupList/remove",

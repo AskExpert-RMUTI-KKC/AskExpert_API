@@ -181,6 +181,34 @@ public class UserNameController {
         return ResponseEntity.ok(res);
     }
 
+    @PostMapping("/loginAdmin")
+    public Object loginAdmin(@RequestBody ReqLogin user) throws BaseException {
+        APIResponse res = new APIResponse();
+        Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
+        if (opt.isPresent()) {
+            if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWord())) {
+                if(opt.get().getRole().equals("ADMIN"))
+                {
+                    res.setData(tokenService.tokenize(opt));
+                }
+                else {
+                    throw UserException.accessDenied();
+                }
+            } else {
+                throw UserException.accessDenied();
+            }
+        } else {
+            throw UserException.accessDenied();
+        }
+        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
+        if (!userInfoRepository.existsByUserInfoId(opt.get().getUserId())) {
+            //Create userInfoData
+            UserInfoData userInfoData = createUserInfo(opt.get().getUserId(), opt.get().getEmail());
+            res.setMessage("register");
+        }
+        return ResponseEntity.ok(res);
+    }
+
     //Add-FindBy_FB
     @PostMapping("/loginFb")
     public Object loginFb(@RequestBody ReqLogin user) throws BaseException {
