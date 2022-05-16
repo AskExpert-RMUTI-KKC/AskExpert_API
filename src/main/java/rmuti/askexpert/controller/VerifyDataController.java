@@ -104,6 +104,20 @@ public class VerifyDataController {
         return res;
     }
 
+    @PostMapping("/findWaitList")
+    public Object findWaitList() throws BaseException {
+        if (!tokenService.isAdmin()) {
+            throw UserException.youarenotadmin();
+        }
+        APIResponse res = new APIResponse();
+        List<ResVerify> resVerifyList = resVerifyMapper.toListResVerify(verifyDataRepository.findByVerifyStatus('W'));
+        for (ResVerify resVerify : resVerifyList) {
+            resVerify = verifyCreateDisplay(resVerify);
+        }
+        res.setData(resVerifyList);
+        return res;
+    }
+
 
     // ViewDataToVerifyById
     @PostMapping("/findById")
