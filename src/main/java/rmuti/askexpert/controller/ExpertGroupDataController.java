@@ -48,9 +48,11 @@ public class ExpertGroupDataController {
         if(!tokenService.isAdmin()){
             throw UserException.youarenotadmin();
         }
-        APIResponse res = new APIResponse(); 
-        expertGroupDataRepository.deleteById(expertId);
-        res.setData("remove expertid : "+expertId);
+        APIResponse res = new APIResponse();
+        Optional<ExpertGroupListData> optionalExpertGroupListData = expertGroupDataRepository.findById(expertId);
+        optionalExpertGroupListData.get().setExpertStatus(0);
+        expertGroupDataRepository.save(optionalExpertGroupListData.get());
+        res.setData(optionalExpertGroupListData.get());
         return res;
     }
 
@@ -59,7 +61,7 @@ public class ExpertGroupDataController {
     @PostMapping("/findAll")
     public Object findAll() throws BaseException {
         APIResponse res = new APIResponse(); 
-        res.setData(expertGroupDataRepository.findAll());
+        res.setData(expertGroupDataRepository.findByExpertStatus(1));
         return res;
     }
 

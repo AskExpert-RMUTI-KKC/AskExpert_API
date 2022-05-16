@@ -49,16 +49,18 @@ public class TopicGroupDataController {
         if (!tokenService.isAdmin()) {
             throw UserException.youarenotadmin();
         }
-        APIResponse res = new APIResponse(); 
-        topicGroupDataRepository.deleteById(topicGroupId);
-        res.setData("remove topicGroupId : " + topicGroupId);
+        APIResponse res = new APIResponse();
+        Optional<TopicGroupListData> optionalTopicGroupListData = topicGroupDataRepository.findById(topicGroupId);
+        optionalTopicGroupListData.get().setTopicGroupStatus(0);
+        topicGroupDataRepository.save(optionalTopicGroupListData.get());
+        res.setData(optionalTopicGroupListData.get());
         return res; 
     }
     //ListView
     @PostMapping("/findAll")
     public Object findAll()throws BaseException{
         APIResponse res = new APIResponse(); 
-        res.setData(topicGroupDataRepository.findAll());
+        res.setData(topicGroupDataRepository.findByTopicGroupStatus(1));
         return res; 
     }
 
