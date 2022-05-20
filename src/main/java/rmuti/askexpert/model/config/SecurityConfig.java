@@ -18,7 +18,7 @@ import java.util.Arrays;
 
 @EnableWebSecurity
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
-    private final String[] PUBLIC = {
+    private final String[] AuthenPath = {
             "/topic/add",
             "/topic/remove",
             "/topic/findMyTopic",
@@ -79,7 +79,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
             //.and().authorizeRequests().antMatchers(PUBLIC).anonymous()
             //.anyRequest().authenticated()
-            .and().authorizeRequests().antMatchers(PUBLIC).authenticated()
+            .and().authorizeRequests().antMatchers(AuthenPath).authenticated()
             .anyRequest().anonymous()
             .and().apply(new TokenFilterConfiguerer(tokenService));
     }
