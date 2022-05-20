@@ -221,6 +221,7 @@ public class UserNameController {
             } else if (opt.get().getPassWordFb().equals("0")) {
                 fbregister = opt.get();
                 fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
+                fbregister.setRole("USER");
                 userNameRepository.save(fbregister);
             } else {
                 throw UserException.accessDenied();
@@ -232,6 +233,7 @@ public class UserNameController {
             fbregister.setPassWordGoogle("0");
             fbregister.setPassWord("0");
             fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
+            fbregister.setRole("USER");
             userNameRepository.save(fbregister);
             //Create userInfoData
             UserInfoData userInfoData = createUserInfo(fbregister.getUserId(), fbregister.getEmail());
@@ -258,6 +260,7 @@ public class UserNameController {
             } else if (opt.get().getPassWordGoogle().equals("0")) {
                 googleRegister = opt.get();
                 googleRegister.setPassWordGoogle(passwordEncoder.encode(user.getPassWord()));
+                googleRegister.setRole("USER");
                 userNameRepository.save(googleRegister);
             } else {
                 throw UserException.accessDenied();
@@ -270,6 +273,7 @@ public class UserNameController {
             googleRegister.setPassWordGoogle("0");
             googleRegister.setPassWord("0");
             googleRegister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
+            googleRegister.setRole("USER");
             userNameRepository.save(googleRegister);
             UserInfoData userInfoData = createUserInfo(googleRegister.getUserId(), googleRegister.getEmail());
             res.setMessage("register");
