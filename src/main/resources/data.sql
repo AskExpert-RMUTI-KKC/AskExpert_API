@@ -1,0 +1,1 @@
+insert into user_name (user_id, created_date, create_order, e_mail, pass_word, pass_word_fb, pass_word_google, "role") values ('393ea4ff-5f28-4abb-8c02-f955b344a3d7', '2022-05-21 12:16:45.762', '2022-05-21 12:16:45.762', 'Admin', '$2a$10$PsXiejAY.pw3IcjMTwW8eeryHCvnTayrFaOOnKjTRC1POdGrLi4MS', '0', '0', 'ADMIN');
