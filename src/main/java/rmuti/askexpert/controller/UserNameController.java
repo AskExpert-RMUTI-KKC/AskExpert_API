@@ -226,7 +226,7 @@ public class UserNameController {
             fbregister.setPassWordFb("0");
             fbregister.setPassWordGoogle("0");
             fbregister.setPassWord("0");
-            fbregister.setPassWordFb(passwordEncoder.encode(user.getPassWord()));
+            fbregister.setPassWordGoogle(passwordEncoder.encode(user.getPassWord()));
             fbregister.setRole("USER");
             userNameRepository.save(fbregister);
             //Create userInfoData
