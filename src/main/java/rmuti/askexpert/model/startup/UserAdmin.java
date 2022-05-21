@@ -12,7 +12,7 @@ import rmuti.askexpert.model.table.UserName;
 import java.util.Optional;
 
 @Component
-public class userAdmin {
+public class UserAdmin {
     @Autowired
     private UserNameRepository userNameRepository;
 
