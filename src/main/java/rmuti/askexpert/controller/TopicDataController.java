@@ -150,10 +150,6 @@ public class TopicDataController {
 //            }
         }
         res.setData(data);
-        // checkNull
-        if (data.isEmpty()) {
-            data.add(new ResTopic());
-        }
         return res;
     }
 
