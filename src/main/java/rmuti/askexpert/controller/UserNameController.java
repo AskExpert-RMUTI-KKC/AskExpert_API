@@ -200,12 +200,6 @@ public class UserNameController {
         } else {
             throw UserException.accessDenied();
         }
-        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if (!userInfoRepository.existsByUserInfoId(opt.get().getUserId())) {
-            //Create userInfoData
-            UserInfoData userInfoData = createUserInfo(opt.get().getUserId(), opt.get().getEmail());
-            res.setMessage("register");
-        }
         return ResponseEntity.ok(res);
     }
 
@@ -240,11 +234,6 @@ public class UserNameController {
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(fbregister)));
         }
-        //Optional<UserInfoData> optionalUserInfoData = userInfoRepository.findById(opt.get().getUserId());
-        if (!userInfoRepository.existsByUserInfoId(fbregister.getUserId())) {
-            UserInfoData userInfoData = createUserInfo(fbregister.getUserId(), fbregister.getEmail());
-            res.setMessage("register");
-        }
         return ResponseEntity.ok(res);
     }
 
@@ -278,10 +267,6 @@ public class UserNameController {
             UserInfoData userInfoData = createUserInfo(googleRegister.getUserId(), googleRegister.getEmail());
             res.setMessage("register");
             res.setData(tokenService.tokenize(Optional.of(googleRegister)));
-        }
-        if (!userInfoRepository.existsByUserInfoId(googleRegister.getUserId())) {
-            UserInfoData userInfoData = createUserInfo(googleRegister.getUserId(), googleRegister.getEmail());
-            res.setMessage("register");
         }
         return ResponseEntity.ok(res);
     }
