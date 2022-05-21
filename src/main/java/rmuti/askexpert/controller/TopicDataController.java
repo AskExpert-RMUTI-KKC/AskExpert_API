@@ -2,6 +2,7 @@ package rmuti.askexpert.controller;
 
 import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
@@ -120,7 +121,7 @@ public class TopicDataController {
         List<ResTopic> data = resTopicMapper
                 .toListResTopic(
                         topicDataRepository
-                                .findAllByTopicReportStatus(0)
+                                .findAllByTopicReportStatus(0, Sort.by(Sort.Direction.DESC, "createdDateForOrder"))
                 );
         for (ResTopic dataIndex : data) {
             dataIndex = topicBuildResponse(dataIndex, userIdLike);

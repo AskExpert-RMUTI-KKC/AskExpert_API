@@ -1,5 +1,6 @@
 package rmuti.askexpert.model.repo;
 
+import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -19,7 +20,7 @@ public interface TopicDataRepository extends JpaRepository<TopicData, String> {
     @Query("SELECT t from TopicData t WHERE t.topicReportStatus = :report")
     List<TopicData> findNotReportTopic(@Param("report") int report);
 
-    List<TopicData> findAllByTopicReportStatus(int Report);
+    List<TopicData> findAllByTopicReportStatus(int Report, Sort sort);
 
     List<TopicData> findByTopicHeadlineContainingOrTopicCaptionContaining(String headText,String capText);
 
