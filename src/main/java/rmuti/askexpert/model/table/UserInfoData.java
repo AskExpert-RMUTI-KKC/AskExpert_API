@@ -37,6 +37,7 @@ public class UserInfoData {
 
     @Column(name = "expert_group_id")
     private String expertGroupId;
+    
 
     @Column(name = "token_count")
     private Double tokenCount;

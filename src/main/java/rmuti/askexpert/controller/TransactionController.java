@@ -1,6 +1,7 @@
 package rmuti.askexpert.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Sort;
 import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.BaseException;
 import rmuti.askexpert.model.exception.TransactionExecption;
@@ -134,7 +135,7 @@ public class TransactionController {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         List<ResTransaction> transactionData = resTransactionMapper.toListResTransaction(
-                transactionRepository.findByTranTxOrTranRxOrderByCreatedDateDesc(userId, userId));
+                transactionRepository.findByTranTxOrTranRxOrderByCreatedDateDesc(userId, userId, Sort.by(Sort.Direction.DESC, "createdDateForOrder")));
         for (ResTransaction data : transactionData) {
             Optional<UserInfoData> txUser = userInfoRepository.findById(data.getTranTx());
             Optional<UserInfoData> rxUser = userInfoRepository.findById(data.getTranRx());
