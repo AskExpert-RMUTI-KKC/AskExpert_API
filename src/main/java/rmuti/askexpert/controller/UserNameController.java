@@ -85,13 +85,15 @@ public class UserNameController {
         return info;
     }
 
-    private ResUserExpertVerify createUserDisplay(ResUserExpertVerify resUserExpertVerify){
+    private ResUserExpertVerify createUserDisplay(ResUserExpertVerify resUserExpertVerify) {
 
         Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(resUserExpertVerify.getExpertGroupId());
         Optional<VerifyData> verifyData = verifyDataRepository.findByVerifyFrom(resUserExpertVerify.getUserInfoId());
-
-        resUserExpertVerify.setExpertGroupListData(expertGroupListData.get());
-        if(verifyData.isPresent()){
+        if (expertGroupListData.isPresent())
+        {
+            resUserExpertVerify.setExpertGroupListData(expertGroupListData.get());
+        }
+        if (verifyData.isPresent()) {
             resUserExpertVerify.setVerifyData(verifyData.get());
         }
 
@@ -131,11 +133,10 @@ public class UserNameController {
     public Object updateUserInfo(@RequestBody UserInfoData userInfoData) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserInfoData> duplicated = userInfoRepository.findByUserName(userInfoData.getUserName());
-        if(duplicated.isPresent())
-        {
+        if (duplicated.isPresent()) {
             String userId = tokenService.userId();
-            if(!userId.equals(duplicated.get().getUserInfoId()))
-            throw UserException.createUserNameDuplicated();
+            if (!userId.equals(duplicated.get().getUserInfoId()))
+                throw UserException.createUserNameDuplicated();
         }
         Optional<UserInfoData> userInfoDataOptional = userInfoRepository.findById(tokenService.userId());
         userInfoDataOptional.get().setUserName(userInfoData.getUserName());
@@ -147,7 +148,7 @@ public class UserNameController {
             userInfoDataOptional.get().setVerifyStatus(false);
 
             Optional<VerifyData> verifyData = verifyDataRepository.findById(userInfoDataOptional.get().getUserInfoId());
-            if(verifyData.isPresent()){
+            if (verifyData.isPresent()) {
                 verifyData.get().setVerifyStatus('N');
                 verifyDataRepository.save(verifyData.get());
             }
@@ -187,11 +188,9 @@ public class UserNameController {
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
             if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWord())) {
-                if(opt.get().getRole().equals("ADMIN"))
-                {
+                if (opt.get().getRole().equals("ADMIN")) {
                     res.setData(tokenService.tokenize(opt));
-                }
-                else {
+                } else {
                     throw UserException.accessDenied();
                 }
             } else {
@@ -284,7 +283,7 @@ public class UserNameController {
     }
 
     @PostMapping("/findById")
-    public Object findById() throws BaseException{
+    public Object findById() throws BaseException {
         APIResponse res = new APIResponse();
 
         String userId = tokenService.userId();
@@ -297,7 +296,7 @@ public class UserNameController {
     }
 
     @PostMapping("/findByUserId")
-    public Object findById(@RequestBody String userId) throws BaseException{
+    public Object findById(@RequestBody String userId) throws BaseException {
         APIResponse res = new APIResponse();
         ResUserExpertVerify resUserExpertVerify = resUserMapper.toResUserExpertVerify(userInfoRepository.findById(userId).get());
         resUserExpertVerify = createUserDisplay(resUserExpertVerify);
@@ -307,18 +306,18 @@ public class UserNameController {
     }
 
     @PostMapping("/findByText")
-    public Object findByText(@RequestBody String text){
+    public Object findByText(@RequestBody String text) {
         APIResponse res = new APIResponse();
         List<ResUserExpertVerify> resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
                 text,
                 text,
                 text
         ));
-        for(ResUserExpertVerify user : resUserExpertVerify){
+        for (ResUserExpertVerify user : resUserExpertVerify) {
             user = createUserDisplay(user);
         }
         res.setData(resUserExpertVerify);
-        return  res;
+        return res;
     }
 
     @PostMapping("/checkJWT")

@@ -45,7 +45,10 @@ public class CommentDataController {
             if (userInfoData.isPresent()) {
                 dataindex.setUserInfoData(resCommentMapper.toResTopicUserInfo(userInfoData.get()));
                 Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
-                dataindex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+                if(expertGroupListData.isPresent())
+                {
+                    dataindex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+                }
             }
             String likeContentId = dataindex.getCommentId();
             Optional<LikeData> likeData = likeDataRepository.findByLikeUserIdAndLikeContentId(userId, likeContentId);

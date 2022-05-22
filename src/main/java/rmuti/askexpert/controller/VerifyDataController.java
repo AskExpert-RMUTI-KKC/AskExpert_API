@@ -166,6 +166,7 @@ public class VerifyDataController {
             optVerifyData.get().setVerifyStatus('A');
             optUserInfoData.get().setVerifyStatus(true);
             optVerifyData.get().setVerifyPassOf(userId);
+            optUserInfoData.get().setExpertGroupId(optVerifyData.get().getVerifyExpert());
         }
         else {
             optUserInfoData.get().setVerifyStatus(false);

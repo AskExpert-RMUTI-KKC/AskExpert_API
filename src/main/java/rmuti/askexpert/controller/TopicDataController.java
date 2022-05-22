@@ -40,7 +40,10 @@ public class TopicDataController {
         if (userInfoData.isPresent()) {
             dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
             Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
-            dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+            if(expertGroupListData.isPresent())
+            {
+                dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
+            }
         }
         String likeContentId = dataIndex.getTopicId();
         Optional<LikeData> likeData = likeDataRepository
