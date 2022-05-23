@@ -84,8 +84,8 @@ public class TopicGroupDataController {
         if(topicGroupListDataOptional.isPresent())
         {
             topicGroupListDataOptional.get().setTopicGroupPath(reqTopicGroupDataUpdate.getTopicGroupPath());
-            topicGroupListDataOptional.get().setTopicGroupStatus(reqTopicGroupDataUpdate.getTopicGroupStatus());
             topicGroupDataRepository.save(topicGroupListDataOptional.get());
+            res.setData(topicGroupListDataOptional.get());
         }
         else{
             //throw

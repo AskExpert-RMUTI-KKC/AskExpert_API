@@ -85,8 +85,8 @@ public class ExpertGroupDataController {
         if(expertGroupListData.isPresent())
         {
             expertGroupListData.get().setExpertPath(reqExpertDataUpdate.getExpertPath());
-            expertGroupListData.get().setExpertStatus(reqExpertDataUpdate.getExpertStatus());
             expertGroupDataRepository.save(expertGroupListData.get());
+            res.setData(expertGroupListData.get());
         }
         else{
             //throw
