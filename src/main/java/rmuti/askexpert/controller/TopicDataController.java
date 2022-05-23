@@ -7,6 +7,7 @@ import org.springframework.web.bind.annotation.*;
 import rmuti.askexpert.model.exception.TopicException;
 import rmuti.askexpert.model.mapper.ResTopicMapper;
 import rmuti.askexpert.model.repo.*;
+import rmuti.askexpert.model.request.ReqSearchTopic;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.ResTopic;
 import rmuti.askexpert.model.services.TokenService;
@@ -40,8 +41,7 @@ public class TopicDataController {
         if (userInfoData.isPresent()) {
             dataIndex.setUserInfoData(resTopicMapper.toResTopicUserInfo(userInfoData.get()));
             Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(userInfoData.get().getExpertGroupId());
-            if(expertGroupListData.isPresent())
-            {
+            if (expertGroupListData.isPresent()) {
                 dataIndex.getUserInfoData().setExpert(expertGroupListData.get().getExpertPath());
             }
         }
@@ -167,13 +167,30 @@ public class TopicDataController {
     }
 
     @PostMapping("/findByText")
-    public Object findByText(@RequestBody String text) {
+    public Object findByText(@RequestBody ReqSearchTopic text) {
         APIResponse res = new APIResponse();
-        List<TopicData> topicDataList = topicDataRepository
-                .findByTopicHeadlineContainingOrTopicCaptionContaining(
-                        text,
-                        text
-                );
+        List<ResTopic> topicDataList;
+        if (text.getTopicGroup().equals("All")) {
+            topicDataList = resTopicMapper
+                    .toListResTopic(topicDataRepository
+                            .findByTopicHeadlineContainingOrTopicCaptionContaining(
+                                    text.getTopicHeadLine(),
+                                    text.getTopicHeadLine()
+                            ));
+        } else {
+            topicDataList = resTopicMapper
+                    .toListResTopic(topicDataRepository
+                            .findByTopicHeadlineContainingOrTopicCaptionContainingAndTopicGroupId(
+                                    text.getTopicHeadLine(),
+                                    text.getTopicHeadLine(),
+                                    text.getTopicGroup()
+                            ));
+        }
+
+        for (ResTopic dataIndex : topicDataList) {
+            dataIndex = topicBuildResponse(dataIndex, "none");
+        }
+
         res.setData(topicDataList);
         return res;
     }

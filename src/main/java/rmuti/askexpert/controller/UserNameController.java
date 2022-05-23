@@ -17,6 +17,7 @@ import rmuti.askexpert.model.repo.ExpertGroupDataRepository;
 import rmuti.askexpert.model.repo.UserInfoRepository;
 import rmuti.askexpert.model.repo.VerifyDataRepository;
 import rmuti.askexpert.model.request.ReqRegister;
+import rmuti.askexpert.model.request.ReqSearchUser;
 import rmuti.askexpert.model.response.APIResponse;
 import rmuti.askexpert.model.response.AResponse;
 import rmuti.askexpert.model.response.ResTopicUserInfo;
@@ -306,13 +307,27 @@ public class UserNameController {
     }
 
     @PostMapping("/findByText")
-    public Object findByText(@RequestBody String text) {
+    public Object findByText(@RequestBody ReqSearchUser text) {
         APIResponse res = new APIResponse();
-        List<ResUserExpertVerify> resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
-                text,
-                text,
-                text
-        ));
+        List<ResUserExpertVerify> resUserExpertVerify = null;
+
+        if(text.getExpertGroup().equals("All"))
+        {
+            resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
+                    text.getUserName(),
+                    text.getUserName(),
+                    text.getUserName()
+            ));
+        }
+        else{
+            resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContainingAndExpertGroupId(
+                    text.getUserName(),
+                    text.getUserName(),
+                    text.getUserName(),
+                    text.getExpertGroup()
+            ));
+        }
+
         for (ResUserExpertVerify user : resUserExpertVerify) {
             user = createUserDisplay(user);
         }

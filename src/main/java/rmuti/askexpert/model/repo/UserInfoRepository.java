@@ -15,6 +15,12 @@ public interface UserInfoRepository extends JpaRepository<UserInfoData,String> {
             String LN
     );
 
+    List<UserInfoData> findByUserNameContainingOrFirstNameContainingOrLastNameContainingAndExpertGroupId(
+            String userName,
+            String FN,
+            String LN,String groupId
+    );
+
 
 
     Optional<UserInfoData> findByUserName(String userName);
