@@ -90,8 +90,7 @@ public class UserNameController {
 
         Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(resUserExpertVerify.getExpertGroupId());
         Optional<VerifyData> verifyData = verifyDataRepository.findByVerifyFrom(resUserExpertVerify.getUserInfoId());
-        if (expertGroupListData.isPresent())
-        {
+        if (expertGroupListData.isPresent()) {
             resUserExpertVerify.setExpertGroupListData(expertGroupListData.get());
         }
         if (verifyData.isPresent()) {
@@ -187,19 +186,16 @@ public class UserNameController {
     public Object loginAdmin(@RequestBody ReqLogin user) throws BaseException {
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
-        if (opt.isPresent()) {
-            if (passwordEncoder.matches(user.getPassWord(), opt.get().getPassWord())) {
-                if (opt.get().getRole().equals("ADMIN")) {
-                    res.setData(tokenService.tokenize(opt));
-                } else {
-                    throw UserException.accessDenied();
-                }
-            } else {
-                throw UserException.accessDenied();
-            }
-        } else {
+        if (opt.isEmpty()) {
             throw UserException.accessDenied();
         }
+        if (!passwordEncoder.matches(user.getPassWord(), opt.get().getPassWord())) {
+            throw UserException.accessDenied();
+        }
+        if (!opt.get().getRole().equals("ADMIN")) {
+            throw UserException.accessDenied();
+        }
+        res.setData(tokenService.tokenize(opt));
         return ResponseEntity.ok(res);
     }
 
@@ -311,15 +307,13 @@ public class UserNameController {
         APIResponse res = new APIResponse();
         List<ResUserExpertVerify> resUserExpertVerify = null;
 
-        if(text.getExpertGroup().equals("All"))
-        {
+        if (text.getExpertGroup().equals("All")) {
             resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContaining(
                     text.getUserName(),
                     text.getUserName(),
                     text.getUserName()
             ));
-        }
-        else{
+        } else {
             resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findByUserNameContainingOrFirstNameContainingOrLastNameContainingAndExpertGroupId(
                     text.getUserName(),
                     text.getUserName(),
