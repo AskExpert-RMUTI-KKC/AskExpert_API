@@ -162,6 +162,11 @@ public class UserNameController {
     //findByEMail-passWord
     @PostMapping("/login")
     public Object login(@RequestBody ReqLogin user) throws BaseException {
+
+        if(user.getEmail().isEmpty() || user.getPassWord().isEmpty()){
+            throw UserException.accessDenied();
+        }
+
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         if (opt.isPresent()) {
@@ -237,6 +242,11 @@ public class UserNameController {
     //Add-FindBy_Gooole
     @PostMapping("/loginGoogle")
     public Object logingoogle(@RequestBody ReqLogin user) throws BaseException {
+
+        if(user.getEmail().isEmpty() || user.getPassWord().isEmpty()){
+            throw UserException.accessDenied();
+        }
+
         APIResponse res = new APIResponse();
         Optional<UserName> opt = userNameRepository.findByEmail(user.getEmail());
         UserName googleRegister = new UserName();
@@ -324,6 +334,18 @@ public class UserNameController {
             ));
         }
 
+        for (ResUserExpertVerify user : resUserExpertVerify) {
+            user = createUserDisplay(user);
+        }
+        res.setData(resUserExpertVerify);
+        return res;
+    }
+
+    @PostMapping("/findTopTen")
+    public Object findTopTen() {
+        APIResponse res = new APIResponse();
+        List<ResUserExpertVerify> resUserExpertVerify = null;
+        resUserExpertVerify = resUserMapper.toListResUserExpertVerify(userInfoRepository.findTop10ByOrderByLikeCountDesc());
         for (ResUserExpertVerify user : resUserExpertVerify) {
             user = createUserDisplay(user);
         }

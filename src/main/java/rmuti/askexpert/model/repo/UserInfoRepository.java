@@ -22,6 +22,10 @@ public interface UserInfoRepository extends JpaRepository<UserInfoData,String> {
     );
 
 
+    //FindTop10Like
+
+    List<UserInfoData> findTop10ByOrderByLikeCountDesc();
+
 
     Optional<UserInfoData> findByUserName(String userName);
 
