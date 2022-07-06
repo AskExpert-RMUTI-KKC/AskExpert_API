@@ -56,6 +56,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             "/image/topicImg",
             "/image/commentImg",
             "/image/verifyImg",
+
+            "/chat/**",
     };
     private final TokenService tokenService;
 
