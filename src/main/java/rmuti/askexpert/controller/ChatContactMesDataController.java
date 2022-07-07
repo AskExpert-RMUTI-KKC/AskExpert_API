@@ -45,12 +45,13 @@ public class ChatContactMesDataController {
 
 
         //if null Create
-        if(chatContactTx.isEmpty() && chatContactRx.isEmpty())
+        if(chatContactTx.isEmpty() /*&& chatContactRx.isEmpty()*/)
         {
             ChatContactData newChatContactTx =  new ChatContactData();
             newChatContactTx.setChatTx(userId);
             newChatContactTx.setChatRx(chatRx);
-            newChatContactTx.setChatReadStatus(false);
+            newChatContactTx.setChatTxReadStatus(false);
+            newChatContactTx.setChatRxReadStatus(false);
 //             ChatContactData newChatContactRx =  new ChatContactData();
 //            newChatContactRx.setChatTx(chatRx);
 //            newChatContactRx.setChatRx(userId);
@@ -71,17 +72,17 @@ public class ChatContactMesDataController {
         return res;
     }
 
-    @PostMapping("/itRead")
-    public Object itRead(@RequestBody String chatRx) throws BaseException{
-        APIResponse res = new APIResponse();
-        String userId = tokenService.userId();
-        Optional<ChatContactData> chatContactRx = chatContactRepository.findByChatTxAndChatRx(userId,chatRx);
-        if(chatContactRx.isPresent()){
-            chatContactRx.get().setChatReadStatus(true);
-            chatContactRepository.save(chatContactRx.get());
-        }
-        return res;
-    }
+//    @PostMapping("/itRead")
+//    public Object itRead(@RequestBody String chatRx) throws BaseException{
+//        APIResponse res = new APIResponse();
+//        String userId = tokenService.userId();
+//        Optional<ChatContactData> chatContactRx = chatContactRepository.findByChatTxAndChatRx(userId,chatRx);
+//        if(chatContactRx.isPresent()){
+//            chatContactRx.get().setChatReadStatus(true);
+//            chatContactRepository.save(chatContactRx.get());
+//        }
+//        return res;
+//    }
 
     //AddMes-SendMes-CreateMes
 
@@ -91,7 +92,7 @@ public class ChatContactMesDataController {
         String userId = tokenService.userId();
         ChatMesData mesData = new ChatMesData();
         mesData.setChatTx(userId);
-        mesData.setChatRx(temp.getChatRx());
+        mesData.setChatContactId(temp.getChatContactId());
         mesData.setChatMes(temp.getChatMes());
         chatMesRepository.save(mesData);
         res.setData(mesData);
@@ -100,10 +101,10 @@ public class ChatContactMesDataController {
     }
 
     @PostMapping("/chatMesWithRx")
-    public Object chatMesWithRx(@RequestBody String chatRx)throws BaseException{
+    public Object chatMesWithRx(@RequestBody String contactId)throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ChatMesData> chatMesDataList =  ;
+        List<ChatMesData> chatMesDataList =  chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId);
         res.setData(chatMesDataList);
         return res;
 

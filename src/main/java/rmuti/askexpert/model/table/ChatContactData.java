@@ -16,10 +16,10 @@ public class ChatContactData {
     @Column(name = "chat_contact_id", length = 36, nullable = false, updatable = false, unique = true)
     private String chatContactId;
 
-    @Column(name = "tran_tx" ,nullable = false )
+    @Column(name = "chat_tx" ,nullable = false )
     private String chatTx;
 
-    @Column(name = "tran_rx",nullable = false )
+    @Column(name = "chat_rx",nullable = false )
     private String chatRx;
 
     @Column(name = "chat_tx_read_status",nullable = false )

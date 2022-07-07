@@ -6,4 +6,5 @@ import rmuti.askexpert.model.table.ChatMesData;
 import java.util.List;
 
 public interface ChatMesRepository extends JpaRepository<ChatMesData, String> {
+    List<ChatMesData> findByChatContactIdOrderByCreatedDateAsc(String contactId);
 }
