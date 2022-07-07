@@ -71,30 +71,3 @@ VALUES('1425f66b-67c5-4f3b-a7d0-ffe1ccad0039', '2022-07-06 19:30:39.538', '2022-
 INSERT INTO public.user_info
 (user_info_id, created_date, create_order, expert_group_id, first_name, last_name, like_count, profile_pic, "token", token_count, user_caption, user_name, verify_status)
 VALUES('ee61afe4-faf9-4d39-8e81-74991842ef04', '2022-07-06 19:09:39.831', '2022-07-06 19:09:39.831', '4cf383f5-d03c-49f0-98c6-0b4135253bde', '789', '789', 0, 'ID-ee61afe4-faf9-4d39-8e81-74991842ef04-T2022-07-06_19-10-04-R-bce2164820524782bb1040e3629e8a54.png', 0.0, 0.0, '789', '789', false);
-
-
-
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('e486705f-40f0-48fc-b1d2-1c93425faecc', false, '0ab3ebc2-0c6f-4ac6-a8f8-c36dc7980f3f', '1f6f094b-5082-4340-97cc-b64a61120c4c', '2022-07-06 21:01:04.821');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('c9a78ef8-29cc-419d-bc78-4a9e499c62dd', false, '1f6f094b-5082-4340-97cc-b64a61120c4c', '0ab3ebc2-0c6f-4ac6-a8f8-c36dc7980f3f', '2022-07-06 21:01:04.821');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('ca570339-15b5-4008-8320-69b702f13982', false, 'ee61afe4-faf9-4d39-8e81-74991842ef04', '1f6f094b-5082-4340-97cc-b64a61120c4c', '2022-07-06 21:10:00.802');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('94169c47-55df-4a3c-a040-d9705b54ee53', false, '1f6f094b-5082-4340-97cc-b64a61120c4c', 'ee61afe4-faf9-4d39-8e81-74991842ef04', '2022-07-06 21:10:00.802');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('1653e5aa-758f-416f-b349-84430e7fb033', false, 'c4da9f97-d36b-48b4-ac9a-155687c37329', '1f6f094b-5082-4340-97cc-b64a61120c4c', '2022-07-06 21:10:06.741');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('fa5ddc0a-3266-493b-bf56-fdfdde4702ea', false, '1f6f094b-5082-4340-97cc-b64a61120c4c', 'c4da9f97-d36b-48b4-ac9a-155687c37329', '2022-07-06 21:10:06.741');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('9d8a49cf-27a3-4357-8f4f-9aea93223164', false, '1425f66b-67c5-4f3b-a7d0-ffe1ccad0039', '1f6f094b-5082-4340-97cc-b64a61120c4c', '2022-07-06 21:10:11.199');
-INSERT INTO public.chat_contact_data
-(chat_contact_id, chat_read_status, tran_rx, tran_tx, created_date)
-VALUES('e9d281b6-2eb8-4bbb-91ca-c8b1e9459a91', false, '1f6f094b-5082-4340-97cc-b64a61120c4c', '1425f66b-67c5-4f3b-a7d0-ffe1ccad0039', '2022-07-06 21:10:11.199');

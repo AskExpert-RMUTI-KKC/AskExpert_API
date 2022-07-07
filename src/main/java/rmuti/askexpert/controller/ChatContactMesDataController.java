@@ -6,12 +6,19 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rmuti.askexpert.model.exception.BaseException;
-import rmuti.askexpert.model.repo.ChatContactRepository;
-import rmuti.askexpert.model.repo.ChatMesRepository;
+import rmuti.askexpert.model.mapper.ResChatContactMapper;
+import rmuti.askexpert.model.mapper.ResChatMesMapper;
+import rmuti.askexpert.model.mapper.ResUserMapper;
+import rmuti.askexpert.model.repo.*;
 import rmuti.askexpert.model.response.APIResponse;
+import rmuti.askexpert.model.response.ResChatContact;
+import rmuti.askexpert.model.response.ResChatMes;
+import rmuti.askexpert.model.response.ResUserExpertVerify;
 import rmuti.askexpert.model.services.TokenService;
 import rmuti.askexpert.model.table.ChatContactData;
 import rmuti.askexpert.model.table.ChatMesData;
+import rmuti.askexpert.model.table.ExpertGroupListData;
+import rmuti.askexpert.model.table.VerifyData;
 
 import java.util.List;
 import java.util.Optional;
@@ -32,6 +39,36 @@ public class ChatContactMesDataController {
     @Autowired
     private TokenService tokenService;
 
+    @Autowired
+    private ResChatContactMapper chatContactMapper;
+
+    @Autowired
+    private ResChatMesMapper resChatMesMapper;
+
+    @Autowired
+    private ResUserMapper resUserMapper;
+
+    @Autowired
+    UserInfoRepository userInfoRepository;
+
+    @Autowired
+    private ExpertGroupDataRepository expertGroupDataRepository;
+
+    @Autowired
+    private VerifyDataRepository verifyDataRepository;
+
+
+    private ResUserExpertVerify createUserDisplay(ResUserExpertVerify resUserExpertVerify) {
+        Optional<ExpertGroupListData> expertGroupListData = expertGroupDataRepository.findById(resUserExpertVerify.getExpertGroupId());
+        Optional<VerifyData> verifyData = verifyDataRepository.findByVerifyFrom(resUserExpertVerify.getUserInfoId());
+        if (expertGroupListData.isPresent()) {
+            resUserExpertVerify.setExpertGroupListData(expertGroupListData.get());
+        }
+        if (verifyData.isPresent()) {
+            resUserExpertVerify.setVerifyData(verifyData.get());
+        }
+        return resUserExpertVerify;
+    }
 
     //firstContract
     @PostMapping("/firstContact")
@@ -60,6 +97,9 @@ public class ChatContactMesDataController {
             //chatContactRepository.save(newChatContactRx);
              res.setData(newChatContactTx);
         }
+        else {
+            res.setData(chatContactTx.get());
+        }
         return res;
     }
 
@@ -67,7 +107,21 @@ public class ChatContactMesDataController {
     public Object myContact() throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ChatContactData> chatContactTx = chatContactRepository.findByChatTx(userId);
+        List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTx(userId));
+
+        //SwitchSideTxRx
+        for(ResChatContact data : chatContactTx){
+            if(userId != data.getChatTx()){
+                String tempTx = data.getChatTx();
+                String tempRx = data.getChatRx();
+                data.setChatRx(tempTx);
+                data.setChatTx(tempRx);
+                data.setUserInfoDataRx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(data.getChatRx()).get()));
+                data.setUserInfoDataRx(createUserDisplay(data.getUserInfoDataRx()));
+            }
+        }
+
+
         res.setData(chatContactTx);
         return res;
     }
@@ -104,7 +158,7 @@ public class ChatContactMesDataController {
     public Object chatMesWithRx(@RequestBody String contactId)throws BaseException{
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ChatMesData> chatMesDataList =  chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId);
+        List<ResChatMes> chatMesDataList =  resChatMesMapper.toListResChatMes(chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId));
         res.setData(chatMesDataList);
         return res;
 

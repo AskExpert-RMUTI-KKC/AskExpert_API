@@ -28,5 +28,11 @@ public class ChatContactData {
     @Column(name = "chat_rx_read_status",nullable = false )
     private boolean chatRxReadStatus;
 
+    @Column(name = "chat_tx_uread_count_status",nullable = false )
+    private int chatTxUnReadCount;
+
+    @Column(name = "chat_rx_uread_count_status",nullable = false )
+    private int chatRxUnReadCount;
+
     private Date createdDate = new Date();
 }
