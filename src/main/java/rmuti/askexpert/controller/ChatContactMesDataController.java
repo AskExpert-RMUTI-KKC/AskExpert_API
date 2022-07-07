@@ -28,7 +28,6 @@ import java.util.Optional;
 public class ChatContactMesDataController {
 
 
-
     @Autowired
     ChatContactRepository chatContactRepository;
 
@@ -72,19 +71,18 @@ public class ChatContactMesDataController {
 
     //firstContract
     @PostMapping("/firstContact")
-    public Object firstContact(@RequestBody String chatRx) throws BaseException{
+    public Object firstContact(@RequestBody String chatRx) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
 
         //findConcat
-        Optional<ChatContactData> chatContactTx = chatContactRepository.findByChatTxAndChatRx(userId,chatRx);
+        Optional<ChatContactData> chatContactTx = chatContactRepository.findByChatTxAndChatRx(userId, chatRx);
         //Optional<ChatContactData> chatContactRx = chatContactRepository.findByChatTxAndChatRx(chatRx,userId);
 
 
         //if null Create
-        if(chatContactTx.isEmpty() /*&& chatContactRx.isEmpty()*/)
-        {
-            ChatContactData newChatContactTx =  new ChatContactData();
+        if (chatContactTx.isEmpty() /*&& chatContactRx.isEmpty()*/) {
+            ChatContactData newChatContactTx = new ChatContactData();
             newChatContactTx.setChatTx(userId);
             newChatContactTx.setChatRx(chatRx);
             newChatContactTx.setChatTxReadStatus(false);
@@ -95,23 +93,22 @@ public class ChatContactMesDataController {
 //            newChatContactRx.setChatReadStatus(false);
             chatContactRepository.save(newChatContactTx);
             //chatContactRepository.save(newChatContactRx);
-             res.setData(newChatContactTx);
-        }
-        else {
+            res.setData(newChatContactTx);
+        } else {
             res.setData(chatContactTx.get());
         }
         return res;
     }
 
     @PostMapping("/myContact")
-    public Object myContact() throws BaseException{
+    public Object myContact() throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTx(userId));
 
         //SwitchSideTxRx
-        for(ResChatContact data : chatContactTx){
-            if(userId != data.getChatTx()){
+        for (ResChatContact data : chatContactTx) {
+            if (userId != data.getChatTx()) {
                 String tempTx = data.getChatTx();
                 String tempRx = data.getChatRx();
                 data.setChatRx(tempTx);
@@ -141,7 +138,7 @@ public class ChatContactMesDataController {
     //AddMes-SendMes-CreateMes
 
     @PostMapping("/sendMes")
-    public Object send(@RequestBody ChatMesData temp)throws BaseException{
+    public Object send(@RequestBody ChatMesData temp) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
         ChatMesData mesData = new ChatMesData();
@@ -149,16 +146,22 @@ public class ChatContactMesDataController {
         mesData.setChatContactId(temp.getChatContactId());
         mesData.setChatMes(temp.getChatMes());
         chatMesRepository.save(mesData);
-        res.setData(mesData);
+        ResChatMes tempMesData = resChatMesMapper.toResChatMes(mesData);
+        tempMesData.setUserInfoDataTx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(tempMesData.getChatTx()).get()));
+        res.setData(tempMesData);
         return res;
 
     }
 
     @PostMapping("/chatMesWithRx")
-    public Object chatMesWithRx(@RequestBody String contactId)throws BaseException{
+    public Object chatMesWithRx(@RequestBody String contactId) throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ResChatMes> chatMesDataList =  resChatMesMapper.toListResChatMes(chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId));
+        List<ResChatMes> chatMesDataList = resChatMesMapper.toListResChatMes(chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId));
+        for (ResChatMes data : chatMesDataList) {
+            data.setUserInfoDataTx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(data.getChatTx()).get()));
+            //data.setUserInfoDataTx(createUserDisplay(data.getUserInfoDataTx()));
+        }
         res.setData(chatMesDataList);
         return res;
 
