@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import rmuti.askexpert.model.exception.BaseException;
+import rmuti.askexpert.model.exception.UserException;
 import rmuti.askexpert.model.mapper.ResChatContactMapper;
 import rmuti.askexpert.model.mapper.ResChatMesMapper;
 import rmuti.askexpert.model.mapper.ResUserMapper;
@@ -45,6 +46,9 @@ public class ChatContactMesDataController {
     private ResChatMesMapper resChatMesMapper;
 
     @Autowired
+    private ResChatContactMapper resChatContactMapper;
+
+    @Autowired
     private ResUserMapper resUserMapper;
 
     @Autowired
@@ -72,8 +76,14 @@ public class ChatContactMesDataController {
     //firstContract
     @PostMapping("/firstContact")
     public Object firstContact(@RequestBody String chatRx) throws BaseException {
+
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
+
+        if(userId == chatRx)
+        {
+            throw UserException.nouserinfo();
+        }
 
         //findConcat
         Optional<ChatContactData> chatContactTx = chatContactRepository.findByChatTxAndChatRx(userId, chatRx);
@@ -93,10 +103,16 @@ public class ChatContactMesDataController {
 //            newChatContactRx.setChatReadStatus(false);
             chatContactRepository.save(newChatContactTx);
             //chatContactRepository.save(newChatContactRx);
-            res.setData(newChatContactTx);
+
+            chatContactTx = Optional.of(newChatContactTx);
+
         } else {
             res.setData(chatContactTx.get());
         }
+        ResChatContact resChatContact = resChatContactMapper.toResChatContact(chatContactTx.get());
+        resChatContact.setUserInfoDataRx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(resChatContact.getChatRx()).get()));
+        resChatContact.setUserInfoDataRx(createUserDisplay(resChatContact.getUserInfoDataRx()));
+        res.setData(resChatContact);
         return res;
     }
 
@@ -108,14 +124,15 @@ public class ChatContactMesDataController {
 
         //SwitchSideTxRx
         for (ResChatContact data : chatContactTx) {
-            if (userId != data.getChatTx()) {
+            if (userId == data.getChatRx()) {
                 String tempTx = data.getChatTx();
                 String tempRx = data.getChatRx();
                 data.setChatRx(tempTx);
                 data.setChatTx(tempRx);
-                data.setUserInfoDataRx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(data.getChatRx()).get()));
-                data.setUserInfoDataRx(createUserDisplay(data.getUserInfoDataRx()));
+
             }
+            data.setUserInfoDataRx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(data.getChatRx()).get()));
+            data.setUserInfoDataRx(createUserDisplay(data.getUserInfoDataRx()));
         }
 
 

@@ -7,4 +7,9 @@ import rmuti.askexpert.model.table.ChatContactData;
 public class ResChatContact extends ChatContactData {
     //private ResUserExpertVerify userInfoDataTx;
     private ResUserExpertVerify userInfoDataRx;
+
+    //TODO constructor
+//    public ResChatContact(){
+//
+//    }
 }
