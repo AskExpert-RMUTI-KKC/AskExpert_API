@@ -34,5 +34,8 @@ public class ChatContactData {
     @Column(name = "chat_rx_uread_count_status",nullable = false )
     private int chatRxUnReadCount;
 
+
+    private Date lastUpdate = new Date();
+
     private Date createdDate = new Date();
 }

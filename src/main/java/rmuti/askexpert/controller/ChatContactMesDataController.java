@@ -21,6 +21,7 @@ import rmuti.askexpert.model.table.ChatMesData;
 import rmuti.askexpert.model.table.ExpertGroupListData;
 import rmuti.askexpert.model.table.VerifyData;
 
+import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
@@ -86,7 +87,7 @@ public class ChatContactMesDataController {
         }
 
         //findConcat
-        Optional<ChatContactData> chatContactTx = chatContactRepository.findByChatTxAndChatRx(userId, chatRx);
+        Optional<ChatContactData> chatContactTx = chatContactRepository.findByChatTxAndChatRxOrderByLastUpdateDesc(userId, chatRx);
         //Optional<ChatContactData> chatContactRx = chatContactRepository.findByChatTxAndChatRx(chatRx,userId);
 
 
@@ -120,7 +121,7 @@ public class ChatContactMesDataController {
     public Object myContact() throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTxOrChatRx(userId,userId));
+        List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTxOrChatRxOrderByLastUpdateDesc(userId,userId));
 
         //SwitchSideTxRx
         for (ResChatContact data : chatContactTx) {
@@ -167,6 +168,11 @@ public class ChatContactMesDataController {
         tempMesData.setUserInfoDataTx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(tempMesData.getChatTx()).get()));
         tempMesData.setUserInfoDataTx(createUserDisplay(tempMesData.getUserInfoDataTx()));
         res.setData(tempMesData);
+
+        Optional<ChatContactData> updateLastUpdate = chatContactRepository.findById(temp.getChatContactId());
+        updateLastUpdate.get().setLastUpdate(new Date());
+        chatContactRepository.save(updateLastUpdate.get());
+
         return res;
 
     }
