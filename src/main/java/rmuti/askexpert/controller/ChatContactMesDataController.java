@@ -80,7 +80,7 @@ public class ChatContactMesDataController {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
 
-        if(userId == chatRx)
+        if(userId.equals(chatRx))
         {
             throw UserException.nouserinfo();
         }
@@ -120,7 +120,7 @@ public class ChatContactMesDataController {
     public Object myContact() throws BaseException {
         APIResponse res = new APIResponse();
         String userId = tokenService.userId();
-        List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTx(userId));
+        List<ResChatContact> chatContactTx = chatContactMapper.toListResChatContact(chatContactRepository.findByChatTxOrChatRx(userId,userId));
 
         //SwitchSideTxRx
         for (ResChatContact data : chatContactTx) {
@@ -165,6 +165,7 @@ public class ChatContactMesDataController {
         chatMesRepository.save(mesData);
         ResChatMes tempMesData = resChatMesMapper.toResChatMes(mesData);
         tempMesData.setUserInfoDataTx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(tempMesData.getChatTx()).get()));
+        tempMesData.setUserInfoDataTx(createUserDisplay(tempMesData.getUserInfoDataTx()));
         res.setData(tempMesData);
         return res;
 
@@ -177,7 +178,7 @@ public class ChatContactMesDataController {
         List<ResChatMes> chatMesDataList = resChatMesMapper.toListResChatMes(chatMesRepository.findByChatContactIdOrderByCreatedDateAsc(contactId));
         for (ResChatMes data : chatMesDataList) {
             data.setUserInfoDataTx(resUserMapper.toResUserExpertVerify(userInfoRepository.findById(data.getChatTx()).get()));
-            //data.setUserInfoDataTx(createUserDisplay(data.getUserInfoDataTx()));
+            data.setUserInfoDataTx(createUserDisplay(data.getUserInfoDataTx()));
         }
         res.setData(chatMesDataList);
         return res;
