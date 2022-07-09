@@ -143,6 +143,10 @@ public class UserNameController {
         userInfoDataOptional.get().setFirstName(userInfoData.getFirstName());
         userInfoDataOptional.get().setLastName(userInfoData.getLastName());
         userInfoDataOptional.get().setUserCaption(userInfoData.getUserCaption());
+        userInfoDataOptional.get().setTelNumber(userInfoData.getTelNumber());
+        userInfoDataOptional.get().setPriceCall(userInfoData.getPriceCall());
+        userInfoDataOptional.get().setPriceVideo(userInfoData.getPriceVideo());
+        userInfoDataOptional.get().setLiveLink(userInfoData.getLiveLink());
         if (!userInfoData.getExpertGroupId().equals(userInfoDataOptional.get().getExpertGroupId())) {
             userInfoDataOptional.get().setExpertGroupId(userInfoData.getExpertGroupId());
             userInfoDataOptional.get().setVerifyStatus(false);

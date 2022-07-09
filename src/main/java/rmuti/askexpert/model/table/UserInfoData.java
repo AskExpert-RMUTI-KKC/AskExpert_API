@@ -45,6 +45,18 @@ public class UserInfoData {
     @Column(name = "like_count")
     private int likeCount;
 
+    @Column(name = "telNumber")
+    private String telNumber="";
+
+    @Column(name = "priceCall")
+    private int priceCall=0;
+
+    @Column(name = "priceVideo")
+    private int priceVideo=0;
+
+    @Column(name = "liveLink")
+    private String liveLink="";
+
 //    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
 //    @Column (name = "join_date"/*,nullable = false*/)
 //    private Date joinDate;
