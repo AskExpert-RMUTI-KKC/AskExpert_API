@@ -125,7 +125,7 @@ public class ChatContactMesDataController {
 
         //SwitchSideTxRx
         for (ResChatContact data : chatContactTx) {
-            if (userId == data.getChatRx()) {
+            if (!userId.equals(data.getChatTx())) {
                 String tempTx = data.getChatTx();
                 String tempRx = data.getChatRx();
                 data.setChatRx(tempTx);
